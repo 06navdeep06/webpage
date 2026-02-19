@@ -359,18 +359,10 @@ document.addEventListener('DOMContentLoaded', () => {
                   ${skillsListHtml}
                 </div>
               </div>
-            `;
-          })
-          .join('');
-        
-        // Update skills section if it exists
-        if (skillsSection) {
-          skillsSection.innerHTML = `
-  // Fetch repositories from GitHub API
-  const fetchRepositories = async () => {
-    try {
-      // Show loading state
-      projectsGrid.innerHTML = `
+            </div>
+          `;
+        })
+        .join('');
         <div class="projects-loading">
           <div class="loader"></div>
         </div>
