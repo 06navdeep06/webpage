@@ -248,11 +248,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Set current year in footer
     document.getElementById('current-year').textContent = new Date().getFullYear();
-  };
+  }
   
   // Run all initializations
   initAllAnimations();
-};
 
 // Initialize scroll reveal animations
 function initScrollReveal() {

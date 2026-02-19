@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const ctx = canvas.getContext('2d');
   const skillsVisualization = document.querySelector('.skills-visualization');
   
+  // Initialize skill constellation variable
+  let skillConstellation;
+  
   // Set canvas size to match container
   const resizeCanvas = () => {
     canvas.width = skillsVisualization.offsetWidth;
@@ -385,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   // Initialize and start animation
-  const skillConstellation = new SkillConstellation();
+  skillConstellation = new SkillConstellation();
   skillConstellation.animate();
   
   // Scroll reveal animation for skill tags
