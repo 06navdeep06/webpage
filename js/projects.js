@@ -164,9 +164,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const technologies = detectTechnologies(repo);
     const projectIntent = getProjectIntent(repo);
     
-    // Generate random image for projects without images
-    // In a real implementation, you might want to use actual project screenshots
-    const imageUrl = `https://source.unsplash.com/600x400/?${encodeURIComponent(category)}`;
+    // Generate a unique gradient background per project using category + name hash
+    const categoryGradients = {
+      web: 'linear-gradient(135deg, var(--color-accent-1) 0%, var(--color-accent-2) 100%)',
+      app: 'linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent-3) 100%)',
+      creative: 'linear-gradient(135deg, var(--color-accent-3) 0%, var(--color-accent-1) 100%)'
+    };
+    const gradient = categoryGradients[category] || categoryGradients.web;
+
+    // Simple hash from repo name to vary the angle
+    const nameHash = repo.name.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    const angle = (nameHash % 360);
+    const projectGradient = gradient.replace('135deg', `${angle}deg`);
     
     // Create tags HTML - limit to 3 most important technologies
     const tagsHtml = technologies.slice(0, 3).map(tech => 
@@ -193,8 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     return `
       <div class="project-card" data-category="${category}" tabindex="0" role="article" aria-labelledby="project-${repo.name.replace(/\s+/g, '-').toLowerCase()}">
-        <div class="project-image">
-          <img src="${imageUrl}" alt="Screenshot of ${repo.name} project" loading="lazy">
+        <div class="project-image" style="background:${projectGradient};display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:var(--font-secondary);font-size:var(--text-2xl);font-weight:700;color:rgba(255,255,255,0.9);text-transform:uppercase;letter-spacing:0.05em;">${repo.name.charAt(0)}</span>
           <div class="project-overlay">
             <div class="project-tags" aria-label="Project technologies">
               ${tagsHtml}
