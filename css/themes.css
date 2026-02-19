@@ -255,10 +255,8 @@ body[data-theme="experimental"] .section-line {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
-  -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
-  mask-image: radial-gradient(circle, white 100%, black 100%);
-  clip-path: circle(50% at 50% 50%);
-  -webkit-clip-path: circle(50% at 50% 50%);
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
 }
 
 .theme-btn::before {
@@ -272,7 +270,9 @@ body[data-theme="experimental"] .section-line {
   background: rgba(255, 255, 255, 0.1);
   transform: translate(-50%, -50%);
   transition: width 0.3s ease, height 0.3s ease;
+  z-index: 1;
 }
+
 
 .theme-btn:hover {
   transform: scale(1.05);
@@ -288,30 +288,40 @@ body[data-theme="experimental"] .section-line {
   border-color: var(--color-accent-1);
   box-shadow: 0 0 20px rgba(var(--color-accent-1-rgb), 0.4);
   transform: scale(1.1);
-  clip-path: circle(50% at 50% 50%);
-  -webkit-clip-path: circle(50% at 50% 50%);
 }
 
 .theme-default {
   background: linear-gradient(135deg, #0A0A0F, #FF3D00);
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
 }
 
 .theme-cosmic {
   background: linear-gradient(135deg, #0A001F, #FF00E5);
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
 }
 
 .theme-cyberpunk {
   background: linear-gradient(135deg, #0D0221, #05D9E8);
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
 }
 
 .theme-brutalist {
   background: linear-gradient(135deg, #1A1A1A, #FF3C00);
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
 }
 
 .theme-synthwave {
   background: linear-gradient(135deg, #200B3C, #FD3777);
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
 }
 
 .theme-experimental {
   background: linear-gradient(135deg, #121212, #FF6D00);
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
 }
