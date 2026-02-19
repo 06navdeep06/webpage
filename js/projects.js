@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const projectsGrid = document.getElementById('projects-grid');
   const filterButtons = document.querySelectorAll('.filter-btn');
+  const skillsSection = document.getElementById('skills-section') || document.createElement('div');
   
   // Read credentials from runtime env config (js/env.js)
   // Never hardcode tokens — env.js is git-ignored and injected at deploy time.
@@ -14,9 +15,77 @@ document.addEventListener('DOMContentLoaded', () => {
   const githubConfig = {
     username: env.GITHUB_USERNAME || '',
     token: env.GITHUB_PAT || '',
-    repoCount: 5,
+    repoCount: 6, // Show up to 6 pinned repos
     excludeRepos: ['private-repo', 'notes', 'dotfiles', 'archive', 'learning', 'template'],
-    featuredRepos: ['sonic-pixels', 'type-system', 'neural-garden', 'fragment', 'motion-ui']
+    featuredRepos: [] // We'll use pinned repos instead of hardcoded featured repos
+  };
+  
+  // Skills mapping - maps languages and topics to skill categories
+  const skillsMapping = {
+    languages: {
+      'JavaScript': 'Frontend Development',
+      'TypeScript': 'Frontend Development',
+      'HTML': 'Frontend Development',
+      'CSS': 'Frontend Development',
+      'Python': 'Backend Development',
+      'Java': 'Backend Development',
+      'C#': 'Backend Development',
+      'PHP': 'Backend Development',
+      'Ruby': 'Backend Development',
+      'Go': 'Backend Development',
+      'Swift': 'Mobile Development',
+      'Kotlin': 'Mobile Development',
+      'Dart': 'Mobile Development',
+      'R': 'Data Science',
+      'Jupyter Notebook': 'Data Science'
+    },
+    topics: {
+      'react': 'Frontend Frameworks',
+      'vue': 'Frontend Frameworks',
+      'angular': 'Frontend Frameworks',
+      'svelte': 'Frontend Frameworks',
+      'node': 'Backend Frameworks',
+      'express': 'Backend Frameworks',
+      'django': 'Backend Frameworks',
+      'flask': 'Backend Frameworks',
+      'laravel': 'Backend Frameworks',
+      'spring': 'Backend Frameworks',
+      'tensorflow': 'Machine Learning',
+      'pytorch': 'Machine Learning',
+      'scikit-learn': 'Machine Learning',
+      'pandas': 'Data Analysis',
+      'numpy': 'Data Analysis',
+      'docker': 'DevOps',
+      'kubernetes': 'DevOps',
+      'aws': 'Cloud Services',
+      'azure': 'Cloud Services',
+      'gcp': 'Cloud Services',
+      'firebase': 'Cloud Services',
+      'graphql': 'API Development',
+      'rest-api': 'API Development',
+      'mongodb': 'Databases',
+      'postgresql': 'Databases',
+      'mysql': 'Databases',
+      'sqlite': 'Databases',
+      'redis': 'Databases',
+      'ui': 'UI/UX Design',
+      'ux': 'UI/UX Design',
+      'design-system': 'UI/UX Design',
+      'animation': 'Animation',
+      'three': '3D Graphics',
+      'webgl': '3D Graphics',
+      'canvas': 'Creative Coding',
+      'svg': 'Vector Graphics',
+      'game': 'Game Development',
+      'unity': 'Game Development',
+      'blockchain': 'Blockchain',
+      'web3': 'Blockchain',
+      'ethereum': 'Blockchain',
+      'testing': 'Testing',
+      'jest': 'Testing',
+      'cypress': 'Testing',
+      'selenium': 'Testing'
+    }
   };
   
   // Project categories and their associated topics/keywords
@@ -114,6 +183,14 @@ document.addEventListener('DOMContentLoaded', () => {
       ? `<p class="project-intent"><span class="intent-label">Why:</span> ${projectIntent}</p>` 
       : '';
     
+    // Add source code section if available
+    const sourceCodeHtml = repo.sourceCode 
+      ? `<div class="project-source-code">
+           <h4>Source Code Snippet</h4>
+           <pre><code>${repo.sourceCode}</code></pre>
+         </div>` 
+      : '';
+    
     return `
       <div class="project-card" data-category="${category}" tabindex="0" role="article" aria-labelledby="project-${repo.name.replace(/\s+/g, '-').toLowerCase()}">
         <div class="project-image">
@@ -128,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <h3 class="project-title" id="project-${repo.name.replace(/\s+/g, '-').toLowerCase()}">${repo.name}</h3>
           <p class="project-description">${repo.description || 'No description available'}</p>
           ${intentHtml}
+          ${sourceCodeHtml}
           <div class="project-links">
             <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="project-link project-link-code" aria-label="View ${repo.name} source code on GitHub">Explore Code</a>
             ${demoLink ? demoLink.replace('Experience', `Experience ${repo.name}`).replace('class="project-link', 'aria-label="View live demo of ${repo.name}" class="project-link') : ''}
@@ -135,6 +213,166 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
     `;
+  };
+  
+  // Fetch user's skillset from all public repositories
+  const fetchUserSkills = async () => {
+    try {
+      // GitHub API URL for user's repositories
+      const apiUrl = `https://api.github.com/graphql`;
+      
+      // GraphQL query to fetch all public repositories with languages and topics
+      const graphqlQuery = {
+        query: `{
+          user(login: "${githubConfig.username}") {
+            repositories(first: 100, privacy: PUBLIC, orderBy: {field: UPDATED_AT, direction: DESC}) {
+              nodes {
+                name
+                languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+                  edges {
+                    size
+                    node {
+                      name
+                    }
+                  }
+                }
+                repositoryTopics(first: 20) {
+                  nodes {
+                    topic {
+                      name
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }`
+      };
+      
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${githubConfig.token}`
+        },
+        body: JSON.stringify(graphqlQuery)
+      });
+      
+      if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.status}`);
+      }
+      
+      const responseData = await response.json();
+      
+      // Process repositories to extract skills
+      if (responseData.data && responseData.data.user && responseData.data.user.repositories) {
+        const repos = responseData.data.user.repositories.nodes;
+        
+        // Collect all languages and their total byte size across repos
+        const languageCounts = {};
+        const topicCounts = {};
+        
+        // Process each repository
+        repos.forEach(repo => {
+          // Process languages
+          if (repo.languages && repo.languages.edges) {
+            repo.languages.edges.forEach(edge => {
+              const langName = edge.node.name;
+              const langSize = edge.size;
+              
+              if (!languageCounts[langName]) {
+                languageCounts[langName] = 0;
+              }
+              languageCounts[langName] += langSize;
+            });
+          }
+          
+          // Process topics
+          if (repo.repositoryTopics && repo.repositoryTopics.nodes) {
+            repo.repositoryTopics.nodes.forEach(node => {
+              const topicName = node.topic.name;
+              
+              if (!topicCounts[topicName]) {
+                topicCounts[topicName] = 0;
+              }
+              topicCounts[topicName] += 1;
+            });
+          }
+        });
+        
+        // Convert to arrays and sort by count/size
+        const sortedLanguages = Object.entries(languageCounts)
+          .sort((a, b) => b[1] - a[1])
+          .map(([name]) => name);
+        
+        const sortedTopics = Object.entries(topicCounts)
+          .sort((a, b) => b[1] - a[1])
+          .map(([name]) => name);
+        
+        // Map to skill categories
+        const skillCategories = {};
+        
+        // Process languages
+        sortedLanguages.forEach(lang => {
+          const category = skillsMapping.languages[lang] || 'Other';
+          if (!skillCategories[category]) {
+            skillCategories[category] = [];
+          }
+          skillCategories[category].push(lang);
+        });
+        
+        // Process topics
+        sortedTopics.forEach(topic => {
+          const category = skillsMapping.topics[topic] || null;
+          if (category && !skillCategories[category]) {
+            skillCategories[category] = [];
+          }
+          if (category) {
+            skillCategories[category].push(topic);
+          }
+        });
+        
+        // Generate HTML for skills section
+        const skillsHtml = Object.entries(skillCategories)
+          .map(([category, skills]) => {
+            const skillsListHtml = skills
+              .slice(0, 5) // Limit to top 5 skills per category
+              .map(skill => `<span class="skill-tag">${skill}</span>`)
+              .join('');
+            
+            return `
+              <div class="skill-category">
+                <h3>${category}</h3>
+                <div class="skill-tags">
+                  ${skillsListHtml}
+                </div>
+              </div>
+            `;
+          })
+          .join('');
+        
+        // Update skills section if it exists
+        if (skillsSection) {
+          skillsSection.innerHTML = `
+            <h2>My Skills</h2>
+            <div class="skills-grid">
+              ${skillsHtml}
+            </div>
+          `;
+        }
+        
+        return {
+          languages: sortedLanguages,
+          topics: sortedTopics,
+          categories: skillCategories
+        };
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('Error fetching user skills:', error);
+      return null;
+    }
   };
   
   // Fetch repositories from GitHub API
@@ -147,14 +385,54 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
       
-      // GitHub API URL
-      const apiUrl = `https://api.github.com/users/${githubConfig.username}/repos?sort=updated&per_page=100`;
+      // GitHub API URL for pinned repositories
+      const apiUrl = `https://api.github.com/graphql`;
       
       console.log(`Fetching repos for user: ${githubConfig.username}`);
       
-      // For public repos, we can use the API without authentication
-      // This avoids token issues but has lower rate limits
-      const response = await fetch(apiUrl);
+      // Using GraphQL API to fetch pinned repositories
+      const graphqlQuery = {
+        query: `{
+          user(login: "${githubConfig.username}") {
+            pinnedItems(first: 6, types: REPOSITORY) {
+              nodes {
+                ... on Repository {
+                  name
+                  description
+                  url
+                  homepageUrl
+                  languages(first: 5) {
+                    nodes {
+                      name
+                    }
+                  }
+                  repositoryTopics(first: 10) {
+                    nodes {
+                      topic {
+                        name
+                      }
+                    }
+                  }
+                  object(expression: "HEAD:README.md") {
+                    ... on Blob {
+                      text
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }`
+      };
+      
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${githubConfig.token}`
+        },
+        body: JSON.stringify(graphqlQuery)
+      });
       
       if (!response.ok) {
         const errorText = await response.text();
@@ -163,43 +441,48 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       // Parse response
-      let repos = await response.json();
+      const responseData = await response.json();
       
-      // Filter out excluded repositories and forks
-      repos = repos.filter(repo => 
-        !githubConfig.excludeRepos.includes(repo.name) && 
-        !repo.fork &&
-        !repo.archived
-      );
+      // Extract pinned repositories
+      let repos = [];
       
-      // Sort repositories: featured first, then by stars
-      repos.sort((a, b) => {
-        // Check if either repo is featured
-        const aFeatured = githubConfig.featuredRepos.includes(a.name);
-        const bFeatured = githubConfig.featuredRepos.includes(b.name);
-        
-        // Featured repos come first
-        if (aFeatured && !bFeatured) return -1;
-        if (!aFeatured && bFeatured) return 1;
-        
-        // Then sort by stars
-        return b.stargazers_count - a.stargazers_count;
-      });
+      if (responseData.data && responseData.data.user && responseData.data.user.pinnedItems) {
+        repos = responseData.data.user.pinnedItems.nodes.map(node => {
+          // Extract languages
+          const languages = node.languages ? 
+            node.languages.nodes.map(lang => lang.name) : [];
+          
+          // Extract topics
+          const topics = node.repositoryTopics ? 
+            node.repositoryTopics.nodes.map(topic => topic.topic.name) : [];
+          
+          // Extract source code snippet from README
+          let sourceCodeSnippet = '';
+          if (node.object && node.object.text) {
+            // Look for code blocks in README
+            const codeBlockRegex = /```([\s\S]*?)```/g;
+            const codeBlocks = [...node.object.text.matchAll(codeBlockRegex)];
+            
+            if (codeBlocks.length > 0) {
+              // Use the first code block found
+              sourceCodeSnippet = codeBlocks[0][1].trim();
+            }
+          }
+          
+          return {
+            name: node.name,
+            description: node.description,
+            html_url: node.url,
+            homepage: node.homepageUrl,
+            language: languages[0] || '',
+            topics: topics,
+            sourceCode: sourceCodeSnippet
+          };
+        });
+      }
       
-      // Limit to specified count
-      repos = repos.slice(0, githubConfig.repoCount);
-      
-      // Fetch additional details for each repo (to get topics)
-      const reposWithDetails = await Promise.all(repos.map(async (repo) => {
-        // For public repos, we can access without authentication
-        const detailResponse = await fetch(repo.url);
-        
-        if (!detailResponse.ok) {
-          return repo; // Return original repo if details fetch fails
-        }
-        
-        return await detailResponse.json();
-      }));
+      // No need for additional sorting or fetching since we're using pinned repos
+      const reposWithDetails = repos;
       
       // Generate HTML for all projects
       const projectsHtml = reposWithDetails.map(createProjectCard).join('');
@@ -345,15 +628,25 @@ document.addEventListener('DOMContentLoaded', () => {
     featuredRepos: githubConfig.featuredRepos
   });
 
-  // For testing purposes, always show fallback projects
-  // This ensures we have content even if GitHub API has issues
-  console.log('Using fallback projects for reliable display');
-  displayFallbackProjects();
-  
-  // Attempt to fetch GitHub repos in the background if credentials exist
+  // Fetch GitHub repos and skills if credentials exist
   if (githubConfig.token && githubConfig.username) {
-    setTimeout(() => {
+    // First fetch skills from all repositories
+    fetchUserSkills().then(skills => {
+      console.log('User skills extracted:', skills);
+      
+      // Then fetch pinned repositories
       fetchRepositories();
-    }, 500);
+    }).catch(error => {
+      console.error('Error fetching skills:', error);
+      // Still try to fetch repositories even if skills fetch fails
+      fetchRepositories();
+    });
+  } else {
+    // Show error message if credentials are missing
+    projectsGrid.innerHTML = `
+      <div class="projects-error">
+        <p>GitHub credentials are missing. Please check your configuration.</p>
+      </div>
+    `;
   }
 });

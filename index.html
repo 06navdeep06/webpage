@@ -136,46 +136,11 @@
                 <div class="skills-visualization">
                     <canvas id="skills-canvas"></canvas>
                 </div>
-                <div class="skills-categories">
-                    <div class="skill-category" data-category="frontend">
-                        <h3>Frontend</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">HTML5</span>
-                            <span class="skill-tag">CSS3</span>
-                            <span class="skill-tag">JavaScript</span>
-                            <span class="skill-tag">React</span>
-                            <span class="skill-tag">Vue</span>
-                            <span class="skill-tag">GSAP</span>
-                        </div>
-                    </div>
-                    <div class="skill-category" data-category="backend">
-                        <h3>Backend</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Node.js</span>
-                            <span class="skill-tag">Express</span>
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Django</span>
-                            <span class="skill-tag">GraphQL</span>
-                        </div>
-                    </div>
-                    <div class="skill-category" data-category="design">
-                        <h3>Design</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Figma</span>
-                            <span class="skill-tag">Adobe XD</span>
-                            <span class="skill-tag">Photoshop</span>
-                            <span class="skill-tag">Illustrator</span>
-                        </div>
-                    </div>
-                    <div class="skill-category" data-category="other">
-                        <h3>Other</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Git</span>
-                            <span class="skill-tag">Docker</span>
-                            <span class="skill-tag">CI/CD</span>
-                            <span class="skill-tag">WebGL</span>
-                            <span class="skill-tag">Three.js</span>
-                        </div>
+                <!-- Dynamic skills will be loaded here from GitHub repositories -->
+                <div id="skills-section" class="skills-categories">
+                    <div class="skills-loading">
+                        <div class="loader"></div>
+                        <p>Analyzing GitHub repositories to extract skills...</p>
                     </div>
                 </div>
             </div>
