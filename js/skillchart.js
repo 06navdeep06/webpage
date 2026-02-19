@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Skill data — percentages should add up to 100
   const skills = [
-    { label: 'Backend',    pct: 35, color: '#FF3D00' },
-    { label: 'Databases',  pct: 20, color: '#6E00FF' },
-    { label: 'DevOps',     pct: 15, color: '#00E5B3' },
-    { label: 'Frontend',   pct: 15, color: '#FFCC00' },
-    { label: 'APIs / REST',pct: 10, color: '#05D9E8' },
-    { label: 'Other',      pct:  5, color: '#FD3777' }
+    { label: 'Backend',    pct: 35, color: '#FF3D00', desc: 'Node.js, Express, Python, Django' },
+    { label: 'Databases',  pct: 20, color: '#6E00FF', desc: 'MongoDB, PostgreSQL, Redis' },
+    { label: 'DevOps',     pct: 15, color: '#00E5B3', desc: 'Docker, AWS, CI/CD' },
+    { label: 'Frontend',   pct: 15, color: '#FFCC00', desc: 'React, Vue, HTML/CSS' },
+    { label: 'APIs / REST',pct: 10, color: '#05D9E8', desc: 'RESTful design, GraphQL' },
+    { label: 'Other',      pct:  5, color: '#FD3777', desc: 'ML, Data Analysis' }
   ];
 
   // State
@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let animProgress = 0;
   let mouseX = -1;
   let mouseY = -1;
+  let rotation = 0;
+  let targetRotation = 0;
+  let lastTime = 0;
 
   // Sizing
   const resize = () => {
@@ -165,7 +168,11 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Main draw loop
-  const draw = () => {
+  const draw = (timestamp) => {
+    if (!lastTime) lastTime = timestamp;
+    const deltaTime = timestamp - lastTime;
+    lastTime = timestamp;
+    
     const w = container.offsetWidth;
     const h = container.offsetHeight;
 
@@ -177,6 +184,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (animProgress > 1) animProgress = 1;
     }
     const ease = 1 - Math.pow(1 - animProgress, 3); // ease-out cubic
+    
+    // Gentle auto-rotation when not hovering
+    if (hoveredIndex === -1) {
+      targetRotation += deltaTime * 0.00005;
+    }
+    
+    // Smooth rotation
+    rotation += (targetRotation - rotation) * 0.05;
 
     const cx = w * 0.36;
     const cy = h * 0.50;
@@ -186,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Draw slices back-to-front (bottom half first, then top half)
     // Build slice angles
     const slices = [];
-    let cumAngle = 0;
+    let cumAngle = rotation;
     skills.forEach((skill, i) => {
       const sweep = (skill.pct / 100) * Math.PI * 2 * ease;
       slices.push({ start: cumAngle, end: cumAngle + sweep, index: i });
@@ -217,22 +232,41 @@ document.addEventListener('DOMContentLoaded', () => {
     if (hoveredIndex >= 0 && mouseX > 0) {
       const skill = skills[hoveredIndex];
       const text = skill.label;
-      ctx.font = 'bold 14px "Space Grotesk", sans-serif';
-      const tw = ctx.measureText(text).width;
+      const desc = skill.desc;
+      
+      ctx.font = 'bold 16px "Space Grotesk", sans-serif';
+      const tw = Math.max(ctx.measureText(text).width, ctx.measureText(desc).width);
       const px = mouseX + 14;
-      const py = mouseY - 24;
+      const py = mouseY - 30;
 
+      // Tooltip background with glow
+      ctx.shadowColor = skill.color;
+      ctx.shadowBlur = 15;
       ctx.fillStyle = 'rgba(10,10,15,0.9)';
       ctx.beginPath();
-      ctx.roundRect(px - 8, py - 14, tw + 16, 28, 4);
+      ctx.roundRect(px - 12, py - 24, tw + 24, 58, 6);
       ctx.fill();
+      ctx.shadowBlur = 0;
+      
+      // Border
       ctx.strokeStyle = skill.color;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      ctx.fillStyle = '#F2F2F7';
+      // Title
+      ctx.fillStyle = '#FFFFFF';
       ctx.textBaseline = 'middle';
-      ctx.fillText(text, px, py);
+      ctx.fillText(text, px, py - 10);
+      
+      // Description
+      ctx.font = '14px "Space Grotesk", sans-serif';
+      ctx.fillStyle = 'rgba(255,255,255,0.8)';
+      ctx.fillText(desc, px, py + 14);
+      
+      // Percentage
+      ctx.font = 'bold 14px "Space Grotesk", sans-serif';
+      ctx.fillStyle = skill.color;
+      ctx.fillText(skill.pct + '%', px + tw - 20, py - 10);
     }
 
     requestAnimationFrame(draw);
@@ -246,18 +280,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const w = container.offsetWidth;
     const h = container.offsetHeight;
-    const cx = w * 0.38;
-    const cy = h * 0.48;
-    const r = Math.min(w * 0.28, h * 0.38, 160);
+    const cx = w * 0.36;
+    const cy = h * 0.50;
+    const r = Math.min(w * 0.30, h * 0.40, 210);
 
+    const prevHovered = hoveredIndex;
     hoveredIndex = hitTest(mouseX, mouseY, cx, cy, r);
+    
+    // Change cursor and stop rotation when hovering
     canvas.style.cursor = hoveredIndex >= 0 ? 'pointer' : 'default';
+    
+    // If we hovered a new slice, pause rotation
+    if (hoveredIndex !== -1 && hoveredIndex !== prevHovered) {
+      targetRotation = rotation;
+    }
   });
-
-  canvas.addEventListener('mouseleave', () => {
-    hoveredIndex = -1;
-    mouseX = -1;
-    mouseY = -1;
+  
+  // Click to rotate to that slice
+  canvas.addEventListener('click', () => {
+    if (hoveredIndex >= 0) {
+      // Calculate the middle angle of the slice
+      let startAngle = 0;
+      for (let i = 0; i < hoveredIndex; i++) {
+        startAngle += (skills[i].pct / 100) * Math.PI * 2;
+      }
+      const midAngle = startAngle + (skills[hoveredIndex].pct / 100) * Math.PI * 2 / 2;
+      
+      // Set target rotation to bring this slice to the top
+      targetRotation = rotation - midAngle + Math.PI / 2;
+    }
   });
 
   // Polyfill roundRect for older browsers
@@ -277,6 +328,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  // Start
-  draw();
+  // Start animation loop with timestamp
+  requestAnimationFrame(draw);
 });

@@ -11,6 +11,20 @@
   padding: 0;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+/* Hide scrollbar for Chrome/Safari/Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
 html {
   font-size: 62.5%; /* 10px base for easier rem calculations */
   scroll-behavior: smooth;

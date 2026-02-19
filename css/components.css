@@ -841,30 +841,61 @@
 /* ---------- SKILL CHART SECTION ---------- */
 .skillchart-section {
   background: var(--color-bg-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.skillchart-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 30% 50%, rgba(var(--color-accent-1-rgb), 0.03) 0%, transparent 60%),
+             radial-gradient(circle at 70% 50%, rgba(var(--color-accent-2-rgb), 0.03) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 .skillchart-wrapper {
   position: relative;
   width: 100%;
-  height: 56rem;
-  perspective: 1000px;
+  height: 58rem;
+  perspective: 1200px;
+  z-index: 1;
 }
 
 #skill-pie-canvas {
   width: 100%;
   height: 100%;
   display: block;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+}
+
+.skillchart-section .section-title {
+  position: relative;
+}
+
+.skillchart-section .section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -0.8rem;
+  left: 0;
+  width: 4rem;
+  height: 0.3rem;
+  background: var(--color-accent-1);
+  border-radius: 2px;
 }
 
 @media (max-width: 767px) {
   .skillchart-wrapper {
-    height: 46rem;
+    height: 48rem;
   }
 }
 
 @media (max-width: 579px) {
   .skillchart-wrapper {
-    height: 38rem;
+    height: 40rem;
   }
 }
 
