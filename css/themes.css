@@ -11,6 +11,7 @@
 /* Theme toggle mechanism */
 body[data-theme="default"] {
   /* Default theme is already defined in :root */
+  color-scheme: dark;
 }
 
 /* ---------- COSMIC THEME ---------- */
@@ -246,21 +247,43 @@ body[data-theme="experimental"] .section-line {
 }
 
 .theme-btn {
-  width: 3rem;
-  height: 3rem;
+  width: 3.2rem;
+  height: 3.2rem;
   border-radius: 50%;
   border: 2px solid var(--color-border);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
 }
 
 .theme-btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
+  border-color: var(--color-accent-1);
+}
+
+.theme-btn:hover::before {
+  width: 100%;
+  height: 100%;
 }
 
 .theme-btn.active {
-  border-color: var(--color-text-primary);
-  box-shadow: 0 0 10px var(--color-glow-1);
+  border-color: var(--color-accent-1);
+  box-shadow: 0 0 20px rgba(var(--color-accent-1-rgb), 0.4);
+  transform: scale(1.1);
 }
 
 .theme-default {

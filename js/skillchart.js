@@ -263,11 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = 'rgba(255,255,255,0.8)';
       ctx.fillText(desc, px, py + 14);
       
-      // Percentage
-      ctx.font = 'bold 14px "Space Grotesk", sans-serif';
-      ctx.fillStyle = skill.color;
-      ctx.fillText(skill.pct + '%', px + tw - 20, py - 10);
-    }
+          }
 
     requestAnimationFrame(draw);
   };

@@ -83,7 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
       this.colors = getThemeColors();
       this.mousePosition = { x: null, y: null };
       this.activeNode = null;
-      this.hoverRadius = 50;
+      this.hoverRadius = 80;
+      this.particles = [];
+      this.time = 0;
       
       // Create nodes from skills data
       this.createNodes();
@@ -331,52 +333,110 @@ document.addEventListener('DOMContentLoaded', () => {
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Draw connections
+      // Update time for animations
+      this.time += 0.01;
+      
+      // Draw connections with gradient
       this.connections.forEach(conn => {
         const opacity = conn.opacity !== undefined ? conn.opacity : 
                       (this.activeNode && (conn.start === this.activeNode || conn.end === this.activeNode) ? 1 : 0.3);
         
+        // Create gradient for connection
+        const gradient = ctx.createLinearGradient(conn.start.x, conn.start.y, conn.end.x, conn.end.y);
+        gradient.addColorStop(0, `${conn.start.color}${Math.floor(opacity * 180).toString(16).padStart(2, '0')}`);
+        gradient.addColorStop(1, `${conn.end.color}${Math.floor(opacity * 180).toString(16).padStart(2, '0')}`);
+        
         ctx.beginPath();
         ctx.moveTo(conn.start.x, conn.start.y);
         ctx.lineTo(conn.end.x, conn.end.y);
-        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.3})`;
-        ctx.lineWidth = conn.strength;
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = conn.strength * 2;
+        ctx.lineCap = 'round';
         ctx.stroke();
+        
+        // Add pulsing effect for active connections
+        if (this.activeNode && (conn.start === this.activeNode || conn.end === this.activeNode)) {
+          const pulse = Math.sin(this.time * 3) * 0.3 + 0.7;
+          ctx.strokeStyle = `${this.colors.accent1}${Math.floor(pulse * 255).toString(16).padStart(2, '0')}`;
+          ctx.lineWidth = conn.strength * 3;
+          ctx.stroke();
+        }
       });
       
-      // Draw nodes
+      // Draw nodes with enhanced graphics
       this.nodes.forEach(node => {
         const opacity = node.opacity !== undefined ? node.opacity : 1;
         const isActive = node === this.activeNode;
-        const scale = isActive ? 1.2 : 1;
+        const scale = isActive ? 1.3 : 1;
+        const pulse = isActive ? Math.sin(this.time * 4) * 0.1 + 1 : 1;
         
-        // Node circle
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, node.size * scale, 0, Math.PI * 2);
-        ctx.fillStyle = `${node.color}${Math.floor(opacity * 255).toString(16).padStart(2, '0')}`;
-        ctx.fill();
-        
-        // Node border
-        if (isActive || node.highlighted) {
+        // Outer glow for active nodes
+        if (isActive) {
+          const glowGradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.size * scale * pulse * 2);
+          glowGradient.addColorStop(0, `${node.color}40`);
+          glowGradient.addColorStop(1, 'transparent');
+          ctx.fillStyle = glowGradient;
           ctx.beginPath();
-          ctx.arc(node.x, node.y, node.size * scale + 2, 0, Math.PI * 2);
-          ctx.strokeStyle = this.colors.text;
-          ctx.lineWidth = 1;
-          ctx.stroke();
+          ctx.arc(node.x, node.y, node.size * scale * pulse * 2, 0, Math.PI * 2);
+          ctx.fill();
         }
         
-        // Node label
+        // Main node with gradient
+        const nodeGradient = ctx.createRadialGradient(
+          node.x - node.size * 0.3, 
+          node.y - node.size * 0.3, 
+          0,
+          node.x, 
+          node.y, 
+          node.size * scale * pulse
+        );
+        nodeGradient.addColorStop(0, `${node.color}${Math.floor(opacity * 255).toString(16).padStart(2, '0')}`);
+        nodeGradient.addColorStop(1, `${node.color}${Math.floor(opacity * 180).toString(16).padStart(2, '0')}`);
+        
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.size * scale * pulse, 0, Math.PI * 2);
+        ctx.fillStyle = nodeGradient;
+        ctx.fill();
+        
+        // Node border with glow
+        if (isActive || node.highlighted) {
+          ctx.shadowColor = node.color;
+          ctx.shadowBlur = 10;
+          ctx.strokeStyle = this.colors.text;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+        }
+        
+        // Node label with better positioning
         if (isActive) {
-          ctx.font = 'bold 14px var(--font-primary)';
+          // Background for label
+          ctx.font = 'bold 13px "Space Grotesk", sans-serif';
+          const textWidth = ctx.measureText(node.name).width;
+          const padding = 8;
+          
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+          ctx.beginPath();
+          ctx.roundRect(
+            node.x - textWidth/2 - padding, 
+            node.y - node.size * scale - 25, 
+            textWidth + padding * 2, 
+            20, 
+            4
+          );
+          ctx.fill();
+          
           ctx.fillStyle = this.colors.text;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.fillText(node.name, node.x, node.y - node.size * scale - 10);
-          
-          // Skill level indicator
-          ctx.font = '12px var(--font-primary)';
-          ctx.fillText(`${Math.floor(node.level * 100)}%`, node.x, node.y + node.size * scale + 15);
+          ctx.fillText(node.name, node.x, node.y - node.size * scale - 15);
         }
+        
+        // Small inner dot for visual interest
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.size * 0.2 * scale, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.6})`;
+        ctx.fill();
       });
     }
     
