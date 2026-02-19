@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // GitHub API URL for user's repositories
       const apiUrl = `https://api.github.com/graphql`;
       
-          // Check if we have a token for authentication
+      // Check if we have a token for authentication
       const hasToken = !!githubConfig.token;
       let response;
       
@@ -359,10 +359,71 @@ document.addEventListener('DOMContentLoaded', () => {
                   ${skillsListHtml}
                 </div>
               </div>
+            `;
+          })
+          .join('');
+        
+        // Update skills section if it exists
+        if (skillsSection) {
+          skillsSection.innerHTML = skillsHtml;
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user skills:', error);
+      displayFallbackSkills();
+    }
+  };
+  
+  // Display fallback skills when GitHub API fails
+  const displayFallbackSkills = () => {
+    if (skillsSection) {
+      // Predefined skills by category
+      const skillsData = {
+        'Frontend Development': ['JavaScript', 'HTML5', 'CSS3', 'React', 'Vue.js'],
+        'Backend Development': ['Node.js', 'Express', 'Python', 'Django', 'GraphQL'],
+        'Design': ['Figma', 'Adobe XD', 'UI/UX', 'Typography', 'Animation'],
+        'DevOps & Tools': ['Git', 'Docker', 'CI/CD', 'AWS', 'Linux'],
+        'Creative Coding': ['WebGL', 'Three.js', 'Canvas', 'SVG', 'GSAP']
+      };
+      
+      // Generate HTML for skills section
+      const skillsHtml = Object.entries(skillsData)
+        .map(([category, skills]) => {
+          const skillsListHtml = skills
+            .map(skill => `<span class="skill-tag">${skill}</span>`)
+            .join('');
+          
+          return `
+            <div class="skill-category" data-category="${category.toLowerCase().replace(/\s+/g, '-')}">
+              <h3>${category}</h3>
+              <div class="skill-tags">
+                ${skillsListHtml}
+              </div>
             </div>
           `;
         })
         .join('');
+      
+      // Update skills section
+      skillsSection.innerHTML = skillsHtml;
+      
+      // Add animation to skill tags
+      const skillTags = document.querySelectorAll('.skill-tag');
+      skillTags.forEach((tag, index) => {
+        setTimeout(() => {
+          tag.classList.add('fadeInUp', 'animated');
+        }, index * 50);
+      });
+      
+      console.log('Displayed fallback skills due to GitHub API failure');
+    }
+  };
+
+  // Fetch repositories from GitHub API
+  const fetchRepositories = async () => {
+    try {
+      // Show loading state
+      projectsGrid.innerHTML = `
         <div class="projects-loading">
           <div class="loader"></div>
         </div>
@@ -551,6 +612,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (retryButton) {
         retryButton.addEventListener('click', fetchRepositories);
       }
+      
+      // Display fallback projects
+      displayFallbackProjects();
     }
   };
   
@@ -665,9 +729,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fetch GitHub repos and skills if credentials exist
   if (githubConfig.token && githubConfig.username) {
     // First fetch skills from all repositories
-    fetchUserSkills().then(skills => {
-      console.log('User skills extracted:', skills);
-      
+    fetchUserSkills().then(() => {
       // Then fetch pinned repositories
       fetchRepositories();
     }).catch(error => {
@@ -676,11 +738,11 @@ document.addEventListener('DOMContentLoaded', () => {
       fetchRepositories();
     });
   } else {
-    // Show error message if credentials are missing
-    projectsGrid.innerHTML = `
-      <div class="projects-error">
-        <p>GitHub credentials are missing. Please check your configuration.</p>
-      </div>
-    `;
+    // Show fallback skills and projects if credentials are missing
+    displayFallbackSkills();
+    displayFallbackProjects();
+    
+    // Show error message
+    console.warn('GitHub credentials are missing. Using fallback data.');
   }
 });
