@@ -556,12 +556,13 @@
   position: relative;
   background-color: var(--color-bg-card);
   overflow: hidden;
-  /* Asymmetric clip paths for different cards */
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Asymmetric shape */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   height: 100%;
   display: flex;
   flex-direction: column;
   border-left: 2px solid var(--color-accent-2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Different clip paths for different cards */
@@ -577,8 +578,14 @@
   clip-path: polygon(0 2%, 98% 0, 100% 100%, 0 100%);
 }
 
+.project-card:focus {
+  outline: none;
+  box-shadow: 0 4px 20px rgba(var(--color-accent-1-rgb), 0.25);
+}
+
 .project-card:hover {
   transform: translateY(-0.7rem) rotate(0.5deg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .project-image {

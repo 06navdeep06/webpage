@@ -150,15 +150,16 @@ document.addEventListener('DOMContentLoaded', () => {
       // GitHub API URL
       const apiUrl = `https://api.github.com/users/${githubConfig.username}/repos?sort=updated&per_page=100`;
       
-      // Fetch repositories
-      const response = await fetch(apiUrl, {
-        headers: {
-          'Authorization': `token ${githubConfig.token}`
-        }
-      });
+      console.log(`Fetching repos for user: ${githubConfig.username}`);
+      
+      // For public repos, we can use the API without authentication
+      // This avoids token issues but has lower rate limits
+      const response = await fetch(apiUrl);
       
       if (!response.ok) {
-        throw new Error(`GitHub API error: ${response.status}`);
+        const errorText = await response.text();
+        console.error(`GitHub API error: ${response.status}`, errorText);
+        throw new Error(`GitHub API error: ${response.status} - ${errorText}`);
       }
       
       // Parse response
@@ -190,11 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Fetch additional details for each repo (to get topics)
       const reposWithDetails = await Promise.all(repos.map(async (repo) => {
-        const detailResponse = await fetch(repo.url, {
-          headers: {
-            'Authorization': `token ${githubConfig.token}`
-          }
-        });
+        // For public repos, we can access without authentication
+        const detailResponse = await fetch(repo.url);
         
         if (!detailResponse.ok) {
           return repo; // Return original repo if details fetch fails
@@ -339,10 +337,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
   
+  // Debug info - log config without exposing full token
+  console.log('GitHub Config:', {
+    username: githubConfig.username,
+    hasToken: !!githubConfig.token,
+    tokenFirstChars: githubConfig.token ? `${githubConfig.token.substring(0, 4)}...` : 'none',
+    featuredRepos: githubConfig.featuredRepos
+  });
+
   // Token present → fetch live repos. Missing → show curated fallbacks.
   if (githubConfig.token && githubConfig.username) {
     fetchRepositories();
   } else {
+    console.log('Using fallback projects - missing GitHub credentials');
     displayFallbackProjects();
   }
 });

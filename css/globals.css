@@ -52,9 +52,13 @@ ul, ol {
 :root {
   /* Primary palette - Bold, experimental colors */
   --color-accent-1: #FF3D00; /* Vibrant orange-red */
+  --color-accent-1-rgb: 255, 61, 0;
   --color-accent-2: #6E00FF; /* Deep electric purple */
+  --color-accent-2-rgb: 110, 0, 255;
   --color-accent-3: #00E5B3; /* Bright teal */
+  --color-accent-3-rgb: 0, 229, 179;
   --color-accent-4: #FFCC00; /* Vivid yellow */
+  --color-accent-4-rgb: 255, 204, 0;
   
   /* Background colors */
   --color-bg-primary: #0A0A0F; /* Deep space black */

@@ -4,57 +4,15 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize Intersection Observer for scroll animations
-  const initScrollAnimations = () => {
-    // Elements to animate on scroll
-    const animatedElements = document.querySelectorAll('.reveal, .reveal-up, .reveal-down, .reveal-left, .reveal-right, .reveal-scale, .reveal-rotate');
-    
-    // Staggered elements
-    const staggeredElements = document.querySelectorAll('.stagger-reveal');
-    
-    // Text reveal elements
-    const textRevealElements = document.querySelectorAll('.text-reveal, .text-reveal-stagger');
-    
-    // Create observer for standard animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-    
-    // Observe each element
-    animatedElements.forEach(element => {
-      observer.observe(element);
-    });
-    
-    // Observe staggered elements
-    staggeredElements.forEach(element => {
-      observer.observe(element);
-    });
-    
-    // Process text reveal elements
-    textRevealElements.forEach(element => {
-      // Split text into individual spans for animation
-      const text = element.textContent;
-      const splitText = text.split('');
-      
-      // Clear original text and replace with spans
-      element.textContent = '';
-      
-      // Create spans for each character
-      splitText.forEach(char => {
-        const span = document.createElement('span');
-        span.textContent = char === ' ' ? '\u00A0' : char; // Use non-breaking space for spaces
-        element.appendChild(span);
-      });
-      
-      // Observe the element
-      observer.observe(element);
-    });
-  };
+  // Initialize scroll reveal animations
+  initScrollReveal();
+  
+  // Initialize hover animations
+  initHoverAnimations();
+
+  // Initialize smooth section transitions
+  initSmoothTransitions();
+});
   
   // Initialize parallax effects
   const initParallaxEffects = () => {
@@ -294,4 +252,79 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Run all initializations
   initAllAnimations();
-});
+};
+
+// Initialize scroll reveal animations
+function initScrollReveal() {
+  const revealElements = document.querySelectorAll('.reveal');
+  
+  // Create intersection observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+      }
+    });
+  }, {
+    threshold: 0.15, // Trigger when 15% of the element is visible
+    rootMargin: '0px 0px -60px 0px' // Negative bottom margin to trigger earlier
+  });
+  
+  // Observe all reveal elements
+  revealElements.forEach(element => {
+    observer.observe(element);
+  });
+}
+
+// Initialize hover animations
+function initHoverAnimations() {
+  // Add hover effects to project cards
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.classList.add('hover');
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      card.classList.remove('hover');
+    });
+  });
+}
+
+// Initialize smooth transitions between sections
+function initSmoothTransitions() {
+  // Add reveal classes to sections if not already present
+  const sections = document.querySelectorAll('section');
+  sections.forEach((section, index) => {
+    // Add staggered delay based on section index
+    const delay = 100 + (index * 50); // Staggered delay
+    section.style.setProperty('--reveal-delay', `${delay}ms`);
+    
+    if (!section.classList.contains('reveal')) {
+      section.classList.add('reveal');
+      section.classList.add('reveal-section');
+    }
+  });
+  
+  // Add smooth transition to navigation links
+  const navLinks = document.querySelectorAll('.nav-links a, .footer-links a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId.startsWith('#') && targetId.length > 1) {
+        e.preventDefault();
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          // Smooth scroll with offset for header
+          const headerOffset = 80;
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
+  });
+}

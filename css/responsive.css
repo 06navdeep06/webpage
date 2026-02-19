@@ -98,6 +98,39 @@
     order: -1; /* Info first on mobile */
   }
   
+  /* Philosophy section improvements */
+  .philosophy-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .philosophy-block {
+    transform: translateX(0) !important;
+    padding-left: var(--space-sm);
+  }
+  
+  .philosophy-block::before {
+    width: 0.15rem;
+  }
+  
+  /* Project card improvements */
+  .project-card:nth-child(3n) {
+    transform: translateY(0);
+  }
+  
+  .project-image {
+    height: 18rem;
+  }
+  
+  /* Fix skill categories on mobile */
+  .skill-category {
+    transform: translateX(0) !important;
+    margin-bottom: var(--space-md);
+  }
+  
+  .social-links {
+    transform: translateX(0);
+  }
+  
   /* Footer */
   .footer-content {
     flex-direction: column;
