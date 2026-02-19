@@ -5,6 +5,101 @@
  */
 
 /* ---------- KEYFRAME ANIMATIONS ---------- */
+
+/* Random effect animations */
+@keyframes randomGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px var(--color-accent-1);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--color-accent-1), 0 0 30px var(--color-accent-2);
+  }
+}
+
+@keyframes randomShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes randomRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes randomBlink {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes randomPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Random effect classes */
+.random-glow {
+  animation: randomGlow 3s ease-in-out infinite;
+}
+
+.random-shake {
+  animation: randomShake 0.5s ease-in-out;
+}
+
+.random-rotate {
+  animation: randomRotate 20s linear infinite;
+}
+
+.random-blink {
+  animation: randomBlink 2s ease-in-out infinite;
+}
+
+.random-pulse {
+  animation: randomPulse 2s ease-in-out infinite;
+}
+
+/* Apply random effects to various elements */
+.section-title:hover {
+  animation: randomGlow 2s ease-in-out;
+}
+
+.btn:hover {
+  animation: randomPulse 0.6s ease-in-out;
+}
+
+.project-card:hover {
+  animation: randomGlow 3s ease-in-out infinite;
+}
+
+.skill-tag:hover {
+  animation: randomShake 0.3s ease-in-out;
+}
+
+.terminal-tag::after {
+  content: '_';
+  animation: randomBlink 1s ease-in-out infinite;
+}
 @keyframes fadeIn {
   from {
     opacity: 0;

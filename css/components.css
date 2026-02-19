@@ -5,6 +5,57 @@
  */
 
 /* ---------- NAVIGATION ---------- */
+
+/* Random navigation effects */
+.nav-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--color-accent-1), transparent);
+  transition: left 0.5s ease;
+}
+
+.nav-item:hover::before {
+  left: 100%;
+}
+
+.nav-link {
+  position: relative;
+  z-index: 1;
+}
+
+/* Random logo cursor effect */
+.logo-cursor {
+  animation: randomBlink 1s ease-in-out infinite;
+}
+
+/* Random footer effects */
+.footer-links a {
+  position: relative;
+}
+
+.footer-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent-1);
+  transition: width 0.3s ease;
+}
+
+.footer-links a:hover::after {
+  width: 100%;
+}
 .navigation {
   position: fixed;
   top: 0;
@@ -1062,6 +1113,69 @@
 }
 
 /* ---------- CONTACT FORM ---------- */
+
+/* Random contact effects */
+.contact-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-link::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: var(--color-accent-1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+  z-index: -1;
+}
+
+.contact-link:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+.social-link {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.social-link:hover {
+  transform: translateY(-3px) scale(1.1);
+}
+
+.social-link:nth-child(odd):hover {
+  transform: translateY(-3px) scale(1.1) rotate(5deg);
+}
+
+.social-link:nth-child(even):hover {
+  transform: translateY(-3px) scale(1.1) rotate(-5deg);
+}
+
+/* Random input effects */
+.input-container {
+  position: relative;
+}
+
+.input-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--color-accent-1), transparent);
+  transition: width 0.3s ease;
+  pointer-events: none;
+}
+
+.input-container:focus-within::before {
+  width: 100%;
+}
 .contact-form {
   width: 100%;
 }
