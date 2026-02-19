@@ -281,24 +281,27 @@ initAllAnimations();
 
 // Initialize scroll reveal animations
 function initScrollReveal() {
-  const revealElements = document.querySelectorAll('.reveal');
-  
-  // Create intersection observer
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-      }
+  // Small delay to let sections get their .reveal class from initSmoothTransitions
+  setTimeout(() => {
+    const revealElements = document.querySelectorAll('.reveal');
+    
+    // Create intersection observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
     });
-  }, {
-    threshold: 0.15, // Trigger when 15% of the element is visible
-    rootMargin: '0px 0px -60px 0px' // Negative bottom margin to trigger earlier
-  });
-  
-  // Observe all reveal elements
-  revealElements.forEach(element => {
-    observer.observe(element);
-  });
+    
+    // Observe all reveal elements
+    revealElements.forEach(element => {
+      observer.observe(element);
+    });
+  }, 100);
 }
 
 // Initialize hover animations

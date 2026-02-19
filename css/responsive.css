@@ -73,8 +73,8 @@
     overflow-x: auto;
     padding-bottom: var(--space-xs);
     justify-content: flex-start;
-    margin-left: -var(--space-sm);
-    margin-right: -var(--space-sm);
+    margin-left: calc(-1 * var(--space-sm));
+    margin-right: calc(-1 * var(--space-sm));
     padding-left: var(--space-sm);
     padding-right: var(--space-sm);
     -webkit-overflow-scrolling: touch;

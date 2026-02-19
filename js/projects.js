@@ -726,23 +726,34 @@ document.addEventListener('DOMContentLoaded', () => {
     featuredRepos: githubConfig.featuredRepos
   });
 
+  // Safety timeout: if skills section still shows loading after 5s, show fallback
+  const skillsTimeout = setTimeout(() => {
+    if (skillsSection && skillsSection.querySelector('.skills-loading')) {
+      console.warn('Skills loading timed out — showing fallback.');
+      displayFallbackSkills();
+    }
+  }, 5000);
+
   // Fetch GitHub repos and skills if credentials exist
   if (githubConfig.token && githubConfig.username) {
     // First fetch skills from all repositories
     fetchUserSkills().then(() => {
+      clearTimeout(skillsTimeout);
       // Then fetch pinned repositories
       fetchRepositories();
     }).catch(error => {
+      clearTimeout(skillsTimeout);
       console.error('Error fetching skills:', error);
+      displayFallbackSkills();
       // Still try to fetch repositories even if skills fetch fails
       fetchRepositories();
     });
   } else {
+    clearTimeout(skillsTimeout);
     // Show fallback skills and projects if credentials are missing
     displayFallbackSkills();
     displayFallbackProjects();
     
-    // Show error message
     console.warn('GitHub credentials are missing. Using fallback data.');
   }
 });

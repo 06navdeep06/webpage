@@ -802,11 +802,31 @@
 }
 
 /* Projects loading animation */
-.projects-loading {
+.projects-loading,
+.skills-loading {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: var(--space-xl) 0;
+  grid-column: 1 / -1;
+  gap: var(--space-sm);
+}
+
+.skills-loading p {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+
+.projects-error {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--space-xl) 0;
+  color: var(--color-text-secondary);
+}
+
+.projects-error .btn {
+  margin-top: var(--space-md);
 }
 
 .loader {
@@ -816,6 +836,24 @@
   border-top-color: var(--color-accent-1);
   border-radius: 50%;
   animation: spin 1s infinite linear;
+}
+
+/* ---------- ABOUT SECTION ---------- */
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.about-paragraph {
+  color: var(--color-text-secondary);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+}
+
+.about-paragraph:first-child {
+  font-size: var(--text-md);
+  color: var(--color-text-primary);
 }
 
 /* ---------- CONTACT FORM ---------- */
