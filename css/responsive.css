@@ -121,6 +121,23 @@
     height: 18rem;
   }
   
+  /* GIFs on mobile */
+  .gif-hero {
+    max-width: 20rem;
+  }
+  
+  .gif-about-secondary {
+    display: none;
+  }
+  
+  .gif-contact {
+    max-width: 18rem;
+  }
+  
+  .terminal-block {
+    clip-path: none;
+  }
+  
   /* Fix skill categories on mobile */
   .skill-category {
     transform: translateX(0) !important;

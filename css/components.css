@@ -838,6 +838,150 @@
   animation: spin 1s infinite linear;
 }
 
+/* ---------- TERMINAL UI ELEMENTS ---------- */
+.terminal-tag {
+  display: inline-block;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: var(--text-sm);
+  color: var(--color-accent-3);
+  background-color: rgba(0, 229, 179, 0.08);
+  padding: 0.4rem 1.2rem;
+  margin-bottom: var(--space-md);
+  border-left: 2px solid var(--color-accent-3);
+  letter-spacing: 0.05em;
+}
+
+.terminal-block {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  margin-bottom: var(--space-lg);
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 98% 100%, 0 100%);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.2rem;
+  background-color: var(--color-bg-tertiary);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.terminal-dot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.terminal-dot.red { background-color: #FF5F56; }
+.terminal-dot.yellow { background-color: #FFBD2E; }
+.terminal-dot.green { background-color: #27C93F; }
+
+.terminal-title {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  margin-left: auto;
+}
+
+.terminal-body {
+  padding: 1.2rem;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+
+.terminal-prompt {
+  color: var(--color-accent-3);
+  font-weight: var(--weight-bold);
+  margin-right: 0.6rem;
+}
+
+/* ---------- LOGO CURSOR ---------- */
+.logo-cursor {
+  color: var(--color-accent-1);
+  animation: blink-cursor 1s step-end infinite;
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ---------- GIF EMBEDS ---------- */
+.gif-embed {
+  border: 2px solid var(--color-border);
+  clip-path: polygon(0 0, 100% 0, 97% 97%, 3% 100%);
+  transition: all 0.4s ease;
+}
+
+.gif-embed:hover {
+  border-color: var(--color-accent-2);
+  transform: rotate(-1deg) scale(1.02);
+}
+
+.gif-hero {
+  max-width: 28rem;
+  margin: 0 auto var(--space-lg);
+  display: block;
+  opacity: 0.85;
+}
+
+.hero-gif {
+  margin: var(--space-md) 0;
+}
+
+.gif-about {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: var(--space-md);
+}
+
+.gif-about-secondary {
+  width: 100%;
+  max-width: 100%;
+  opacity: 0.7;
+  clip-path: polygon(3% 0, 100% 3%, 97% 100%, 0 97%);
+}
+
+.gif-philosophy {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: var(--space-md);
+}
+
+.gif-contact {
+  width: 100%;
+  max-width: 24rem;
+  margin: var(--space-md) 0;
+  opacity: 0.8;
+}
+
+/* ---------- FUN QUOTE ---------- */
+.fun-quote {
+  background-color: var(--color-bg-card);
+  padding: var(--space-md);
+  border-left: 3px solid var(--color-accent-1);
+  clip-path: polygon(0 0, 100% 2%, 97% 100%, 0 98%);
+}
+
+.fun-quote p {
+  font-family: var(--font-secondary);
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+  font-style: italic;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.fun-quote span {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+}
+
 /* ---------- ABOUT SECTION ---------- */
 .about-text {
   display: flex;

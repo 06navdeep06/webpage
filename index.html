@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creative Developer Portfolio</title>
+    <title>navdeep.dev // Backend Engineer</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/globals.css">
     <link rel="stylesheet" href="css/layout.css">
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Cursor -->
@@ -25,7 +25,7 @@
     <nav class="navigation">
         <div class="nav-container">
             <div class="logo">
-                <a href="#" class="logo-text">Portfolio</a>
+                <a href="#" class="logo-text">~/navdeep<span class="logo-cursor">_</span></a>
             </div>
             <div class="nav-toggle">
                 <div class="bar"></div>
@@ -51,11 +51,15 @@
         <div class="noise-overlay"></div>
         <canvas id="hero-canvas"></canvas>
         <div class="hero-content">
-            <h1 class="glitch-text" data-text="Developer & Creative Technologist">Developer & Creative Technologist</h1>
-            <p class="hero-tagline">Crafting digital experiences at the intersection of code and creativity</p>
+            <div class="terminal-tag">$ whoami</div>
+            <h1 class="glitch-text" data-text="Backend Engineer">Backend Engineer</h1>
+            <p class="hero-tagline">I talk to databases so you don't have to. APIs, servers, and the dark arts of making things work at 3 AM.</p>
+            <div class="hero-gif">
+                <img src="https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif" alt="coding gif" class="gif-embed gif-hero">
+            </div>
             <div class="hero-cta">
-                <a href="#projects" class="btn btn-primary">View Projects</a>
-                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                <a href="#projects" class="btn btn-primary"><i class="fas fa-terminal"></i> &nbsp;View Projects</a>
+                <a href="#contact" class="btn btn-secondary"><i class="fas fa-paper-plane"></i> &nbsp;Ping Me</a>
             </div>
         </div>
         <div class="scroll-indicator">
@@ -74,52 +78,57 @@
     <section id="about" class="about-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">About Me</h2>
+                <h2 class="section-title">// About Me</h2>
                 <div class="section-line"></div>
             </div>
             <div class="about-content">
                 <div class="about-text">
-                    <p class="about-paragraph">I build digital experiences that reject the sterile, templated web. Code is my medium—raw, expressive, and deliberate. I'm drawn to projects that challenge the boundary between function and form, where technical decisions become artistic ones.</p>
-                    <p class="about-paragraph">I refuse to create another soulless dashboard or generic landing page. What drives me is crafting systems with personality—where every interaction feels intentional, not algorithmic. I value the slight irregularities that make interfaces human.</p>
-                    <p class="about-paragraph">When I'm not coding, I'm deconstructing design systems or sketching impossible interfaces. The web doesn't need more sameness—it needs more courage.</p>
+                    <div class="terminal-block">
+                        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span> <span class="terminal-title">navdeep@dev:~</span></div>
+                        <div class="terminal-body">
+                            <p><span class="terminal-prompt">$</span> cat about.txt</p>
+                        </div>
+                    </div>
+                    <p class="about-paragraph">Backend engineer who lives in the terminal. I architect APIs, wrangle databases, and build the invisible infrastructure that powers the things people actually see. If it scales, it's probably because I lost sleep over it.</p>
+                    <p class="about-paragraph">I don't just write code — I debug at 2 AM with a cup of coffee and a suspicious amount of confidence. My commits tell stories, my logs tell the truth, and my servers... well, they mostly stay up.</p>
+                    <p class="about-paragraph">When I'm not refactoring someone else's spaghetti code, I'm exploring new frameworks, contributing to open source, or explaining to non-devs why "it works on my machine" is a valid statement.</p>
                 </div>
                 <div class="about-image">
-                    <div class="portrait-container">
-                        <div class="portrait-frame"></div>
-                        <div class="portrait-effects"></div>
-                    </div>
+                    <img src="https://media.giphy.com/media/ZVik7pBtu9dNS/giphy.gif" alt="typing code" class="gif-embed gif-about">
+                    <img src="https://media.giphy.com/media/13HgwGsXF0aiGY/giphy.gif" alt="hacker coding" class="gif-embed gif-about-secondary">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Design Philosophy Section -->
+    <!-- Dev Philosophy Section -->
     <section id="philosophy" class="philosophy-section">
         <div class="container">
             <div class="philosophy-content">
                 <div class="philosophy-text">
-                    <h2 class="philosophy-title">Design Philosophy</h2>
+                    <h2 class="philosophy-title">/* How I Build */</h2>
                     <div class="philosophy-line"></div>
                     <div class="philosophy-blocks">
                         <div class="philosophy-block">
-                            <h3>Color as Emotion</h3>
-                            <p>I don't use colors because they're trendy. My palette is deliberately jarring—vibrant oranges against deep purples—because digital spaces should provoke feeling, not fade into the background.</p>
+                            <h3><i class="fas fa-server"></i> &nbsp;Backend First</h3>
+                            <p>A pretty frontend on a broken backend is just a fancy loading screen. I build from the database up — solid schemas, clean APIs, proper error handling. The foundation matters more than the paint job.</p>
                         </div>
                         <div class="philosophy-block">
-                            <h3>Type with Attitude</h3>
-                            <p>Typography isn't just for reading; it's for experiencing. I pair geometric sans with unexpected sizing to create tension between what's important and what's essential.</p>
+                            <h3><i class="fas fa-bug"></i> &nbsp;Debug Like a Detective</h3>
+                            <p>Every bug is a mystery novel. I read the logs, follow the stack trace, question every assumption. console.log is my magnifying glass, and I'm not afraid to use it 47 times in one file.</p>
                         </div>
                         <div class="philosophy-block">
-                            <h3>Movement with Intent</h3>
-                            <p>Nothing moves on my site without reason. Animations aren't decorations—they're conversations, guiding you through my thinking process with deliberate pacing and unexpected pauses.</p>
+                            <h3><i class="fas fa-rocket"></i> &nbsp;Ship It, Then Fix It</h3>
+                            <p>Perfect is the enemy of deployed. I believe in iterating fast, breaking things in staging (never in prod... mostly), and learning from real-world feedback over theoretical perfection.</p>
                         </div>
                     </div>
                 </div>
                 <div class="philosophy-visual">
-                    <div class="color-block color-accent-1"></div>
-                    <div class="color-block color-accent-2"></div>
-                    <div class="color-block color-accent-3"></div>
-                    <div class="type-sample">Aa</div>
+                    <img src="https://media.giphy.com/media/QNFhOolVeCzPQ2Mx85/giphy.gif" alt="this is fine" class="gif-embed gif-philosophy">
+                    <div class="fun-quote">
+                        <p>"It works on my machine"</p>
+                        <span>— Every developer, ever</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,7 +138,7 @@
     <section id="skills" class="skills-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Skills & Tools</h2>
+                <h2 class="section-title">$ apt list --installed</h2>
                 <div class="section-line"></div>
             </div>
             <div class="skills-container">
@@ -140,7 +149,7 @@
                 <div id="skills-section" class="skills-categories">
                     <div class="skills-loading">
                         <div class="loader"></div>
-                        <p>Analyzing GitHub repositories to extract skills...</p>
+                        <p>Scanning repos for tech stack...</p>
                     </div>
                 </div>
             </div>
@@ -151,7 +160,7 @@
     <section id="projects" class="projects-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Projects</h2>
+                <h2 class="section-title">git log --oneline</h2>
                 <div class="section-line"></div>
             </div>
             <div class="projects-grid" id="projects-grid">
@@ -167,20 +176,21 @@
     <section id="contact" class="contact-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Get In Touch</h2>
+                <h2 class="section-title">ssh connect</h2>
                 <div class="section-line"></div>
             </div>
             <div class="contact-content">
                 <div class="contact-info">
                     <h3>Let's Connect</h3>
-                    <p>Have a project in mind or just want to chat? Feel free to reach out!</p>
+                    <p>Got a project that needs a backend brain? Or just want to argue about tabs vs spaces? My inbox is open.</p>
+                    <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="cat typing" class="gif-embed gif-contact">
                     <div class="contact-links">
-                        <a href="mailto:hello@example.com" class="contact-link email-link">
+                        <a href="mailto:06navdeep06@gmail.com" class="contact-link email-link">
                             <i class="fas fa-envelope"></i>
-                            <span>hello@example.com</span>
+                            <span>06navdeep06@gmail.com</span>
                         </a>
                         <div class="social-links">
-                            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="social-link github-link" aria-label="GitHub Profile">
+                            <a href="https://github.com/06navdeep06" target="_blank" rel="noopener noreferrer" class="social-link github-link" aria-label="GitHub Profile">
                                 <i class="fab fa-github" aria-hidden="true"></i>
                             </a>
                             <a href="https://linkedin.com/in/" target="_blank" rel="noopener noreferrer" class="social-link linkedin-link" aria-label="LinkedIn Profile">
@@ -230,7 +240,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <a href="#" class="logo-text">Portfolio</a>
+                    <a href="#" class="logo-text">~/navdeep<span class="logo-cursor">_</span></a>
                 </div>
                 <div class="footer-nav">
                     <ul class="footer-links">
@@ -243,7 +253,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="copyright">&copy; <span id="current-year"></span> | Designed & Built with ❤️</p>
+                <p class="copyright">&copy; <span id="current-year"></span> | Built with caffeine, stubbornness & <span style="color:var(--color-accent-1)">git push --force</span></p>
             </div>
         </div>
     </footer>
