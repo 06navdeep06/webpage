@@ -1,0 +1,403 @@
+/* 
+ * responsive.css
+ * Responsive design rules for different screen sizes
+ * Ensures the portfolio looks great on all devices
+ */
+
+/* ---------- BASE RESPONSIVE RULES ---------- */
+/* These are in addition to the responsive rules in layout.css */
+
+/* ---------- MOBILE DEVICES (< 580px) ---------- */
+@media (max-width: 579px) {
+  /* Typography adjustments */
+  :root {
+    --text-4xl: 4.5rem; /* Smaller headline on mobile */
+    --text-3xl: 3.6rem;
+    --text-2xl: 3rem;
+  }
+  
+  /* Container padding */
+  .container {
+    padding: 0 var(--space-sm);
+  }
+  
+  /* Section spacing */
+  section {
+    padding: var(--section-spacing-sm) 0;
+  }
+  
+  /* Hero section */
+  .hero-content {
+    padding: 0 var(--space-md);
+    text-align: center;
+  }
+  
+  .hero-tagline {
+    max-width: 100%;
+  }
+  
+  .hero-cta {
+    flex-direction: column;
+    gap: var(--space-sm);
+    width: 100%;
+  }
+  
+  .hero-cta .btn {
+    width: 100%;
+  }
+  
+  /* About section */
+  .about-section .about-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  .about-image {
+    order: -1; /* Image first on mobile */
+    max-width: 80%;
+    margin: 0 auto;
+  }
+  
+  /* Skills section */
+  .skills-section .skills-container {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  .skills-visualization {
+    height: 300px;
+  }
+  
+  /* Projects section */
+  .projects-filter {
+    overflow-x: auto;
+    padding-bottom: var(--space-xs);
+    justify-content: flex-start;
+    margin-left: -var(--space-sm);
+    margin-right: -var(--space-sm);
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .filter-btn {
+    flex-shrink: 0;
+  }
+  
+  .projects-section .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Contact section */
+  .contact-section .contact-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  .contact-info {
+    order: -1; /* Info first on mobile */
+  }
+  
+  /* Footer */
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-md);
+  }
+  
+  .footer-links {
+    justify-content: center;
+  }
+  
+  /* Theme switcher */
+  .theme-switcher {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  
+  .theme-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  /* Dark mode toggle */
+  .dark-mode-toggle {
+    bottom: 6rem;
+    right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+/* ---------- SMALL TABLETS (580px - 767px) ---------- */
+@media (min-width: 580px) and (max-width: 767px) {
+  /* Hero section */
+  .hero-content {
+    padding: 0 var(--space-lg);
+    max-width: 90%;
+  }
+  
+  /* About section */
+  .about-section .about-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+  
+  .about-image {
+    max-width: 60%;
+    margin: 0 auto;
+  }
+  
+  /* Skills section */
+  .skills-section .skills-container {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+  
+  .skills-visualization {
+    height: 350px;
+  }
+  
+  /* Projects section */
+  .projects-section .projects-grid {
+    grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
+  }
+  
+  /* Contact section */
+  .contact-section .contact-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+}
+
+/* ---------- TABLETS (768px - 1023px) ---------- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Hero section */
+  .hero-content {
+    max-width: 80%;
+  }
+  
+  /* About section */
+  .about-section .about-content {
+    grid-template-columns: 2fr 1fr;
+  }
+  
+  /* Skills section */
+  .skills-visualization {
+    height: 400px;
+  }
+  
+  /* Projects section */
+  .projects-section .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Contact section */
+  .contact-section .contact-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- SMALL DESKTOPS (1024px - 1279px) ---------- */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  /* Hero section */
+  .hero-content {
+    max-width: 70%;
+  }
+  
+  /* Projects section */
+  .projects-section .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------- LARGE DESKTOPS (1280px - 1535px) ---------- */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  /* Projects section */
+  .projects-section .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---------- EXTRA LARGE DESKTOPS (1536px+) ---------- */
+@media (min-width: 1536px) {
+  /* Increase base font size for larger screens */
+  html {
+    font-size: 80%; /* Larger base font size for big screens */
+  }
+  
+  /* Container max width */
+  .container {
+    max-width: 1600px;
+  }
+  
+  /* Projects section */
+  .projects-section .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---------- HEIGHT-BASED MEDIA QUERIES ---------- */
+/* For short screens */
+@media (max-height: 700px) {
+  /* Hero section */
+  .hero-section {
+    min-height: 100vh;
+    padding: var(--space-xl) 0;
+  }
+  
+  .scroll-indicator {
+    bottom: 2rem;
+  }
+  
+  /* Reduce section padding */
+  section {
+    padding: var(--section-spacing-sm) 0;
+  }
+}
+
+/* ---------- PRINT STYLES ---------- */
+@media print {
+  /* Hide interactive elements */
+  .navigation,
+  .scroll-indicator,
+  .theme-switcher,
+  .dark-mode-toggle,
+  .cursor-outer,
+  .cursor-inner,
+  .hero-canvas,
+  .skills-canvas,
+  .contact-form,
+  .social-links,
+  .footer {
+    display: none !important;
+  }
+  
+  /* Reset colors for better printing */
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  /* Force page breaks */
+  section {
+    page-break-before: always;
+    padding: 1cm 0;
+  }
+  
+  /* Ensure images print well */
+  img {
+    max-width: 100% !important;
+  }
+  
+  /* Expand all content */
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  
+  /* Show URLs for links */
+  a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    font-style: italic;
+  }
+}
+
+/* ---------- DEVICE-SPECIFIC FIXES ---------- */
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  /* Fix for iOS Safari 100vh issue */
+  .hero-section {
+    height: 100vh; /* Fallback */
+    height: -webkit-fill-available;
+  }
+  
+  /* Fix for iOS Safari sticky hover states */
+  .btn:hover,
+  .nav-links a:hover,
+  .project-card:hover,
+  .social-link:hover {
+    transition: none;
+  }
+}
+
+/* Firefox specific fixes */
+@-moz-document url-prefix() {
+  /* Fix for Firefox scrollbar width issues */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent-2) var(--color-bg-secondary);
+  }
+}
+
+/* ---------- ACCESSIBILITY ENHANCEMENTS ---------- */
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .hero-canvas,
+  .skills-canvas {
+    opacity: 0.5;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  :root {
+    --color-accent-1: #FF0000; /* Bright red */
+    --color-accent-2: #0000FF; /* Bright blue */
+    --color-accent-3: #00FF00; /* Bright green */
+    --color-accent-4: #FFFF00; /* Bright yellow */
+    
+    --color-bg-primary: #000000; /* Pure black */
+    --color-bg-secondary: #111111; /* Very dark gray */
+    --color-bg-tertiary: #222222; /* Dark gray */
+    --color-bg-card: #1A1A1A; /* Card gray */
+    
+    --color-text-primary: #FFFFFF; /* Pure white */
+    --color-text-secondary: #EEEEEE; /* Light gray */
+    --color-text-tertiary: #CCCCCC; /* Medium gray */
+    
+    --color-border: rgba(255, 255, 255, 0.3); /* More visible border */
+  }
+  
+  /* Increase contrast for text on images */
+  .project-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* ---------- ORIENTATION CHANGES ---------- */
+@media (orientation: landscape) and (max-height: 600px) {
+  /* Adjust hero section for landscape on small devices (like phones in landscape) */
+  .hero-section {
+    min-height: 120vh;
+  }
+  
+  .hero-content {
+    padding-top: var(--space-xl);
+  }
+  
+  .hero-cta {
+    flex-direction: row;
+  }
+  
+  /* Adjust navigation for landscape */
+  .nav-links {
+    padding: var(--space-xl) var(--space-md);
+  }
+}

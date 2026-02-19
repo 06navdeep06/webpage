@@ -1,0 +1,194 @@
+/* 
+ * globals.css
+ * Custom color system, typography, and resets
+ * Designed to be bold, experimental, and personal
+ */
+
+/* ---------- RESET & NORMALIZATION ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%; /* 10px base for easier rem calculations */
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-size: 1.6rem;
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  transition: background-color 0.5s ease;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ---------- CUSTOM COLOR SYSTEM ---------- */
+:root {
+  /* Primary palette - Bold, experimental colors */
+  --color-accent-1: #FF3D00; /* Vibrant orange-red */
+  --color-accent-2: #6E00FF; /* Deep electric purple */
+  --color-accent-3: #00E5B3; /* Bright teal */
+  --color-accent-4: #FFCC00; /* Vivid yellow */
+  
+  /* Background colors */
+  --color-bg-primary: #0A0A0F; /* Deep space black */
+  --color-bg-secondary: #13131F; /* Dark blue-black */
+  --color-bg-tertiary: #1D1D2B; /* Dark indigo */
+  --color-bg-card: #1A1A24; /* Slightly lighter dark blue */
+  
+  /* Text colors */
+  --color-text-primary: #F2F2F7; /* Off-white */
+  --color-text-secondary: #AAAAB8; /* Muted lavender-gray */
+  --color-text-tertiary: #6C6C80; /* Deep muted purple-gray */
+  
+  /* Gradient maps */
+  --gradient-primary: linear-gradient(135deg, var(--color-accent-2), var(--color-accent-1));
+  --gradient-secondary: linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));
+  --gradient-tertiary: linear-gradient(135deg, var(--color-accent-1), var(--color-accent-4));
+  
+  /* Experimental accents */
+  --color-glow-1: rgba(255, 61, 0, 0.5); /* Orange-red glow */
+  --color-glow-2: rgba(110, 0, 255, 0.5); /* Purple glow */
+  --color-glow-3: rgba(0, 229, 179, 0.5); /* Teal glow */
+  
+  /* UI Elements */
+  --color-border: rgba(255, 255, 255, 0.08); /* Subtle border */
+  --color-shadow: rgba(0, 0, 0, 0.5); /* Deep shadow */
+  --color-overlay: rgba(10, 10, 15, 0.8); /* Overlay for modals/popups */
+  
+  /* Status colors */
+  --color-success: #00D26A; /* Bright green */
+  --color-error: #FF2D55; /* Bright red */
+  --color-warning: #FFB100; /* Amber */
+  --color-info: #0095FF; /* Bright blue */
+}
+
+/* ---------- TYPOGRAPHY SYSTEM ---------- */
+:root {
+  /* Font families */
+  --font-primary: 'Space Grotesk', sans-serif; /* Modern, geometric sans */
+  --font-secondary: 'Syne', sans-serif; /* Distinctive, artistic sans */
+  
+  /* Font sizes - Major third scale (1.25) */
+  --text-xs: 1.2rem;    /* 12px */
+  --text-sm: 1.4rem;    /* 14px */
+  --text-base: 1.6rem;  /* 16px */
+  --text-md: 2.0rem;    /* 20px */
+  --text-lg: 2.5rem;    /* 25px */
+  --text-xl: 3.125rem;  /* 31.25px */
+  --text-2xl: 3.9rem;   /* 39px */
+  --text-3xl: 4.9rem;   /* 49px */
+  --text-4xl: 6.1rem;   /* 61px */
+  
+  /* Font weights */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  
+  /* Line heights */
+  --leading-none: 1;
+  --leading-tight: 1.2;
+  --leading-snug: 1.4;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.8;
+  --leading-loose: 2;
+  
+  /* Letter spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+}
+
+/* ---------- UTILITY CLASSES ---------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 2.4rem;
+}
+
+/* Text utilities */
+.text-accent-1 { color: var(--color-accent-1); }
+.text-accent-2 { color: var(--color-accent-2); }
+.text-accent-3 { color: var(--color-accent-3); }
+.text-accent-4 { color: var(--color-accent-4); }
+
+/* Background utilities */
+.bg-primary { background-color: var(--color-bg-primary); }
+.bg-secondary { background-color: var(--color-bg-secondary); }
+.bg-tertiary { background-color: var(--color-bg-tertiary); }
+.bg-card { background-color: var(--color-bg-card); }
+
+/* Gradient text - experimental */
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.gradient-text-primary {
+  background-image: var(--gradient-primary);
+}
+
+.gradient-text-secondary {
+  background-image: var(--gradient-secondary);
+}
+
+/* Noise texture overlay */
+.noise-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 10;
+  mix-blend-mode: overlay;
+}

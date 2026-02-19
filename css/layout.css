@@ -1,0 +1,356 @@
+/* 
+ * layout.css
+ * Grid systems, spacing logic, and responsive rules
+ * Designed to be bold, experimental, and personal
+ */
+
+/* ---------- SPACING SYSTEM ---------- */
+:root {
+  /* Base spacing units - non-linear scale for more intentional hierarchy */
+  --space-3xs: 0.4rem;  /* 4px */
+  --space-2xs: 0.8rem;  /* 8px */
+  --space-xs: 1.2rem;   /* 12px */
+  --space-sm: 1.6rem;   /* 16px */
+  --space-md: 2.4rem;   /* 24px */
+  --space-lg: 3.2rem;   /* 32px */
+  --space-xl: 4.8rem;   /* 48px */
+  --space-2xl: 6.4rem;  /* 64px */
+  --space-3xl: 9.6rem;  /* 96px */
+  --space-4xl: 12.8rem; /* 128px */
+  
+  /* Section spacing */
+  --section-spacing-sm: var(--space-2xl);
+  --section-spacing-md: var(--space-3xl);
+  --section-spacing-lg: var(--space-4xl);
+  
+  /* Content max-widths */
+  --content-xs: 54rem;   /* 540px */
+  --content-sm: 72rem;   /* 720px */
+  --content-md: 96rem;   /* 960px */
+  --content-lg: 120rem;  /* 1200px */
+  --content-xl: 144rem;  /* 1440px */
+}
+
+/* ---------- LAYOUT GRID SYSTEM ---------- */
+.grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+/* Custom grid templates */
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Asymmetric grids */
+.grid-1-2 {
+  grid-template-columns: 1fr 2fr;
+}
+
+.grid-2-1 {
+  grid-template-columns: 2fr 1fr;
+}
+
+.grid-1-3 {
+  grid-template-columns: 1fr 3fr;
+}
+
+.grid-3-1 {
+  grid-template-columns: 3fr 1fr;
+}
+
+/* Auto-fit grid for dynamic columns */
+.grid-auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+}
+
+/* Grid gaps */
+.gap-xs { gap: var(--space-xs); }
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
+.gap-xl { gap: var(--space-xl); }
+
+/* ---------- SECTION LAYOUTS ---------- */
+section {
+  position: relative;
+  width: 100%;
+  padding: var(--section-spacing-md) 0;
+  overflow: hidden;
+}
+
+.section-header {
+  margin-bottom: var(--space-xl);
+  position: relative;
+}
+
+.section-title {
+  font-family: var(--font-secondary);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-sm);
+  position: relative;
+  display: inline-block;
+}
+
+.section-line {
+  width: 8rem;
+  height: 0.3rem;
+  background: var(--gradient-primary);
+  margin-top: var(--space-xs);
+  position: relative;
+  overflow: hidden;
+  /* Custom polygon shape instead of standard rectangle */
+  clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%);
+}
+
+/* Hero section - full viewport height */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+}
+
+/* About section - asymmetric layout */
+.about-section .about-content {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+/* Skills section - custom layout */
+.skills-section .skills-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+}
+
+/* Projects section - masonry-inspired grid */
+.projects-section .projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
+  gap: var(--space-lg);
+}
+
+/* Contact section - split layout */
+.contact-section .contact-content {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+/* ---------- CONTAINER SYSTEM ---------- */
+.container {
+  width: 100%;
+  max-width: var(--content-xl);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.container-sm {
+  max-width: var(--content-sm);
+}
+
+.container-md {
+  max-width: var(--content-md);
+}
+
+.container-lg {
+  max-width: var(--content-lg);
+}
+
+/* ---------- SPACING UTILITIES ---------- */
+/* Margin utilities */
+.mt-xs { margin-top: var(--space-xs); }
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+.mt-xl { margin-top: var(--space-xl); }
+
+.mb-xs { margin-bottom: var(--space-xs); }
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+.mb-xl { margin-bottom: var(--space-xl); }
+
+.my-xs { margin-top: var(--space-xs); margin-bottom: var(--space-xs); }
+.my-sm { margin-top: var(--space-sm); margin-bottom: var(--space-sm); }
+.my-md { margin-top: var(--space-md); margin-bottom: var(--space-md); }
+.my-lg { margin-top: var(--space-lg); margin-bottom: var(--space-lg); }
+.my-xl { margin-top: var(--space-xl); margin-bottom: var(--space-xl); }
+
+/* Padding utilities */
+.pt-xs { padding-top: var(--space-xs); }
+.pt-sm { padding-top: var(--space-sm); }
+.pt-md { padding-top: var(--space-md); }
+.pt-lg { padding-top: var(--space-lg); }
+.pt-xl { padding-top: var(--space-xl); }
+
+.pb-xs { padding-bottom: var(--space-xs); }
+.pb-sm { padding-bottom: var(--space-sm); }
+.pb-md { padding-bottom: var(--space-md); }
+.pb-lg { padding-bottom: var(--space-lg); }
+.pb-xl { padding-bottom: var(--space-xl); }
+
+.py-xs { padding-top: var(--space-xs); padding-bottom: var(--space-xs); }
+.py-sm { padding-top: var(--space-sm); padding-bottom: var(--space-sm); }
+.py-md { padding-top: var(--space-md); padding-bottom: var(--space-md); }
+.py-lg { padding-top: var(--space-lg); padding-bottom: var(--space-lg); }
+.py-xl { padding-top: var(--space-xl); padding-bottom: var(--space-xl); }
+
+/* ---------- RESPONSIVE BREAKPOINTS ---------- */
+/* 
+ * Custom breakpoint system using non-standard values
+ * to avoid typical device-based breakpoints
+ */
+
+/* Mobile-first approach */
+@media (min-width: 580px) {
+  :root {
+    --section-spacing-sm: var(--space-2xl);
+    --section-spacing-md: var(--space-3xl);
+  }
+  
+  .container {
+    padding: 0 var(--space-lg);
+  }
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 70%; /* Slightly larger base font size */
+  }
+  
+  .section-title {
+    font-size: var(--text-3xl);
+  }
+  
+  .section-line {
+    width: 12rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --section-spacing-md: var(--space-3xl);
+    --section-spacing-lg: var(--space-4xl);
+  }
+  
+  .container {
+    padding: 0 var(--space-xl);
+  }
+}
+
+@media (min-width: 1440px) {
+  html {
+    font-size: 75%; /* Larger base font size for big screens */
+  }
+  
+  :root {
+    --section-spacing-md: calc(var(--space-3xl) + var(--space-lg));
+    --section-spacing-lg: calc(var(--space-4xl) + var(--space-lg));
+  }
+}
+
+/* ---------- EXPERIMENTAL LAYOUTS ---------- */
+/* Diagonal section dividers */
+.diagonal-top {
+  position: relative;
+}
+
+.diagonal-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10vw;
+  background: inherit;
+  transform-origin: top left;
+  transform: skewY(-5deg);
+  z-index: -1;
+}
+
+.diagonal-bottom {
+  position: relative;
+}
+
+.diagonal-bottom::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10vw;
+  background: inherit;
+  transform-origin: bottom right;
+  transform: skewY(-5deg);
+  z-index: -1;
+}
+
+/* Asymmetric containers */
+.container-asymmetric {
+  width: 95%;
+  margin-left: 0;
+  padding-left: var(--space-lg);
+  max-width: none;
+}
+
+.container-asymmetric-right {
+  width: 95%;
+  margin-right: 0;
+  padding-right: var(--space-lg);
+  margin-left: auto;
+  max-width: none;
+}
+
+/* Offset grid items */
+.offset-top {
+  margin-top: -5rem;
+}
+
+.offset-bottom {
+  margin-bottom: -5rem;
+}
+
+/* Experimental grid layouts */
+.grid-mosaic {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: var(--space-md);
+}
+
+.grid-mosaic > *:nth-child(1) {
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 2;
+}
+
+.grid-mosaic > *:nth-child(2) {
+  grid-column: 4 / span 3;
+  grid-row: 1 / span 1;
+}
+
+.grid-mosaic > *:nth-child(3) {
+  grid-column: 4 / span 2;
+  grid-row: 2 / span 1;
+}
+
+.grid-mosaic > *:nth-child(4) {
+  grid-column: 6 / span 1;
+  grid-row: 2 / span 1;
+}

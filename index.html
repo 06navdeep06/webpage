@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Developer Portfolio</title>
+    <link rel="stylesheet" href="css/globals.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+    <!-- Cursor -->
+    <div class="cursor-outer"></div>
+    <div class="cursor-inner"></div>
+
+    <!-- Navigation -->
+    <nav class="navigation">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="#" class="logo-text">Portfolio</a>
+            </div>
+            <div class="nav-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#about" data-text="About">About</a></li>
+                <li><a href="#philosophy" data-text="Philosophy">Philosophy</a></li>
+                <li><a href="#skills" data-text="Skills">Skills</a></li>
+                <li><a href="#projects" data-text="Projects">Projects</a></li>
+                <li><a href="#contact" data-text="Contact">Contact</a></li>
+                <li class="sound-toggle">
+                    <button id="sound-button" aria-label="Toggle sound">
+                        <i class="fas fa-volume-mute" aria-hidden="true"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="noise-overlay"></div>
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-content">
+            <h1 class="glitch-text" data-text="Developer & Creative Technologist">Developer & Creative Technologist</h1>
+            <p class="hero-tagline">Crafting digital experiences at the intersection of code and creativity</p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <div class="arrow">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">About Me</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="about-paragraph">I build digital experiences that reject the sterile, templated web. Code is my medium—raw, expressive, and deliberate. I'm drawn to projects that challenge the boundary between function and form, where technical decisions become artistic ones.</p>
+                    <p class="about-paragraph">I refuse to create another soulless dashboard or generic landing page. What drives me is crafting systems with personality—where every interaction feels intentional, not algorithmic. I value the slight irregularities that make interfaces human.</p>
+                    <p class="about-paragraph">When I'm not coding, I'm deconstructing design systems or sketching impossible interfaces. The web doesn't need more sameness—it needs more courage.</p>
+                </div>
+                <div class="about-image">
+                    <div class="portrait-container">
+                        <div class="portrait-frame"></div>
+                        <div class="portrait-effects"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design Philosophy Section -->
+    <section id="philosophy" class="philosophy-section">
+        <div class="container">
+            <div class="philosophy-content">
+                <div class="philosophy-text">
+                    <h2 class="philosophy-title">Design Philosophy</h2>
+                    <div class="philosophy-line"></div>
+                    <div class="philosophy-blocks">
+                        <div class="philosophy-block">
+                            <h3>Color as Emotion</h3>
+                            <p>I don't use colors because they're trendy. My palette is deliberately jarring—vibrant oranges against deep purples—because digital spaces should provoke feeling, not fade into the background.</p>
+                        </div>
+                        <div class="philosophy-block">
+                            <h3>Type with Attitude</h3>
+                            <p>Typography isn't just for reading; it's for experiencing. I pair geometric sans with unexpected sizing to create tension between what's important and what's essential.</p>
+                        </div>
+                        <div class="philosophy-block">
+                            <h3>Movement with Intent</h3>
+                            <p>Nothing moves on my site without reason. Animations aren't decorations—they're conversations, guiding you through my thinking process with deliberate pacing and unexpected pauses.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="philosophy-visual">
+                    <div class="color-block color-accent-1"></div>
+                    <div class="color-block color-accent-2"></div>
+                    <div class="color-block color-accent-3"></div>
+                    <div class="type-sample">Aa</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Skills & Tools</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="skills-container">
+                <div class="skills-visualization">
+                    <canvas id="skills-canvas"></canvas>
+                </div>
+                <div class="skills-categories">
+                    <div class="skill-category" data-category="frontend">
+                        <h3>Frontend</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">HTML5</span>
+                            <span class="skill-tag">CSS3</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Vue</span>
+                            <span class="skill-tag">GSAP</span>
+                        </div>
+                    </div>
+                    <div class="skill-category" data-category="backend">
+                        <h3>Backend</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Express</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">Django</span>
+                            <span class="skill-tag">GraphQL</span>
+                        </div>
+                    </div>
+                    <div class="skill-category" data-category="design">
+                        <h3>Design</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">Adobe XD</span>
+                            <span class="skill-tag">Photoshop</span>
+                            <span class="skill-tag">Illustrator</span>
+                        </div>
+                    </div>
+                    <div class="skill-category" data-category="other">
+                        <h3>Other</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">CI/CD</span>
+                            <span class="skill-tag">WebGL</span>
+                            <span class="skill-tag">Three.js</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Projects</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="projects-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="web">Web</button>
+                <button class="filter-btn" data-filter="app">Apps</button>
+                <button class="filter-btn" data-filter="creative">Creative</button>
+            </div>
+            <div class="projects-grid" id="projects-grid">
+                <!-- Projects will be dynamically loaded here -->
+                <div class="projects-loading">
+                    <div class="loader"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get In Touch</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's Connect</h3>
+                    <p>Have a project in mind or just want to chat? Feel free to reach out!</p>
+                    <div class="contact-links">
+                        <a href="mailto:hello@example.com" class="contact-link email-link">
+                            <i class="fas fa-envelope"></i>
+                            <span>hello@example.com</span>
+                        </a>
+                        <div class="social-links">
+                            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="social-link github-link" aria-label="GitHub Profile">
+                                <i class="fab fa-github" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://linkedin.com/in/" target="_blank" rel="noopener noreferrer" class="social-link linkedin-link" aria-label="LinkedIn Profile">
+                                <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" class="social-link twitter-link" aria-label="Twitter Profile">
+                                <i class="fab fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-container">
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-group">
+                            <div class="input-container">
+                                <input type="text" id="name" name="name" required>
+                                <label for="name">Name</label>
+                                <div class="input-border"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-container">
+                                <input type="email" id="email" name="email" required>
+                                <label for="email">Email</label>
+                                <div class="input-border"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-container textarea-container">
+                                <textarea id="message" name="message" required></textarea>
+                                <label for="message">Message</label>
+                                <div class="input-border"></div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary submit-btn">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-icon"><i class="fas fa-paper-plane"></i></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="#" class="logo-text">Portfolio</a>
+                </div>
+                <div class="footer-nav">
+                    <ul class="footer-links">
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#philosophy">Philosophy</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">&copy; <span id="current-year"></span> | Designed & Built with ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Environment config (git-ignored — secrets injected at deploy time) -->
+    <script src="js/env.js"></script>
+
+    <!-- Scripts -->
+    <script src="js/cursor.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/hero.js"></script>
+    <script src="js/skills.js"></script>
+    <script src="js/projects.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/contact.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
