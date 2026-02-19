@@ -345,11 +345,15 @@ document.addEventListener('DOMContentLoaded', () => {
     featuredRepos: githubConfig.featuredRepos
   });
 
-  // Token present → fetch live repos. Missing → show curated fallbacks.
+  // For testing purposes, always show fallback projects
+  // This ensures we have content even if GitHub API has issues
+  console.log('Using fallback projects for reliable display');
+  displayFallbackProjects();
+  
+  // Attempt to fetch GitHub repos in the background if credentials exist
   if (githubConfig.token && githubConfig.username) {
-    fetchRepositories();
-  } else {
-    console.log('Using fallback projects - missing GitHub credentials');
-    displayFallbackProjects();
+    setTimeout(() => {
+      fetchRepositories();
+    }, 500);
   }
 });

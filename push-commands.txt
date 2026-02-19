@@ -1,0 +1,9 @@
+# Run these commands after creating your GitHub repository
+
+# Replace "06navdeep06" with your actual GitHub username if different
+git remote add origin https://github.com/06navdeep06/creative-portfolio.git
+git branch -M main
+git push -u origin main
+
+# If the above doesn't work, try:
+# git remote set-url origin https://06navdeep06@github.com/06navdeep06/creative-portfolio.git
