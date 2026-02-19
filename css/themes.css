@@ -255,6 +255,10 @@ body[data-theme="experimental"] .section-line {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+  mask-image: radial-gradient(circle, white 100%, black 100%);
+  clip-path: circle(50% at 50% 50%);
+  -webkit-clip-path: circle(50% at 50% 50%);
 }
 
 .theme-btn::before {
@@ -284,6 +288,8 @@ body[data-theme="experimental"] .section-line {
   border-color: var(--color-accent-1);
   box-shadow: 0 0 20px rgba(var(--color-accent-1-rgb), 0.4);
   transform: scale(1.1);
+  clip-path: circle(50% at 50% 50%);
+  -webkit-clip-path: circle(50% at 50% 50%);
 }
 
 .theme-default {
