@@ -138,8 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Draw legend
   const drawLegend = (cx, cy, r) => {
-    const startX = cx + r + 40;
-    let y = cy - (skills.length * 28) / 2;
+    const startX = cx + r + 50;
+    let y = cy - (skills.length * 34) / 2;
 
     ctx.textBaseline = 'middle';
 
@@ -149,18 +149,18 @@ document.addEventListener('DOMContentLoaded', () => {
       // Swatch
       ctx.fillStyle = skill.color;
       ctx.beginPath();
-      const swatchSize = isHovered ? 14 : 10;
-      ctx.roundRect(startX, y - swatchSize / 2, swatchSize, swatchSize, 2);
+      const swatchSize = isHovered ? 16 : 12;
+      ctx.roundRect(startX, y - swatchSize / 2, swatchSize, swatchSize, 3);
       ctx.fill();
 
       // Label
       ctx.fillStyle = isHovered ? '#F2F2F7' : '#AAAAB8';
       ctx.font = isHovered
-        ? 'bold 14px "Space Grotesk", sans-serif'
-        : '13px "Space Grotesk", sans-serif';
-      ctx.fillText(skill.label, startX + 22, y);
+        ? 'bold 16px "Space Grotesk", sans-serif'
+        : '15px "Space Grotesk", sans-serif';
+      ctx.fillText(skill.label, startX + 26, y);
 
-      y += 32;
+      y += 38;
     });
   };
 
@@ -178,10 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const ease = 1 - Math.pow(1 - animProgress, 3); // ease-out cubic
 
-    const cx = w * 0.38;
-    const cy = h * 0.48;
-    const r = Math.min(w * 0.28, h * 0.38, 160);
-    const depth = 28;
+    const cx = w * 0.36;
+    const cy = h * 0.50;
+    const r = Math.min(w * 0.30, h * 0.40, 210);
+    const depth = 32;
 
     // Draw slices back-to-front (bottom half first, then top half)
     // Build slice angles

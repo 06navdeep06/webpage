@@ -846,7 +846,7 @@
 .skillchart-wrapper {
   position: relative;
   width: 100%;
-  height: 44rem;
+  height: 56rem;
   perspective: 1000px;
 }
 
@@ -858,13 +858,13 @@
 
 @media (max-width: 767px) {
   .skillchart-wrapper {
-    height: 36rem;
+    height: 46rem;
   }
 }
 
 @media (max-width: 579px) {
   .skillchart-wrapper {
-    height: 30rem;
+    height: 38rem;
   }
 }
 
