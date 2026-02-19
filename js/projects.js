@@ -5,7 +5,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const projectsGrid = document.getElementById('projects-grid');
-  const filterButtons = document.querySelectorAll('.filter-btn');
   const skillsSection = document.getElementById('skills-section') || document.createElement('div');
   
   // Read credentials from runtime env config (js/env.js)
@@ -164,18 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const technologies = detectTechnologies(repo);
     const projectIntent = getProjectIntent(repo);
     
-    // Generate a unique gradient background per project using category + name hash
-    const categoryGradients = {
-      web: 'linear-gradient(135deg, var(--color-accent-1) 0%, var(--color-accent-2) 100%)',
-      app: 'linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent-3) 100%)',
-      creative: 'linear-gradient(135deg, var(--color-accent-3) 0%, var(--color-accent-1) 100%)'
-    };
-    const gradient = categoryGradients[category] || categoryGradients.web;
-
-    // Simple hash from repo name to vary the angle
-    const nameHash = repo.name.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
-    const angle = (nameHash % 360);
-    const projectGradient = gradient.replace('135deg', `${angle}deg`);
+    // Use GitHub's OpenGraph image for the repo (works for all public repos)
+    const repoOwner = githubConfig.username || '06navdeep06';
+    const imageUrl = `https://opengraph.githubassets.com/1/${repoOwner}/${repo.name}`;
     
     // Create tags HTML - limit to 3 most important technologies
     const tagsHtml = technologies.slice(0, 3).map(tech => 
@@ -202,8 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     return `
       <div class="project-card" data-category="${category}" tabindex="0" role="article" aria-labelledby="project-${repo.name.replace(/\s+/g, '-').toLowerCase()}">
-        <div class="project-image" style="background:${projectGradient};display:flex;align-items:center;justify-content:center;">
-          <span style="font-family:var(--font-secondary);font-size:var(--text-2xl);font-weight:700;color:rgba(255,255,255,0.9);text-transform:uppercase;letter-spacing:0.05em;">${repo.name.charAt(0)}</span>
+        <div class="project-image">
+          <img src="${imageUrl}" alt="${repo.name}" loading="lazy">
           <div class="project-overlay">
             <div class="project-tags" aria-label="Project technologies">
               ${tagsHtml}
@@ -594,9 +584,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // Update projects grid
       projectsGrid.innerHTML = projectsHtml;
       
-      // Initialize filter functionality
-      initializeFilter();
-      
       // Add animation classes to project cards
       const projectCards = document.querySelectorAll('.project-card');
       projectCards.forEach((card, index) => {
@@ -627,36 +614,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
   
-  // Initialize filter functionality
-  const initializeFilter = () => {
-    const projectCards = document.querySelectorAll('.project-card');
-    
-    filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        // Remove active class from all buttons
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        
-        // Add active class to clicked button
-        button.classList.add('active');
-        
-        // Get filter value
-        const filter = button.getAttribute('data-filter');
-        
-        // Filter projects
-        projectCards.forEach(card => {
-          if (filter === 'all' || card.getAttribute('data-category') === filter) {
-            card.style.display = 'block';
-            setTimeout(() => {
-              card.classList.add('fadeInUp', 'animated');
-            }, 100);
-          } else {
-            card.style.display = 'none';
-            card.classList.remove('fadeInUp', 'animated');
-          }
-        });
-      });
-    });
-  };
   
   // Fallback projects in case GitHub API fails or for development
   const fallbackProjects = [
@@ -716,7 +673,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
     
     projectsGrid.innerHTML = projectsHtml;
-    initializeFilter();
     
     // Add animation classes
     const projectCards = document.querySelectorAll('.project-card');
