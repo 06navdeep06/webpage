@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>navdeep.dev // Backend Engineer</title>
+    <title>navdeep.dev // Developer</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/globals.css">
     <link rel="stylesheet" href="css/layout.css">
@@ -52,7 +52,7 @@
         <canvas id="hero-canvas"></canvas>
         <div class="hero-content">
             <div class="terminal-tag">$ whoami</div>
-            <h1 class="glitch-text" data-text="Backend Engineer">Backend Engineer</h1>
+            <h1 class="glitch-text" data-text="Developer">Developer</h1>
             <p class="hero-tagline">APIs, databases, and systems that don't break at 3 AM.</p>
             <div class="hero-gif">
                 <img src="https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif" alt="coding gif" class="gif-embed gif-hero">
@@ -89,8 +89,8 @@
                             <p><span class="terminal-prompt">$</span> cat about.txt</p>
                         </div>
                     </div>
-                    <p class="about-paragraph">Backend engineer. I build the stuff behind the stuff — APIs, services, infra. Mostly Node, Python, and whatever gets the job done.</p>
-                    <p class="about-paragraph">I like clean logs, fast queries, and code that reads like it was written by someone who sleeps. Open source contributor when time allows.</p>
+                    <p class="about-paragraph">Backend dev. I build the stuff behind the stuff — APIs, services, infra. Mostly Node, Python, and whatever gets the job done.</p>
+                    
                 </div>
                 <div class="about-image">
                     <img src="https://media.giphy.com/media/ZVik7pBtu9dNS/giphy.gif" alt="typing code" class="gif-embed gif-about">
@@ -154,6 +154,19 @@
         </div>
     </section>
 
+    <!-- Skill Chart Section -->
+    <section id="skillchart" class="skillchart-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Tech Stack</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="skillchart-wrapper">
+                <canvas id="skill-pie-canvas"></canvas>
+            </div>
+        </div>
+    </section>
+
     <!-- Projects Section -->
     <section id="projects" class="projects-section">
         <div class="container">
@@ -183,19 +196,14 @@
                     <p>Have something in mind? Let's talk.</p>
                     <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="cat typing" class="gif-embed gif-contact">
                     <div class="contact-links">
-                        <a href="mailto:06navdeep06@gmail.com" class="contact-link email-link">
+                        <a href="mailto:nepal00909@gmail.com" class="contact-link email-link">
                             <i class="fas fa-envelope"></i>
-                            <span>06navdeep06@gmail.com</span>
+                            <span>nepal00909@gmail.com</span>
                         </a>
                         <div class="social-links">
                             <a href="https://github.com/06navdeep06" target="_blank" rel="noopener noreferrer" class="social-link github-link" aria-label="GitHub Profile">
                                 <i class="fab fa-github" aria-hidden="true"></i>
                             </a>
-                            <a href="https://linkedin.com/in/" target="_blank" rel="noopener noreferrer" class="social-link linkedin-link" aria-label="LinkedIn Profile">
-                                <i class="fab fa-linkedin-in" aria-hidden="true"></i>
-                            </a>
-                            <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" class="social-link twitter-link" aria-label="Twitter Profile">
-                                <i class="fab fa-twitter" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
@@ -264,6 +272,7 @@
     <script src="js/navigation.js"></script>
     <script src="js/hero.js"></script>
     <script src="js/skills.js"></script>
+    <script src="js/skillchart.js"></script>
     <script src="js/projects.js"></script>
     <script src="js/animations.js"></script>
     <script src="js/contact.js"></script>

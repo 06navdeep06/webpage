@@ -838,6 +838,36 @@
   animation: spin 1s infinite linear;
 }
 
+/* ---------- SKILL CHART SECTION ---------- */
+.skillchart-section {
+  background: var(--color-bg-secondary);
+}
+
+.skillchart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 44rem;
+  perspective: 1000px;
+}
+
+#skill-pie-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .skillchart-wrapper {
+    height: 36rem;
+  }
+}
+
+@media (max-width: 579px) {
+  .skillchart-wrapper {
+    height: 30rem;
+  }
+}
+
 /* ---------- TERMINAL UI ELEMENTS ---------- */
 .terminal-tag {
   display: inline-block;
