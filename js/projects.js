@@ -221,42 +221,53 @@ document.addEventListener('DOMContentLoaded', () => {
       // GitHub API URL for user's repositories
       const apiUrl = `https://api.github.com/graphql`;
       
-      // GraphQL query to fetch all public repositories with languages and topics
-      const graphqlQuery = {
-        query: `{
-          user(login: "${githubConfig.username}") {
-            repositories(first: 100, privacy: PUBLIC, orderBy: {field: UPDATED_AT, direction: DESC}) {
-              nodes {
-                name
-                languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
-                  edges {
-                    size
-                    node {
-                      name
+          // Check if we have a token for authentication
+      const hasToken = !!githubConfig.token;
+      let response;
+      
+      if (hasToken) {
+        // GraphQL query to fetch all public repositories with languages and topics
+        const graphqlQuery = {
+          query: `{
+            user(login: "${githubConfig.username}") {
+              repositories(first: 100, privacy: PUBLIC, orderBy: {field: UPDATED_AT, direction: DESC}) {
+                nodes {
+                  name
+                  languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+                    edges {
+                      size
+                      node {
+                        name
+                      }
                     }
                   }
-                }
-                repositoryTopics(first: 20) {
-                  nodes {
-                    topic {
-                      name
+                  repositoryTopics(first: 20) {
+                    nodes {
+                      topic {
+                        name
+                      }
                     }
                   }
                 }
               }
             }
-          }
-        }`
-      };
-      
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${githubConfig.token}`
-        },
-        body: JSON.stringify(graphqlQuery)
-      });
+          }`
+        };
+        
+        response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${githubConfig.token}`
+          },
+          body: JSON.stringify(graphqlQuery)
+        });
+      } else {
+        // For GitHub Pages: Fetch repositories using REST API (no auth required for public repos)
+        console.log('No GitHub token found. Using REST API for public repositories.');
+        const restApiUrl = `https://api.github.com/users/${githubConfig.username}/repos?sort=updated&per_page=100`;
+        response = await fetch(restApiUrl);
+      }
       
       if (!response.ok) {
         throw new Error(`GitHub API error: ${response.status}`);
@@ -265,7 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const responseData = await response.json();
       
       // Process repositories to extract skills
-      if (responseData.data && responseData.data.user && responseData.data.user.repositories) {
+      if (hasToken && responseData.data && responseData.data.user && responseData.data.user.repositories) {
+        // Process GraphQL response
         const repos = responseData.data.user.repositories.nodes;
         
         // Collect all languages and their total byte size across repos
@@ -354,27 +366,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update skills section if it exists
         if (skillsSection) {
           skillsSection.innerHTML = `
-            <h2>My Skills</h2>
-            <div class="skills-grid">
-              ${skillsHtml}
-            </div>
-          `;
-        }
-        
-        return {
-          languages: sortedLanguages,
-          topics: sortedTopics,
-          categories: skillCategories
-        };
-      }
-      
-      return null;
-    } catch (error) {
-      console.error('Error fetching user skills:', error);
-      return null;
-    }
-  };
-  
   // Fetch repositories from GitHub API
   const fetchRepositories = async () => {
     try {
@@ -390,49 +381,60 @@ document.addEventListener('DOMContentLoaded', () => {
       
       console.log(`Fetching repos for user: ${githubConfig.username}`);
       
-      // Using GraphQL API to fetch pinned repositories
-      const graphqlQuery = {
-        query: `{
-          user(login: "${githubConfig.username}") {
-            pinnedItems(first: 6, types: REPOSITORY) {
-              nodes {
-                ... on Repository {
-                  name
-                  description
-                  url
-                  homepageUrl
-                  languages(first: 5) {
-                    nodes {
-                      name
-                    }
-                  }
-                  repositoryTopics(first: 10) {
-                    nodes {
-                      topic {
+      // Check if we have a token for authentication
+      const hasToken = !!githubConfig.token;
+      let response;
+      
+      if (hasToken) {
+        // Using GraphQL API to fetch pinned repositories with authentication
+        const graphqlQuery = {
+          query: `{
+            user(login: "${githubConfig.username}") {
+              pinnedItems(first: 6, types: REPOSITORY) {
+                nodes {
+                  ... on Repository {
+                    name
+                    description
+                    url
+                    homepageUrl
+                    languages(first: 5) {
+                      nodes {
                         name
                       }
                     }
-                  }
-                  object(expression: "HEAD:README.md") {
-                    ... on Blob {
-                      text
+                    repositoryTopics(first: 10) {
+                      nodes {
+                        topic {
+                          name
+                        }
+                      }
+                    }
+                    object(expression: "HEAD:README.md") {
+                      ... on Blob {
+                        text
+                      }
                     }
                   }
                 }
               }
             }
-          }
-        }`
-      };
-      
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${githubConfig.token}`
-        },
-        body: JSON.stringify(graphqlQuery)
-      });
+          }`
+        };
+        
+        response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${githubConfig.token}`
+          },
+          body: JSON.stringify(graphqlQuery)
+        });
+      } else {
+        // For GitHub Pages: Fetch repositories using REST API (no auth required for public repos)
+        console.log('No GitHub token found. Using REST API for public repositories.');
+        const restApiUrl = `https://api.github.com/users/${githubConfig.username}/repos?sort=updated&per_page=10`;
+        response = await fetch(restApiUrl);
+      }
       
       if (!response.ok) {
         const errorText = await response.text();
@@ -443,10 +445,11 @@ document.addEventListener('DOMContentLoaded', () => {
       // Parse response
       const responseData = await response.json();
       
-      // Extract pinned repositories
+      // Extract repositories
       let repos = [];
       
-      if (responseData.data && responseData.data.user && responseData.data.user.pinnedItems) {
+      if (hasToken && responseData.data && responseData.data.user && responseData.data.user.pinnedItems) {
+        // Process GraphQL response (pinned repos)
         repos = responseData.data.user.pinnedItems.nodes.map(node => {
           // Extract languages
           const languages = node.languages ? 
@@ -479,6 +482,45 @@ document.addEventListener('DOMContentLoaded', () => {
             sourceCode: sourceCodeSnippet
           };
         });
+      } else if (!hasToken && Array.isArray(responseData)) {
+        // Process REST API response (for GitHub Pages without token)
+        // Filter out forks and sort by stars
+        const filteredRepos = responseData
+          .filter(repo => !repo.fork && !repo.archived)
+          .sort((a, b) => b.stargazers_count - a.stargazers_count)
+          .slice(0, githubConfig.repoCount);
+          
+        // Process each repository
+        repos = await Promise.all(filteredRepos.map(async (repo) => {
+          // Fetch README to extract code snippets
+          let sourceCodeSnippet = '';
+          try {
+            const readmeUrl = `https://raw.githubusercontent.com/${githubConfig.username}/${repo.name}/main/README.md`;
+            const readmeResponse = await fetch(readmeUrl);
+            
+            if (readmeResponse.ok) {
+              const readmeText = await readmeResponse.text();
+              const codeBlockRegex = /```([\s\S]*?)```/g;
+              const codeBlocks = [...readmeText.matchAll(codeBlockRegex)];
+              
+              if (codeBlocks.length > 0) {
+                sourceCodeSnippet = codeBlocks[0][1].trim();
+              }
+            }
+          } catch (error) {
+            console.log(`Error fetching README for ${repo.name}:`, error);
+          }
+          
+          return {
+            name: repo.name,
+            description: repo.description || 'No description available',
+            html_url: repo.html_url,
+            homepage: repo.homepage || '',
+            language: repo.language || '',
+            topics: repo.topics || [],
+            sourceCode: sourceCodeSnippet
+          };
+        }));
       }
       
       // No need for additional sorting or fetching since we're using pinned repos
