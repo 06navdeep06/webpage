@@ -479,6 +479,29 @@
         setInterval(() => { el.textContent = fmt(Date.now() - start); }, 1000);
       })();
     </script>
+    <script>
+      window.addEventListener('load', () => {
+        const c = document.querySelector('#about > .container');
+        if (!c) { console.error('DEBUG: no #about .container found'); return; }
+        const cs = getComputedStyle(c);
+        console.log('DEBUG container position:', cs.position);
+        console.log('DEBUG container top:', cs.top);
+        console.log('DEBUG container bottom:', cs.bottom);
+        console.log('DEBUG container height:', cs.height);
+        console.log('DEBUG container display:', cs.display);
+        console.log('DEBUG container visibility:', cs.visibility);
+        console.log('DEBUG container opacity:', cs.opacity);
+        console.log('DEBUG container overflow:', cs.overflow);
+        console.log('DEBUG container zIndex:', cs.zIndex);
+        console.log('DEBUG container rect:', JSON.stringify(c.getBoundingClientRect()));
+        const s = document.querySelector('#about');
+        const ss = getComputedStyle(s);
+        console.log('DEBUG section display:', ss.display);
+        console.log('DEBUG section position:', ss.position);
+        console.log('DEBUG section opacity:', ss.opacity);
+        console.log('DEBUG section rect:', JSON.stringify(s.getBoundingClientRect()));
+      });
+    </script>
     <script src="js/bg-canvas.js"></script>
     <script src="js/morph-bg.js"></script>
     <script src="js/pager.js"></script>
