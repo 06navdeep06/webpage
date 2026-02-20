@@ -1,21 +1,83 @@
 /**
  * pager.js
  * Full-page section navigation — no scroll, page-based.
+ * Visibility is controlled entirely via inline styles to avoid CSS conflicts.
  */
 
 (function () {
   'use strict';
 
+  /* ── Shared transition string ────────────────────────────────────────── */
+  const TRANSITION = 'opacity 0.45s cubic-bezier(0.4,0,0.2,1), transform 0.45s cubic-bezier(0.4,0,0.2,1)';
+
+  /* ── Apply base inline styles to every section ───────────────────────── */
+  function applyBaseStyle(s) {
+    s.style.position   = 'absolute';
+    s.style.inset      = '0';
+    s.style.width      = '100%';
+    s.style.height     = '100%';
+    s.style.overflow   = 'hidden';
+    s.style.transition = TRANSITION;
+    s.style.willChange = 'opacity, transform';
+    /* hidden by default */
+    s.style.opacity        = '0';
+    s.style.pointerEvents  = 'none';
+    s.style.transform      = 'translateY(4rem)';
+  }
+
+  function showSection(s) {
+    s.style.opacity       = '1';
+    s.style.pointerEvents = 'auto';
+    s.style.transform     = 'translateY(0)';
+    s.classList.add('page-active');
+  }
+
+  function hideSection(s, dir) {
+    s.style.opacity       = '0';
+    s.style.pointerEvents = 'none';
+    s.style.transform     = dir === 'up' ? 'translateY(-4rem)' : 'translateY(4rem)';
+    s.classList.remove('page-active');
+  }
+
+  /* ── Apply container layout inline ───────────────────────────────────── */
+  function applyContainerStyle(s) {
+    if (s.id === 'hero') return;
+    const c = s.querySelector(':scope > .container');
+    if (!c) return;
+    c.style.position   = 'absolute';
+    c.style.top        = '6.5rem';
+    c.style.bottom     = '5.5rem';
+    c.style.left       = '0';
+    c.style.right      = '0';
+    c.style.width      = 'auto';
+    c.style.maxWidth   = 'none';
+    c.style.margin     = '0';
+    c.style.padding    = '0 3rem';
+    c.style.boxSizing  = 'border-box';
+    c.style.overflowY  = 'auto';
+    c.style.overflowX  = 'hidden';
+    c.style.zIndex     = '1';
+    if (['about', 'philosophy'].includes(s.id)) {
+      c.style.display         = 'flex';
+      c.style.flexDirection   = 'column';
+      c.style.justifyContent  = 'center';
+    }
+  }
+
   /* ── Wrap all sections in #page-wrapper ─────────────────────────────── */
   const sections = Array.from(document.querySelectorAll('body > section'))
-    .filter(s => s.style.display !== 'none' && getComputedStyle(s).display !== 'none');
+    .filter(s => getComputedStyle(s).display !== 'none');
   if (!sections.length) return;
 
   const wrapper = document.createElement('div');
   wrapper.id = 'page-wrapper';
+  wrapper.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:1;';
   sections[0].parentNode.insertBefore(wrapper, sections[0]);
-  sections.forEach(s => wrapper.appendChild(s));
-
+  sections.forEach(s => {
+    wrapper.appendChild(s);
+    applyBaseStyle(s);
+    applyContainerStyle(s);
+  });
 
   /* ── State ──────────────────────────────────────────────────────────── */
   const PAGE_NAMES = sections.map(s => s.id);
@@ -68,27 +130,14 @@
 
     transitioning = true;
     const dir = direction ?? (index > current ? 'up' : 'down');
-    const exitClass = dir === 'up' ? 'page-exit-up' : 'page-exit-down';
 
-    const prev = sections[current];
-    const next = sections[index];
-
-    prev.classList.remove('page-active');
-    prev.classList.add(exitClass);
-
-    next.classList.remove('page-exit-up', 'page-exit-down');
-    next.style.transform = dir === 'up' ? 'translateY(4rem)' : 'translateY(-4rem)';
-    next.classList.add('page-active');
+    hideSection(sections[current], dir);
+    showSection(sections[index]);
 
     current = index;
     updateUI();
 
-    setTimeout(() => {
-      prev.classList.remove(exitClass);
-      prev.style.transform = '';
-      next.style.transform = '';
-      transitioning = false;
-    }, 520);
+    setTimeout(() => { transitioning = false; }, 500);
   }
 
   function updateUI() {
@@ -96,15 +145,12 @@
     navLinks.forEach((l, i) => l.classList.toggle('active', i === current));
     prevBtn.disabled = current === 0;
     nextBtn.disabled = current === sections.length - 1;
-    counterEl.textContent = `0${current + 1} / 0${sections.length}`;
+    const n = sections.length;
+    counterEl.textContent = `${String(current+1).padStart(2,'0')} / ${String(n).padStart(2,'0')}`;
   }
 
   /* ── Init first page ────────────────────────────────────────────────── */
-  sections.forEach(s => {
-    s.classList.remove('page-active', 'page-exit-up', 'page-exit-down');
-    s.style.transform = '';
-  });
-  sections[0].classList.add('page-active');
+  showSection(sections[0]);
   updateUI();
 
   /* ── Nav link clicks ────────────────────────────────────────────────── */
