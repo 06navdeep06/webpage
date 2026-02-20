@@ -277,7 +277,7 @@ export async function handler(event) {
     }
   }
 
-  const token = process.env.GITHUB_TOKEN || '';
+  const token = process.env.GITHUB_PAT || process.env.GITHUB_TOKEN || '';
 
   try {
     const result = await analyzeUser(username, token);
