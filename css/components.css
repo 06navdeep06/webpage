@@ -1804,120 +1804,308 @@
   }
 }
 
-/* ---------- NEOFETCH SECTION ---------- */
-.neofetch-section {
+/* ---------- DISCORD PRESENCE SECTION ---------- */
+.discord-section {
   padding: 0;
   position: relative;
-  overflow: hidden;
 }
 
-.neofetch-layout {
+.discord-layout {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2xl);
-  max-width: 100rem;
-  margin: 0 auto;
+  gap: 3.2rem;
   height: 100%;
+  max-width: 96rem;
+  margin: 0 auto;
 }
 
 @media (max-width: 768px) {
-  .neofetch-layout { flex-direction: column; gap: var(--space-lg); }
+  .discord-layout { flex-direction: column; gap: 2rem; }
 }
 
-/* ASCII art block */
-.neofetch-ascii {
+/* ── Identity card ── */
+.dc-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 1.6rem;
+  align-items: center;
+  gap: 1.4rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 2rem;
+  padding: 3.2rem 2.8rem;
+  min-width: 22rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.dc-avatar-wrap {
+  position: relative;
+  width: 9rem;
+  height: 9rem;
   flex-shrink: 0;
 }
 
-.ascii-art {
-  font-family: 'Fira Code', monospace;
-  font-size: clamp(0.9rem, 1.4vw, 1.4rem);
-  line-height: 1.3;
-  color: var(--color-accent-2);
-  text-shadow: 0 0 18px rgba(110,0,255,0.5);
-  white-space: pre;
-  margin: 0;
-  user-select: none;
+.dc-avatar {
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255,255,255,0.1);
+  background: var(--color-bg-secondary);
 }
 
-.ascii-color-bar {
+.dc-status-badge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--color-bg-primary);
   display: flex;
-  gap: 0;
+  align-items: center;
+  justify-content: center;
 }
 
-.ascii-color-bar span {
-  display: inline-block;
-  width: 2.4rem;
-  height: 1.4rem;
-  border-radius: 0.2rem;
+.dc-dot {
+  display: block;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background: #747f8d;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
 }
 
-/* Info table */
-.neofetch-info {
+.dc-identity {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+}
+
+.dc-tag {
   font-family: 'Fira Code', monospace;
-  font-size: var(--text-sm);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: 0.02em;
 }
 
-.nf-title {
-  font-size: var(--text-md);
-  font-weight: var(--weight-bold);
-  margin-bottom: 0.2rem;
-}
-
-.nf-user  { color: var(--color-accent-2); }
-.nf-at    { color: var(--color-text-primary); }
-.nf-host  { color: var(--color-accent-3); }
-
-.nf-divider {
-  color: var(--color-text-tertiary);
-  letter-spacing: 0.05em;
-  font-size: var(--text-xs);
-  margin: 0.2rem 0;
-}
-
-.nf-row {
-  display: flex;
-  gap: 1.2rem;
-  align-items: baseline;
-}
-
-.nf-key {
-  color: var(--color-accent-2);
-  min-width: 9rem;
-  font-weight: var(--weight-medium);
-}
-
-.nf-val {
-  color: var(--color-text-secondary);
-}
-
-.nf-status {
+.dc-status-row {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  color: var(--color-accent-3);
 }
 
-.nf-palette {
+.dc-status-label {
+  font-family: 'Fira Code', monospace;
+  font-size: 1.1rem;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.dc-custom-status {
+  font-size: 1.2rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  max-width: 18rem;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.dc-id-badge {
   display: flex;
-  gap: 0.4rem;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 0.8rem;
+  padding: 0.5rem 1.2rem;
   margin-top: 0.4rem;
 }
 
-.nf-swatch {
-  display: inline-block;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 0.3rem;
+.dc-id-label {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  color: var(--color-accent-2);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.dc-id-val {
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.04em;
+  user-select: all;
+}
+
+/* ── Activity panels ── */
+.dc-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  flex: 1;
+  max-width: 48rem;
+}
+
+.dc-panel {
+  background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1.6rem;
+  padding: 1.8rem 2rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.3s ease;
+}
+
+.dc-panel:hover {
+  border-color: rgba(255,255,255,0.14);
+}
+
+.dc-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 1.1rem;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.4rem;
+}
+
+.dc-panel-header i {
+  font-size: 1.3rem;
+}
+
+/* Spotify */
+.dc-spotify-panel .dc-panel-header i {
+  color: #1DB954;
+}
+
+.dc-spotify-body {
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+}
+
+.dc-spotify-art {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 0.8rem;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--color-bg-secondary);
+}
+
+.dc-spotify-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.dc-spotify-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dc-spotify-artist {
+  font-size: 1.2rem;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dc-spotify-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.dc-spotify-track {
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.dc-spotify-bar {
+  height: 100%;
+  background: #1DB954;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 1s linear;
+}
+
+.dc-spotify-time {
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  color: var(--color-text-tertiary);
+}
+
+/* Activity */
+.dc-activity-body {
+  display: flex;
+  gap: 1.4rem;
+  align-items: flex-start;
+}
+
+.dc-activity-img-wrap {
+  flex-shrink: 0;
+}
+
+.dc-activity-img {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 0.8rem;
+  object-fit: cover;
+  background: var(--color-bg-secondary);
+}
+
+.dc-activity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.dc-activity-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.dc-activity-detail,
+.dc-activity-state {
+  font-size: 1.2rem;
+  color: var(--color-text-secondary);
+}
+
+/* Idle */
+.dc-idle-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 6rem;
+}
+
+.dc-idle-text {
+  font-family: 'Fira Code', monospace;
+  font-size: 1.2rem;
+  color: var(--color-text-tertiary);
+  font-style: italic;
 }
 
 /* ---------- DESIGN PHILOSOPHY SECTION (legacy, kept for safety) ---------- */

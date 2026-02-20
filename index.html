@@ -37,7 +37,7 @@
         <nav class="hud-nav" id="hud-nav">
             <a class="hud-nav-link" data-page="0" href="#">Home</a>
             <a class="hud-nav-link" data-page="1" href="#">About</a>
-            <a class="hud-nav-link" data-page="2" href="#">neofetch</a>
+            <a class="hud-nav-link" data-page="2" href="#">discord</a>
             <a class="hud-nav-link" data-page="3" href="#">Projects</a>
             <a class="hud-nav-link" data-page="4" href="#">Stats</a>
             <a class="hud-nav-link" data-page="5" href="#">Contact</a>
@@ -149,60 +149,80 @@
         </div>
     </section>
 
-    <!-- Neofetch / System Info Section -->
-    <section id="philosophy" class="neofetch-section">
+    <!-- Discord Presence Section -->
+    <section id="philosophy" class="discord-section">
         <div class="container">
-            <div class="neofetch-layout">
+            <div class="discord-layout">
 
-                <!-- ASCII art logo -->
-                <div class="neofetch-ascii" aria-hidden="true">
-<pre class="ascii-art">
-  ███╗   ██╗██████╗ 
-  ████╗  ██║██╔══██╗
-  ██╔██╗ ██║██║  ██║
-  ██║╚██╗██║██║  ██║
-  ██║ ╚████║██████╔╝
-  ╚═╝  ╚═══╝╚═════╝ 
-</pre>
-                    <div class="ascii-color-bar">
-                        <span style="background:#FF3D00"></span>
-                        <span style="background:#6E00FF"></span>
-                        <span style="background:#00E5B3"></span>
-                        <span style="background:#FFCC00"></span>
-                        <span style="background:#0095FF"></span>
-                        <span style="background:#FF2D55"></span>
-                        <span style="background:#FF3D00"></span>
-                        <span style="background:#6E00FF"></span>
+                <!-- Left: identity card -->
+                <div class="dc-card" id="dc-status">
+                    <div class="dc-avatar-wrap">
+                        <img id="dc-avatar" class="dc-avatar" src="" alt="Discord avatar" />
+                        <span class="dc-status-badge">
+                            <span id="dc-status-dot" class="dc-dot"></span>
+                        </span>
+                    </div>
+                    <div class="dc-identity">
+                        <div id="dc-tag" class="dc-tag">@quazar_elsy</div>
+                        <div class="dc-status-row">
+                            <span id="dc-status-text" class="dc-status-label">offline</span>
+                        </div>
+                        <div id="dc-custom-status" class="dc-custom-status"></div>
+                    </div>
+                    <div class="dc-id-badge">
+                        <span class="dc-id-label">ID</span>
+                        <span class="dc-id-val">657553032678080514</span>
                     </div>
                 </div>
 
-                <!-- System info table -->
-                <div class="neofetch-info">
-                    <div class="nf-title">
-                        <span class="nf-user">navdeep</span><span class="nf-at">@</span><span class="nf-host">quazar</span>
-                    </div>
-                    <div class="nf-divider">─────────────────────────</div>
-                    <div class="nf-row"><span class="nf-key">OS</span><span class="nf-val">Arch Linux (btw)</span></div>
-                    <div class="nf-row"><span class="nf-key">Shell</span><span class="nf-val">zsh + oh-my-zsh</span></div>
-                    <div class="nf-row"><span class="nf-key">Editor</span><span class="nf-val">Neovim / VS Code</span></div>
-                    <div class="nf-row"><span class="nf-key">Terminal</span><span class="nf-val">Kitty</span></div>
-                    <div class="nf-row"><span class="nf-key">Languages</span><span class="nf-val">Python · Node.js · C++</span></div>
-                    <div class="nf-row"><span class="nf-key">Stack</span><span class="nf-val">FastAPI · Express · PostgreSQL</span></div>
-                    <div class="nf-row"><span class="nf-key">Infra</span><span class="nf-val">Docker · Nginx · Netlify</span></div>
-                    <div class="nf-row"><span class="nf-key">Uptime</span><span class="nf-val" id="nf-uptime">calculating...</span></div>
-                    <div class="nf-row"><span class="nf-key">Coffee</span><span class="nf-val" id="nf-coffee">∞ cups</span></div>
-                    <div class="nf-row"><span class="nf-key">Status</span><span class="nf-val nf-status"><span class="status-dot"></span>online &amp; building</span></div>
-                    <div class="nf-divider">─────────────────────────</div>
-                    <div class="nf-palette">
-                        <span class="nf-swatch" style="background:#0A0A0F"></span>
-                        <span class="nf-swatch" style="background:#FF3D00"></span>
-                        <span class="nf-swatch" style="background:#6E00FF"></span>
-                        <span class="nf-swatch" style="background:#00E5B3"></span>
-                        <span class="nf-swatch" style="background:#FFCC00"></span>
-                        <span class="nf-swatch" style="background:#F2F2F7"></span>
-                    </div>
-                </div>
+                <!-- Right: activity panels -->
+                <div class="dc-panels">
 
+                    <!-- Spotify -->
+                    <div id="dc-spotify" class="dc-panel dc-spotify-panel" style="display:none">
+                        <div class="dc-panel-header">
+                            <i class="fab fa-spotify"></i>
+                            <span>Listening to Spotify</span>
+                        </div>
+                        <div class="dc-spotify-body">
+                            <img id="dc-spotify-art" class="dc-spotify-art" src="" alt="Album art" />
+                            <div class="dc-spotify-info">
+                                <div id="dc-spotify-title" class="dc-spotify-title"></div>
+                                <div id="dc-spotify-artist" class="dc-spotify-artist"></div>
+                                <div class="dc-spotify-progress-wrap">
+                                    <div class="dc-spotify-track">
+                                        <div id="dc-spotify-bar" class="dc-spotify-bar"></div>
+                                    </div>
+                                    <span id="dc-spotify-progress" class="dc-spotify-time">0:00 / 0:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other activity -->
+                    <div id="dc-activity" class="dc-panel" style="display:none">
+                        <div class="dc-panel-header">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Activity</span>
+                        </div>
+                        <div class="dc-activity-body">
+                            <div id="dc-activity-img-wrap" class="dc-activity-img-wrap" style="display:none">
+                                <img id="dc-activity-img" class="dc-activity-img" src="" alt="" />
+                            </div>
+                            <div class="dc-activity-info">
+                                <div id="dc-activity-name" class="dc-activity-name"></div>
+                                <div id="dc-activity-detail" class="dc-activity-detail"></div>
+                                <div id="dc-activity-state" class="dc-activity-state"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Idle state -->
+                    <div class="dc-panel dc-idle-panel" id="dc-idle">
+                        <div class="dc-idle-text">No activity right now</div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </section>
@@ -461,26 +481,9 @@
     <script src="js/qol.js"></script>
     <script src="js/main.js"></script>
     <script src="js/github-analyzer.js"></script>
-    <script>
-      /* neofetch uptime counter — counts from page load */
-      (function () {
-        const start = Date.now();
-        const el = document.getElementById('nf-uptime');
-        if (!el) return;
-        function fmt(ms) {
-          const s = Math.floor(ms / 1000);
-          const m = Math.floor(s / 60);
-          const h = Math.floor(m / 60);
-          const d = Math.floor(h / 24);
-          if (d > 0) return `${d}d ${h % 24}h ${m % 60}m`;
-          if (h > 0) return `${h}h ${m % 60}m ${s % 60}s`;
-          return `${m}m ${s % 60}s`;
-        }
-        setInterval(() => { el.textContent = fmt(Date.now() - start); }, 1000);
-      })();
-    </script>
     <script src="js/bg-canvas.js"></script>
     <script src="js/morph-bg.js"></script>
+    <script src="js/discord-presence.js"></script>
     <script src="js/pager.js"></script>
 </body>
 </html>
