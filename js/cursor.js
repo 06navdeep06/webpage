@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     mouseX = e.clientX;
     mouseY = e.clientY;
 
-    // Inner dot: instant position (centered via -50% -50%)
-    cursorInner.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
+    // Inner dot: instant position (centered by subtracting half its size: 0.8rem = ~6.4px)
+    cursorInner.style.transform = `translate(${mouseX - 6}px, ${mouseY - 6}px)`;
 
     if (!document.body.classList.contains('cursor-active')) {
       document.body.classList.add('cursor-active');
@@ -54,8 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
     outerX += (mouseX - outerX) * SPRING;
     outerY += (mouseY - outerY) * SPRING;
 
+    // Outer ring centered by subtracting half its size: 3.6rem = ~28.8px
     const scale = isDown ? 0.8 : 1;
-    cursorOuter.style.transform = `translate(calc(${outerX}px - 50%), calc(${outerY}px - 50%)) scale(${scale})`;
+    cursorOuter.style.transform = `translate(${outerX - 28}px, ${outerY - 28}px) scale(${scale})`;
 
     requestAnimationFrame(tick);
   };

@@ -11,6 +11,10 @@
   padding: 0;
 }
 
+*, *::before, *::after {
+  cursor: none !important;
+}
+
 .cursor-active {
   cursor: none;
 }
