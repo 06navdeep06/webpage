@@ -1,0 +1,320 @@
+/*
+ * pager.css
+ * Full-page section layout + menu overlay
+ */
+
+/* ── Lock scroll, stack pages ──────────────────────────────────────────── */
+html, body {
+  overflow: hidden !important;
+  height: 100%;
+}
+
+/* Wrapper that holds all pages */
+#page-wrapper {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Every section becomes a full-viewport page */
+#page-wrapper > section {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4rem);
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+#page-wrapper > section.page-active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+#page-wrapper > section.page-exit-up {
+  opacity: 0;
+  transform: translateY(-4rem);
+  pointer-events: none;
+}
+
+#page-wrapper > section.page-exit-down {
+  opacity: 0;
+  transform: translateY(4rem);
+  pointer-events: none;
+}
+
+/* ── HUD (always on top) ───────────────────────────────────────────────── */
+.hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 3rem;
+  pointer-events: none;
+}
+
+.hud-logo {
+  pointer-events: auto;
+  font-family: 'Fira Code', monospace;
+  font-size: 1.4rem;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.hud-logo:hover { opacity: 1; }
+
+/* ── Menu button (hamburger) ───────────────────────────────────────────── */
+.menu-btn {
+  pointer-events: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px;
+  z-index: 600;
+}
+
+.menu-btn-line {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--color-text-primary);
+  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+  transform-origin: center;
+}
+
+.menu-btn.open .menu-btn-line:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+.menu-btn.open .menu-btn-line:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+.menu-btn.open .menu-btn-line:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ── Full-screen menu overlay ──────────────────────────────────────────── */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: var(--color-bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-overlay-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 72rem;
+}
+
+/* ── Menu nav items ────────────────────────────────────────────────────── */
+.menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.menu-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+  padding: 1.2rem 0;
+  text-decoration: none;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease, padding-left 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-nav-item:hover,
+.menu-nav-item.active {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-border);
+  padding-left: 1.2rem;
+}
+
+.menu-nav-item.active .menu-label {
+  color: var(--color-accent-1);
+}
+
+.menu-num {
+  font-family: 'Fira Code', monospace;
+  font-size: 1.1rem;
+  color: var(--color-accent-2);
+  opacity: 0.6;
+  min-width: 2.8rem;
+}
+
+.menu-label {
+  font-family: var(--font-primary);
+  font-size: clamp(2.8rem, 5vw, 5.6rem);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  transition: color 0.2s ease;
+}
+
+.menu-arrow {
+  font-size: 2rem;
+  margin-left: auto;
+  opacity: 0;
+  transform: translateX(-1rem);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  color: var(--color-accent-1);
+}
+
+.menu-nav-item:hover .menu-arrow,
+.menu-nav-item.active .menu-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Stagger menu items on open */
+.menu-overlay.open .menu-nav-item {
+  animation: menuItemIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.menu-overlay.open .menu-nav-item:nth-child(1) { animation-delay: 0.05s; }
+.menu-overlay.open .menu-nav-item:nth-child(2) { animation-delay: 0.10s; }
+.menu-overlay.open .menu-nav-item:nth-child(3) { animation-delay: 0.15s; }
+.menu-overlay.open .menu-nav-item:nth-child(4) { animation-delay: 0.20s; }
+.menu-overlay.open .menu-nav-item:nth-child(5) { animation-delay: 0.25s; }
+.menu-overlay.open .menu-nav-item:nth-child(6) { animation-delay: 0.30s; }
+
+@keyframes menuItemIn {
+  from { opacity: 0; transform: translateY(1.5rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Menu footer links ─────────────────────────────────────────────────── */
+.menu-footer {
+  display: flex;
+  gap: 2.4rem;
+}
+
+.menu-footer a {
+  font-family: 'Fira Code', monospace;
+  font-size: 1.2rem;
+  color: var(--color-text-tertiary);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+.menu-footer a:hover { color: var(--color-text-primary); }
+
+/* ── Page indicator (right side dots) ─────────────────────────────────── */
+.page-indicator {
+  position: fixed;
+  right: 2.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.page-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-text-tertiary);
+  opacity: 0.4;
+  transition: opacity 0.3s ease, background 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.page-dot.active {
+  background: var(--color-accent-1);
+  opacity: 1;
+  transform: scale(1.4);
+}
+
+/* ── Arrow nav (bottom centre) ─────────────────────────────────────────── */
+.page-arrows {
+  position: fixed;
+  bottom: 2.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
+  display: flex;
+  gap: 1.2rem;
+}
+
+.page-arrow-btn {
+  background: none;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.page-arrow-btn:hover {
+  border-color: var(--color-accent-1);
+  color: var(--color-accent-1);
+}
+.page-arrow-btn:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+/* ── Page counter (bottom left) ───────────────────────────────────────── */
+.page-counter {
+  position: fixed;
+  bottom: 2.4rem;
+  left: 3rem;
+  z-index: 300;
+  font-family: 'Fira Code', monospace;
+  font-size: 1.1rem;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.1em;
+}
+
+/* ── Mobile ────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .hud { padding: 1.6rem 2rem; }
+  .menu-overlay-inner { padding: 1.6rem; }
+  .menu-label { font-size: clamp(2.4rem, 8vw, 4rem); }
+  .page-indicator { right: 1.2rem; }
+  .page-counter { left: 2rem; }
+}

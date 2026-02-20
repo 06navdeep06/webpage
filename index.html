@@ -22,8 +22,7 @@
     <link rel="stylesheet" href="css/themes.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/qol.css">
-    <link rel="stylesheet" href="css/3d.css">
-    <link rel="stylesheet" href="css/github-analyzer.css">
+    <link rel="stylesheet" href="css/pager.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,26 +30,61 @@
 </head>
 <body>
 
-    <!-- Navigation -->
-    <nav class="navigation">
-        <div class="nav-container">
-            <div class="logo">
-                <a href="#" class="logo-text">The Quazar<span class="logo-cursor">_</span></a>
+    <!-- Page HUD -->
+    <div class="hud">
+        <a href="#" class="hud-logo">The Quazar<span class="logo-cursor">_</span></a>
+        <button class="menu-btn" id="menu-btn" aria-label="Open menu">
+            <span class="menu-btn-line"></span>
+            <span class="menu-btn-line"></span>
+            <span class="menu-btn-line"></span>
+        </button>
+    </div>
+
+    <!-- Full-screen menu overlay -->
+    <div class="menu-overlay" id="menu-overlay">
+        <div class="menu-overlay-inner">
+            <nav class="menu-nav">
+                <a class="menu-nav-item" data-page="0" href="#">
+                    <span class="menu-num">01</span>
+                    <span class="menu-label">Home</span>
+                    <span class="menu-arrow">→</span>
+                </a>
+                <a class="menu-nav-item" data-page="1" href="#">
+                    <span class="menu-num">02</span>
+                    <span class="menu-label">About</span>
+                    <span class="menu-arrow">→</span>
+                </a>
+                <a class="menu-nav-item" data-page="2" href="#">
+                    <span class="menu-num">03</span>
+                    <span class="menu-label">Approach</span>
+                    <span class="menu-arrow">→</span>
+                </a>
+                <a class="menu-nav-item" data-page="3" href="#">
+                    <span class="menu-num">04</span>
+                    <span class="menu-label">Projects</span>
+                    <span class="menu-arrow">→</span>
+                </a>
+                <a class="menu-nav-item" data-page="4" href="#">
+                    <span class="menu-num">05</span>
+                    <span class="menu-label">Contact</span>
+                    <span class="menu-arrow">→</span>
+                </a>
+                <a class="menu-nav-item" data-page="5" href="#">
+                    <span class="menu-num">06</span>
+                    <span class="menu-label">Signature</span>
+                    <span class="menu-arrow">→</span>
+                </a>
+            </nav>
+            <div class="menu-footer">
+                <a href="https://github.com/06navdeep06" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://instagram.com/06navdeep06" target="_blank" rel="noopener">Instagram</a>
+                <a href="mailto:nepal00909@gmail.com">Mail</a>
             </div>
-            <div class="nav-toggle">
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#about" data-text="About">About</a></li>
-                <li><a href="#philosophy" data-text="Philosophy">Philosophy</a></li>
-                <li><a href="#skills" data-text="Skills">Skills</a></li>
-                <li><a href="#projects" data-text="Projects">Projects</a></li>
-                <li><a href="#github-stats" data-text="Stats">Stats</a></li>
-                <li><a href="#contact" data-text="Contact">Contact</a></li>
-            </ul>
         </div>
-    </nav>
+    </div>
+
+    <!-- Page indicator -->
+    <div class="page-indicator" id="page-indicator"></div>
 
     <!-- Hero Section -->
     <section id="hero" class="hero-section">
@@ -124,32 +158,6 @@
         </div>
     </section>
 
-    <!-- Skills Section (merged with Tech Stack) -->
-    <section id="skills" class="skills-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">// Skills</h2>
-                <div class="section-line"></div>
-            </div>
-            <div class="skills-merged-layout">
-                <!-- Left: skill tags by category -->
-                <div id="skills-section" class="skills-categories">
-                    <div class="skills-loading">
-                        <div class="loader"></div>
-                        <p>Scanning repos for tech stack...</p>
-                    </div>
-                </div>
-                <!-- Right: 3D pie chart -->
-                <div class="skillchart-panel">
-                    <div class="skillchart-label">Tech Stack</div>
-                    <div class="skillchart-wrapper">
-                        <canvas id="skill-pie-canvas"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Projects Section -->
     <section id="projects" class="projects-section">
         <div class="container">
@@ -161,80 +169,6 @@
                 <!-- Projects will be dynamically loaded here -->
                 <div class="projects-loading">
                     <div class="loader"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- GitHub Analyzer Section -->
-    <section id="github-stats" class="github-stats-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">// python analyze.py</h2>
-                <div class="section-line"></div>
-            </div>
-            <div class="analyzer-intro">
-                <p>Live metrics pulled from my GitHub via a Python FastAPI backend — computed in real time.</p>
-            </div>
-
-            <!-- Loading state -->
-            <div class="analyzer-loading" id="analyzer-loading">
-                <div class="loader"></div>
-                <p>Running analysis<span class="analyzer-dots">...</span></p>
-            </div>
-
-            <!-- Error state -->
-            <div class="analyzer-error" id="analyzer-error" style="display:none">
-                <p id="analyzer-error-msg">Could not reach the analyzer API.</p>
-                <button class="btn btn-secondary" id="analyzer-retry-btn">Retry</button>
-            </div>
-
-            <!-- Results -->
-            <div class="analyzer-results" id="analyzer-results" style="display:none">
-
-                <!-- Summary metric cards -->
-                <div class="analyzer-cards" id="analyzer-cards">
-                    <div class="analyzer-card" id="card-repos">
-                        <div class="card-icon"><i class="fas fa-code-branch"></i></div>
-                        <div class="card-value" id="val-repos">—</div>
-                        <div class="card-label">Public Repos</div>
-                    </div>
-                    <div class="analyzer-card" id="card-loc">
-                        <div class="card-icon"><i class="fas fa-file-code"></i></div>
-                        <div class="card-value" id="val-loc">—</div>
-                        <div class="card-label">Est. Lines of Code</div>
-                    </div>
-                    <div class="analyzer-card" id="card-stars">
-                        <div class="card-icon"><i class="fas fa-star"></i></div>
-                        <div class="card-value" id="val-stars">—</div>
-                        <div class="card-label">Total Stars</div>
-                    </div>
-                    <div class="analyzer-card" id="card-quality">
-                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
-                        <div class="card-value" id="val-quality">—</div>
-                        <div class="card-label">Avg Quality Score</div>
-                    </div>
-                </div>
-
-                <!-- Language bar + complexity breakdown -->
-                <div class="analyzer-lower">
-                    <div class="analyzer-languages">
-                        <h3 class="analyzer-sub-title"><i class="fas fa-layer-group"></i> &nbsp;Language Breakdown</h3>
-                        <div class="lang-bars" id="lang-bars"></div>
-                    </div>
-                    <div class="analyzer-complexity">
-                        <h3 class="analyzer-sub-title"><i class="fas fa-brain"></i> &nbsp;Complexity Distribution</h3>
-                        <div class="complexity-rings" id="complexity-rings"></div>
-                    </div>
-                    <div class="analyzer-top-repos">
-                        <h3 class="analyzer-sub-title"><i class="fas fa-trophy"></i> &nbsp;Top Repos by Quality</h3>
-                        <div class="top-repo-list" id="top-repo-list"></div>
-                    </div>
-                </div>
-
-                <div class="analyzer-footer">
-                    <span class="analyzer-badge"><i class="fab fa-python"></i> &nbsp;Powered by FastAPI + Python</span>
-                    <span class="analyzer-cached" id="analyzer-cached"></span>
                 </div>
             </div>
         </div>
@@ -393,29 +327,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <a href="#" class="logo-text">~/navdeep<span class="logo-cursor">_</span></a>
-                </div>
-                <div class="footer-nav">
-                    <ul class="footer-links">
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#philosophy">Philosophy</a></li>
-                        <li><a href="#skills">Skills</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p class="copyright">&copy; <span id="current-year"></span> The Quazar // thequazar.com</p>
-            </div>
-        </div>
-    </footer>
-
     <!-- Crosshair cursor -->
     <div class="crosshair" id="crosshair">
       <div class="ch-line ch-top"></div>
@@ -431,17 +342,12 @@
     <!-- Scripts -->
     <script src="js/cursor.js"></script>
     <script src="js/typing-animation.js"></script>
-    <script src="js/navigation.js"></script>
     <script src="js/hero.js"></script>
-    <script src="js/skills.js"></script>
-    <script src="js/skillchart.js"></script>
     <script src="js/projects.js"></script>
-    <script src="js/animations.js"></script>
     <script src="js/contact.js"></script>
     <script src="js/signature.js"></script>
-    <script src="js/3d-engine.js"></script>
     <script src="js/qol.js"></script>
-    <script src="js/github-analyzer.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/pager.js"></script>
 </body>
 </html>
