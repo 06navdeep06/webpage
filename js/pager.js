@@ -16,41 +16,6 @@
   sections[0].parentNode.insertBefore(wrapper, sections[0]);
   sections.forEach(s => wrapper.appendChild(s));
 
-  /* ── Force container layout via inline styles (beats all CSS) ────────── */
-  sections.forEach(s => {
-    /* Section itself: block, no padding, overflow hidden */
-    s.style.cssText += ';display:block;padding:0;overflow:hidden;';
-
-    if (s.id === 'hero') return;
-
-    const container = s.querySelector(':scope > .container');
-    if (!container) return;
-
-    Object.assign(container.style, {
-      position:   'absolute',
-      top:        '6.5rem',
-      bottom:     '5.5rem',
-      left:       '0',
-      right:      '0',
-      width:      'auto',
-      maxWidth:   'none',
-      margin:     '0',
-      padding:    '0 3rem',
-      boxSizing:  'border-box',
-      overflowY:  'auto',
-      overflowX:  'hidden',
-      zIndex:     '1',
-    });
-
-    /* Centred sections: flex column centred */
-    if (['about', 'philosophy'].includes(s.id)) {
-      Object.assign(container.style, {
-        display:        'flex',
-        flexDirection:  'column',
-        justifyContent: 'center',
-      });
-    }
-  });
 
   /* ── State ──────────────────────────────────────────────────────────── */
   const PAGE_NAMES = sections.map(s => s.id);

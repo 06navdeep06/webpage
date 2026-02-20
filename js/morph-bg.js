@@ -81,7 +81,6 @@
     svg.appendChild(path);
 
     /* Insert as first child so it sits behind content */
-    section.style.position = 'relative';
     section.insertBefore(svg, section.firstChild);
 
     /* Animation state */
