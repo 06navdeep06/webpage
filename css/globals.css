@@ -15,34 +15,6 @@
   cursor: none !important;
 }
 
-.cursor-active {
-  cursor: none;
-}
-
-.cursor-active a,
-.cursor-active button,
-.cursor-active input,
-.cursor-active textarea,
-.cursor-active select,
-.cursor-active [role="button"],
-.cursor-active .btn,
-.cursor-active .nav-toggle,
-.cursor-active .project-card,
-.cursor-active .skill-tag,
-.cursor-active .social-link,
-.cursor-active .filter-btn,
-.cursor-active .theme-btn,
-.cursor-active .palette-toggle,
-.cursor-active .dark-mode-toggle,
-.cursor-active .scroll-top-btn,
-.cursor-active .section-dot {
-  cursor: none;
-}
-
-.cursor-active .cursor-outer,
-.cursor-active .cursor-inner {
-  opacity: 1;
-}
 
 html, body {
   margin: 0;

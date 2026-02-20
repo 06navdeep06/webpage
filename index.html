@@ -30,9 +30,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Cursor -->
-    <div class="cursor-outer"></div>
-    <div class="cursor-inner"></div>
 
     <!-- Navigation -->
     <nav class="navigation">
@@ -419,9 +416,14 @@
         </div>
     </footer>
 
-    <!-- Custom cursor elements -->
-    <div class="cursor-outer"></div>
-    <div class="cursor-inner"></div>
+    <!-- Crosshair cursor -->
+    <div class="crosshair" id="crosshair">
+      <div class="ch-line ch-top"></div>
+      <div class="ch-line ch-bottom"></div>
+      <div class="ch-line ch-left"></div>
+      <div class="ch-line ch-right"></div>
+      <div class="ch-dot"></div>
+    </div>
 
     <!-- Environment config (git-ignored — secrets injected at deploy time) -->
     <script src="js/env.js"></script>
