@@ -78,12 +78,32 @@ creative-portfolio/
    - Click "Save"
 
 3. **Add GitHub Token**
-   - Since GitHub Pages doesn't support environment variables, update the `projects.js` file:
-   - Replace the token retrieval with a personal access token (for public repos only)
-   - Or modify the code to work without authentication for public repositories
+  - Since GitHub Pages doesn't support environment variables, update the `projects.js` file:
+  - Replace the token retrieval with a personal access token (for public repos only)
+  - Or modify the code to work without authentication for public repositories
 
 4. **Access Your Site**
    - Your site will be available at `https://username.github.io`
+
+## Deployment for thequazar.com
+
+1. **DNS Setup**
+   - Point `thequazar.com` via `A` records to the platform IPs you plan to use (Netlify: `75.2.60.5`, `99.83.190.102`; Vercel: `76.76.21.21`; GitHub Pages: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`).
+   - Add a `CNAME` record for `www` that resolves to `thequazar.com` so the redirect stays uniform.
+
+2. **Netlify Notes**
+   - Deploy the repo (static site; no custom build step needed), add the custom domain, verify DNS, enable Automatic HTTPS, and toggle "Force HTTPS" plus "Redirect www to non-www."
+
+3. **Vercel Notes**
+   - Import the repo, choose the "Other" preset, and deploy. Add `thequazar.com` as a domain, follow SSL issuance guidance, and enable HTTPS enforcement with `www` redirecting to the apex.
+
+4. **GitHub Pages Notes**
+   - Create a `CNAME` file containing `thequazar.com` in the repo root.
+   - In Pages settings, configure the custom domain, update DNS with GitHub’s records, and enable "Enforce HTTPS."
+
+5. **HTTPS & Redirect Guidance**
+   - All three platforms provision TLS automatically; keep the HTTPS enforcement and non-www redirect toggles enabled so https://thequazar.com is canonical.
+   - Secrets stay in `js/env.js` generated at build time or platform env vars—don’t hardcode tokens in committed files.
 
 ### Option 3: Deploy to Vercel
 
