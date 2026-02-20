@@ -956,16 +956,21 @@
 .skillchart-wrapper {
   position: relative;
   width: 100%;
-  height: 58rem;
+  height: 52rem;
   perspective: 1200px;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #skill-pie-canvas {
   width: 100%;
   height: 100%;
   display: block;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.12));
+  max-width: 120rem;
+  margin: 0 auto;
 }
 
 .skillchart-section .section-title {
@@ -985,14 +990,98 @@
 
 @media (max-width: 767px) {
   .skillchart-wrapper {
-    height: 48rem;
+    height: 42rem;
   }
 }
 
 @media (max-width: 579px) {
   .skillchart-wrapper {
-    height: 40rem;
+    height: 36rem;
   }
+}
+
+/* ---------- DIGITAL SIGNATURE SECTION ---------- */
+.signature-section {
+  background: var(--color-bg-tertiary);
+  padding: var(--space-xl) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.signature-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 80% 20%, rgba(var(--color-accent-2-rgb), 0.05) 0%, transparent 50%),
+             radial-gradient(circle at 20% 80%, rgba(var(--color-accent-1-rgb), 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.terminal-signature {
+  max-width: 80rem;
+  margin: 0 auto;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 98% 100%, 0 100%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.signature-output {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: var(--text-sm);
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+  margin: 0;
+  padding: var(--space-lg);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.signature-output .highlight {
+  color: var(--color-accent-1);
+  font-weight: var(--weight-bold);
+}
+
+.signature-output .time-zone {
+  color: var(--color-accent-3);
+  font-weight: var(--weight-medium);
+}
+
+.cursor-blink {
+  display: inline-block;
+  width: 0.8rem;
+  height: 1.2em;
+  background-color: var(--color-accent-1);
+  animation: blink-cursor 1s step-end infinite;
+  margin-left: 0.2rem;
+  vertical-align: middle;
+}
+
+/* Enhanced contact links */
+.contact-link.phone-link {
+  color: var(--color-text-primary);
+  transition: all 0.3s ease;
+}
+
+.contact-link.phone-link:hover {
+  color: var(--color-accent-3);
+  transform: translateY(-2px);
+}
+
+.social-link.instagram-link:hover {
+  color: #E4405F;
+  transform: translateY(-3px) scale(1.1) rotate(-5deg);
+}
+
+.social-link.orcid-link:hover {
+  color: #A6CE39;
+  transform: translateY(-3px) scale(1.1) rotate(5deg);
 }
 
 /* ---------- TERMINAL UI ELEMENTS ---------- */
@@ -1513,6 +1602,8 @@
   grid-template-columns: 2fr 1fr;
   gap: var(--space-xl);
   align-items: center;
+  max-width: 120rem;
+  margin: 0 auto;
 }
 
 .philosophy-title {
@@ -1538,6 +1629,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  max-width: 60rem;
 }
 
 .philosophy-block {
@@ -1585,9 +1677,9 @@
   position: relative;
   height: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  min-height: 30rem;
   /* Slight rotation for personality */
   transform: rotate(3deg);
 }

@@ -85,11 +85,25 @@ section {
   width: 100%;
   padding: var(--section-spacing-md) 0;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+section > .container {
+  width: 100%;
+  max-width: var(--content-xl);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
 }
 
 .section-header {
   margin-bottom: var(--space-xl);
   position: relative;
+  text-align: center;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .section-title {
@@ -211,6 +225,8 @@ section {
   grid-template-columns: 3fr 2fr;
   gap: var(--space-xl);
   align-items: center;
+  max-width: 120rem;
+  margin: 0 auto;
 }
 
 /* Skills section - custom layout */
@@ -218,6 +234,8 @@ section {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-xl);
+  max-width: 120rem;
+  margin: 0 auto;
 }
 
 /* Projects section - masonry-inspired grid */
@@ -225,6 +243,8 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
   gap: var(--space-lg);
+  max-width: 140rem;
+  margin: 0 auto;
 }
 
 /* Contact section - split layout */
@@ -233,6 +253,8 @@ section {
   grid-template-columns: 1fr 1.5fr;
   gap: var(--space-xl);
   align-items: start;
+  max-width: 120rem;
+  margin: 0 auto;
 }
 
 /* ---------- CONTAINER SYSTEM ---------- */
@@ -312,17 +334,41 @@ section {
   }
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 70%; /* Slightly larger base font size */
+@media (max-width: 768px) {
+  /* Signature section responsive */
+  .signature-output {
+    font-size: var(--text-xs);
+    padding: var(--space-md);
+    line-height: 1.6;
   }
   
-  .section-title {
-    font-size: var(--text-3xl);
+  .terminal-signature {
+    margin: 0 var(--space-md);
   }
   
-  .section-line {
-    width: 12rem;
+  /* Skills section responsive */
+  .skills-section .skills-container {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  /* About section responsive */
+  .about-section .about-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    text-align: center;
+  }
+  
+  /* Contact section responsive */
+  .contact-section .contact-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  /* Projects section responsive */
+  .projects-section .projects-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
   }
 }
 

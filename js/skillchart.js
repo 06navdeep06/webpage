@@ -120,16 +120,21 @@ document.addEventListener('DOMContentLoaded', () => {
     return `rgb(${r},${g},${b})`;
   }
 
-  // Hit-test which slice the mouse is over (on the top ellipse)
+  // Optimized hit-test which slice the mouse is over
   const hitTest = (mx, my, cx, cy, r) => {
-    // Normalize to ellipse space
+    // Normalize to ellipse space with better accuracy
     const dx = mx - cx;
-    const dy = (my - cy) / 0.6;
+    const dy = (my - cy) / 0.6; // Account for ellipse squash
     const dist = Math.sqrt(dx * dx + dy * dy);
-    if (dist > r) return -1;
+    
+    // Add small buffer for better edge detection
+    if (dist > r + 2) return -1;
 
     let angle = Math.atan2(dy, dx);
     if (angle < 0) angle += Math.PI * 2;
+
+    // Adjust for current rotation
+    angle = (angle - rotation + Math.PI * 2) % (Math.PI * 2);
 
     let cumulative = 0;
     for (let i = 0; i < skills.length; i++) {
@@ -139,39 +144,44 @@ document.addEventListener('DOMContentLoaded', () => {
     return -1;
   };
 
-  // Draw legend
+  // Draw legend - improved alignment
   const drawLegend = (cx, cy, r) => {
-    const startX = cx + r + 50;
-    let y = cy - (skills.length * 34) / 2;
+    const startX = cx + r + 40;
+    let y = cy - (skills.length * 32) / 2;
 
     ctx.textBaseline = 'middle';
 
     skills.forEach((skill, i) => {
       const isHovered = i === hoveredIndex;
 
-      // Swatch
+      // Swatch with better spacing
       ctx.fillStyle = skill.color;
       ctx.beginPath();
-      const swatchSize = isHovered ? 16 : 12;
-      ctx.roundRect(startX, y - swatchSize / 2, swatchSize, swatchSize, 3);
+      const swatchSize = isHovered ? 14 : 10;
+      ctx.roundRect(startX, y - swatchSize / 2, swatchSize, swatchSize, 2);
       ctx.fill();
 
-      // Label
+      // Label with consistent positioning
       ctx.fillStyle = isHovered ? '#F2F2F7' : '#AAAAB8';
       ctx.font = isHovered
-        ? 'bold 16px "Space Grotesk", sans-serif'
-        : '15px "Space Grotesk", sans-serif';
-      ctx.fillText(skill.label, startX + 26, y);
+        ? 'bold 14px "Space Grotesk", sans-serif'
+        : '13px "Space Grotesk", sans-serif';
+      ctx.fillText(skill.label, startX + 20, y);
 
-      y += 38;
+      y += 32; // Consistent spacing
     });
   };
 
-  // Main draw loop
+  // Main draw loop - optimized for performance
+  let frameCount = 0;
   const draw = (timestamp) => {
     if (!lastTime) lastTime = timestamp;
     const deltaTime = timestamp - lastTime;
     lastTime = timestamp;
+    
+    // Only update animation every few frames for better performance
+    const shouldUpdate = frameCount % 2 === 0;
+    frameCount++;
     
     const w = container.offsetWidth;
     const h = container.offsetHeight;
@@ -180,23 +190,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Ease-in animation
     if (animProgress < 1) {
-      animProgress += 0.02;
+      animProgress += 0.015; // Slower for smoother animation
       if (animProgress > 1) animProgress = 1;
     }
     const ease = 1 - Math.pow(1 - animProgress, 3); // ease-out cubic
     
-    // Gentle auto-rotation when not hovering
-    if (hoveredIndex === -1) {
-      targetRotation += deltaTime * 0.00005;
+    // Gentle auto-rotation when not hovering (only update when needed)
+    if (hoveredIndex === -1 && shouldUpdate) {
+      targetRotation += deltaTime * 0.00003; // Slower rotation
     }
     
-    // Smooth rotation
-    rotation += (targetRotation - rotation) * 0.05;
+    // Smooth rotation (only update when needed)
+    if (shouldUpdate) {
+      rotation += (targetRotation - rotation) * 0.08; // Smoother easing
+    }
 
-    const cx = w * 0.36;
-    const cy = h * 0.50;
-    const r = Math.min(w * 0.30, h * 0.40, 210);
-    const depth = 32;
+    const cx = w * 0.42; // Better centering
+    const cy = h * 0.48;
+    const r = Math.min(w * 0.28, h * 0.36, 200); // Slightly smaller for better fit
+    const depth = 28;
 
     // Draw slices back-to-front (bottom half first, then top half)
     // Build slice angles
@@ -268,28 +280,32 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(draw);
   };
 
-  // Mouse events
+  // Mouse events - optimized with debouncing
+  let mouseUpdateTimeout;
   canvas.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouseX = e.clientX - rect.left;
-    mouseY = e.clientY - rect.top;
+    clearTimeout(mouseUpdateTimeout);
+    mouseUpdateTimeout = setTimeout(() => {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
 
-    const w = container.offsetWidth;
-    const h = container.offsetHeight;
-    const cx = w * 0.36;
-    const cy = h * 0.50;
-    const r = Math.min(w * 0.30, h * 0.40, 210);
+      const w = container.offsetWidth;
+      const h = container.offsetHeight;
+      const cx = w * 0.42;
+      const cy = h * 0.48;
+      const r = Math.min(w * 0.28, h * 0.36, 200);
 
-    const prevHovered = hoveredIndex;
-    hoveredIndex = hitTest(mouseX, mouseY, cx, cy, r);
-    
-    // Change cursor and stop rotation when hovering
-    canvas.style.cursor = hoveredIndex >= 0 ? 'pointer' : 'default';
-    
-    // If we hovered a new slice, pause rotation
-    if (hoveredIndex !== -1 && hoveredIndex !== prevHovered) {
-      targetRotation = rotation;
-    }
+      const prevHovered = hoveredIndex;
+      hoveredIndex = hitTest(mouseX, mouseY, cx, cy, r);
+      
+      // Change cursor and stop rotation when hovering
+      canvas.style.cursor = hoveredIndex >= 0 ? 'pointer' : 'default';
+      
+      // If we hovered a new slice, pause rotation
+      if (hoveredIndex !== -1 && hoveredIndex !== prevHovered) {
+        targetRotation = rotation;
+      }
+    }, 16); // ~60fps debouncing
   });
   
   // Click to rotate to that slice
