@@ -45,17 +45,34 @@ html, body {
   justify-content: center;
 }
 
+/* Reset layout.css section flex that fights pager */
+#page-wrapper > section {
+  display: block !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Hero overrides */
+#page-wrapper > section#hero {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Every non-hero section: container fills the safe area between HUD and bottom bar */
 #page-wrapper > section:not(#hero) > .container {
-  position: absolute;
-  top: 6.5rem;      /* below HUD */
-  bottom: 5.5rem;   /* above bottom arrows */
-  left: 0;
-  right: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 0 var(--space-md);
-  box-sizing: border-box;
+  position: absolute !important;
+  top: 6.5rem !important;
+  bottom: 5.5rem !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 0 3rem !important;
+  box-sizing: border-box !important;
   z-index: 1;
 }
 
