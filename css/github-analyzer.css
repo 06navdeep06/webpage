@@ -149,6 +149,12 @@
 }
 
 /* ── Lower grid ────────────────────────────────────────────────────────── */
+.analyzer-results {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .analyzer-lower {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -156,7 +162,7 @@
   align-items: start;
   flex: 1;
   min-height: 0;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 @media (max-width: 1024px) {

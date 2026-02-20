@@ -53,31 +53,45 @@ html, body {
   justify-content: center;
 }
 
-/* Container fills remaining height and sits above morph SVG */
+/* Container fills remaining height, sits above morph SVG */
 #page-wrapper > section:not(#hero) > .container {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-height: 0;
-  overflow: hidden;
+  overflow-y: auto;   /* allow scroll inside container if content overflows */
+  overflow-x: hidden;
   position: relative;
   z-index: 1;
 }
 
-/* Section header: compact */
+/* Section header: compact, never shrinks */
 #page-wrapper > section:not(#hero) .section-header {
   margin-bottom: 1.2rem !important;
   flex-shrink: 0;
 }
 
-/* Projects grid fills and scrolls if needed */
+/* ── Sections that should centre their content vertically ── */
+#page-wrapper > section#about > .container,
+#page-wrapper > section#philosophy > .container {
+  justify-content: center;
+  overflow-y: auto;
+}
+
+/* ── Neofetch: layout fills and centres ── */
+#page-wrapper > section#philosophy .neofetch-layout {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Projects: grid scrolls inside container ── */
 #page-wrapper > section#projects .projects-grid {
   flex: 1;
   overflow-y: auto;
   min-height: 0;
 }
 
-/* GitHub stats: results area scrolls */
+/* ── GitHub stats: each state fills and scrolls ── */
 #page-wrapper > section#github-stats .analyzer-loading,
 #page-wrapper > section#github-stats .analyzer-error,
 #page-wrapper > section#github-stats .analyzer-results {
@@ -86,24 +100,17 @@ html, body {
   min-height: 0;
 }
 
-/* Contact content fills and scrolls */
+/* analyzer-results is a flex column itself */
+#page-wrapper > section#github-stats .analyzer-results {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Contact: content fills and scrolls ── */
 #page-wrapper > section#contact .contact-content {
   flex: 1;
   overflow-y: auto;
   min-height: 0;
-}
-
-/* Signature content fills */
-#page-wrapper > section#signature .signature-content {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 0;
-}
-
-/* About + philosophy: centre content vertically */
-#page-wrapper > section#about,
-#page-wrapper > section#philosophy {
-  justify-content: center;
 }
 
 #page-wrapper > section.page-active {
