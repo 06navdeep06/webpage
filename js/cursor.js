@@ -24,29 +24,38 @@ document.addEventListener('DOMContentLoaded', () => {
   const smoothFactor = 0.15;
   const smoothFactorInner = 0.2;
   
-  // Add cursor-active class to body when mouse moves
-  // This makes the cursor visible only when mouse is moving
-  document.addEventListener('mousemove', (e) => {
-    // Update mouse position
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    
-    // Add active class if not already present
-    document.body.classList.add('cursor-active');
-  });
+  // Performance optimization: throttle mouse move events
+  let ticking = false;
+  
+  // Throttled mouse move handler
+  const handleMouseMove = (e) => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        document.body.classList.add('cursor-active');
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+  
+  // Use throttled handler
+  document.addEventListener('mousemove', handleMouseMove, { passive: true });
   
   // Define hoverable elements
   const hoverableElements = 'a, button, .btn, .nav-toggle, .project-card, .skill-tag, .social-link, .filter-btn';
   
-  // Add hover effect when mouse enters hoverable elements
-  document.querySelectorAll(hoverableElements).forEach(element => {
+  // Add hover effect with performance optimization
+  const hoverableEls = document.querySelectorAll(hoverableElements);
+  hoverableEls.forEach(element => {
     element.addEventListener('mouseenter', () => {
       cursorOuter.classList.add('cursor-hover');
-    });
+    }, { passive: true });
     
     element.addEventListener('mouseleave', () => {
       cursorOuter.classList.remove('cursor-hover');
-    });
+    }, { passive: true });
   });
   
   // Hide cursor when mouse leaves window
@@ -54,37 +63,44 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.relatedTarget === null) {
       document.body.classList.remove('cursor-active');
     }
-  });
+  }, { passive: true });
   
-  // Animation loop for smooth cursor movement
-  const animateCursor = () => {
-    // Calculate smooth movement for outer cursor
-    cursorOuterX += (mouseX - cursorOuterX) * smoothFactor;
-    cursorOuterY += (mouseY - cursorOuterY) * smoothFactor;
+  // Optimized animation loop
+  let lastTime = 0;
+  const animateCursor = (currentTime) => {
+    const deltaTime = currentTime - lastTime;
     
-    // Calculate smooth movement for inner cursor (slightly faster)
-    cursorInnerX += (mouseX - cursorInnerX) * smoothFactorInner;
-    cursorInnerY += (mouseY - cursorInnerY) * smoothFactorInner;
+    // Only update if enough time has passed (60fps = ~16.67ms)
+    if (deltaTime >= 16) {
+      // Calculate smooth movement for outer cursor
+      cursorOuterX += (mouseX - cursorOuterX) * smoothFactor;
+      cursorOuterY += (mouseY - cursorOuterY) * smoothFactor;
+      
+      // Calculate smooth movement for inner cursor (slightly faster)
+      cursorInnerX += (mouseX - cursorInnerX) * smoothFactorInner;
+      cursorInnerY += (mouseY - cursorInnerY) * smoothFactorInner;
+      
+      // Apply transforms using will-change for better performance
+      cursorOuter.style.transform = `translate(${cursorOuterX}px, ${cursorOuterY}px)`;
+      cursorInner.style.transform = `translate(${cursorInnerX}px, ${cursorInnerY}px)`;
+      
+      lastTime = currentTime;
+    }
     
-    // Apply transforms
-    cursorOuter.style.transform = `translate(${cursorOuterX}px, ${cursorOuterY}px)`;
-    cursorInner.style.transform = `translate(${cursorInnerX}px, ${cursorInnerY}px)`;
-    
-    // Continue animation loop
     requestAnimationFrame(animateCursor);
   };
   
   // Start animation loop
-  animateCursor();
+  requestAnimationFrame(animateCursor);
   
-  // Add click effect
+  // Add click effect with performance optimization
   document.addEventListener('mousedown', () => {
     cursorOuter.style.transform = `translate(${cursorOuterX}px, ${cursorOuterY}px) scale(0.8)`;
-  });
+  }, { passive: true });
   
   document.addEventListener('mouseup', () => {
     cursorOuter.style.transform = `translate(${cursorOuterX}px, ${cursorOuterY}px) scale(1)`;
-  });
+  }, { passive: true });
   
   // Disable cursor on touch devices
   const isTouchDevice = () => {

@@ -283,41 +283,26 @@
 .cursor-inner {
   position: fixed;
   pointer-events: none;
-  transform: translate(-50%, -50%);
   z-index: 9999;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
+  will-change: transform;
 }
 
 .cursor-outer {
-  width: 3.8rem;
-  height: 3.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  /* Irregular shape instead of perfect circle */
-  clip-path: polygon(
-    50% 0%, 
-    80% 10%, 
-    100% 35%, 
-    100% 70%, 
-    80% 90%, 
-    50% 100%, 
-    20% 90%, 
-    0% 70%, 
-    0% 35%, 
-    20% 10%
-  );
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  width: 3.2rem;
+  height: 3.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .cursor-inner {
-  width: 0.6rem;
-  height: 0.6rem;
+  width: 0.5rem;
+  height: 0.5rem;
   background-color: var(--color-accent-1);
+  border-radius: 50%;
   mix-blend-mode: difference;
-  /* Slightly offset from center */
-  transform: translate(-40%, -40%);
-  /* Irregular shape */
-  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
 }
 
 .cursor-active .cursor-outer,
@@ -326,11 +311,10 @@
 }
 
 .cursor-hover .cursor-outer {
-  width: 4.5rem;
-  height: 4.5rem;
-  background-color: rgba(255, 61, 0, 0.07);
+  width: 4rem;
+  height: 4rem;
+  background-color: rgba(255, 61, 0, 0.05);
   border-color: var(--color-accent-1);
-  transform: translate(-50%, -50%) rotate(30deg);
 }
 
 /* ---------- BUTTONS ---------- */
