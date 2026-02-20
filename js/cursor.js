@@ -1,89 +1,73 @@
 /**
  * Custom cursor implementation
- * Inner dot: instant, sticks to mouse exactly
- * Outer ring: tight spring-follow with hover expansion
+ * Uses left/top positioning for reliable cross-browser behavior
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+(function () {
+  // Disable on touch devices
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
+
   const cursorOuter = document.querySelector('.cursor-outer');
   const cursorInner = document.querySelector('.cursor-inner');
-
   if (!cursorOuter || !cursorInner) return;
 
-  // Disable on touch devices immediately
-  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-    cursorOuter.style.display = 'none';
-    cursorInner.style.display = 'none';
-    return;
-  }
+  // Outer ring size (matches CSS: 3.6rem at 10px base = 36px, half = 18px)
+  const OUTER_HALF = 18;
+  // Inner dot size (0.8rem = 8px, half = 4px)
+  const INNER_HALF = 4;
 
-  let mouseX = -200;
-  let mouseY = -200;
-  let outerX = -200;
-  let outerY = -200;
+  let mouseX = -300, mouseY = -300;
+  let outerX = -300, outerY = -300;
   let isDown = false;
-  let started = false;
 
-  // Inner dot follows mouse instantly — no smoothing
+  // Position inner dot instantly on every mouse move
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
 
-    // Inner dot: instant position (centered by subtracting half its size: 0.8rem = ~6.4px)
-    cursorInner.style.transform = `translate(${mouseX - 6}px, ${mouseY - 6}px)`;
+    cursorInner.style.left = (mouseX - INNER_HALF) + 'px';
+    cursorInner.style.top  = (mouseY - INNER_HALF) + 'px';
 
-    if (!document.body.classList.contains('cursor-active')) {
-      document.body.classList.add('cursor-active');
-      outerX = mouseX;
-      outerY = mouseY;
-    }
+    document.body.classList.add('cursor-active');
+  });
 
-    // Start the outer ring loop only after first real mouse position
-    if (!started) {
-      started = true;
-      outerX = mouseX;
-      outerY = mouseY;
-      requestAnimationFrame(tick);
-    }
-  }, { passive: true });
-
-  // Outer ring: tight spring follow (0.35 = responsive but smooth)
-  const SPRING = 0.35;
-
-  const tick = () => {
+  // Outer ring spring-follows mouse
+  const SPRING = 0.18;
+  const loop = () => {
     outerX += (mouseX - outerX) * SPRING;
     outerY += (mouseY - outerY) * SPRING;
 
-    // Outer ring centered by subtracting half its size: 3.6rem = ~28.8px
-    const scale = isDown ? 0.8 : 1;
-    cursorOuter.style.transform = `translate(${outerX - 28}px, ${outerY - 28}px) scale(${scale})`;
+    cursorOuter.style.left = (outerX - OUTER_HALF) + 'px';
+    cursorOuter.style.top  = (outerY - OUTER_HALF) + 'px';
 
-    requestAnimationFrame(tick);
+    if (isDown) {
+      cursorOuter.style.transform = 'scale(0.8)';
+    } else {
+      cursorOuter.style.transform = 'scale(1)';
+    }
+
+    requestAnimationFrame(loop);
   };
+  requestAnimationFrame(loop);
 
-  // Click effect
-  document.addEventListener('mousedown', () => { isDown = true; }, { passive: true });
-  document.addEventListener('mouseup', () => { isDown = false; }, { passive: true });
+  // Click shrink
+  document.addEventListener('mousedown', () => { isDown = true; });
+  document.addEventListener('mouseup',   () => { isDown = false; });
 
-  // Hide when mouse leaves window
-  document.addEventListener('mouseout', (e) => {
-    if (e.relatedTarget === null) {
-      document.body.classList.remove('cursor-active');
-    }
-  }, { passive: true });
+  // Hide when leaving window
+  document.addEventListener('mouseleave', () => {
+    document.body.classList.remove('cursor-active');
+  });
+  document.addEventListener('mouseenter', () => {
+    document.body.classList.add('cursor-active');
+  });
 
-  // Hover detection via event delegation (works for dynamic elements too)
-  const HOVER_SELECTOR = 'a, button, .btn, .nav-toggle, .project-card, .skill-tag, .social-link, .filter-btn, .theme-btn, .dark-mode-toggle, .scroll-top-btn, .section-dot, .connection-item, .project-link, input, textarea';
-
+  // Hover expand via delegation
+  const HOVER = 'a, button, input, textarea, .project-card, .skill-tag, .palette-option, .palette-toggle, .scroll-top-btn, .section-dot';
   document.addEventListener('mouseover', (e) => {
-    if (e.target.closest(HOVER_SELECTOR)) {
-      cursorOuter.classList.add('cursor-hover');
-    }
-  }, { passive: true });
-
+    if (e.target.closest(HOVER)) cursorOuter.classList.add('cursor-hover');
+  });
   document.addEventListener('mouseout', (e) => {
-    if (e.target.closest(HOVER_SELECTOR)) {
-      cursorOuter.classList.remove('cursor-hover');
-    }
-  }, { passive: true });
-});
+    if (e.target.closest(HOVER)) cursorOuter.classList.remove('cursor-hover');
+  });
+})();

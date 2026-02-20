@@ -302,8 +302,8 @@
   pointer-events: none;
   z-index: 99999;
   opacity: 0;
-  will-change: transform;
   border-radius: 50%;
+  will-change: left, top;
 }
 
 .cursor-outer {
