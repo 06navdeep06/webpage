@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     mouseX = e.clientX;
     mouseY = e.clientY;
 
-    // Inner dot: instant position
-    cursorInner.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    // Inner dot: instant position (centered via -50% -50%)
+    cursorInner.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
 
     if (!document.body.classList.contains('cursor-active')) {
       document.body.classList.add('cursor-active');
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     outerY += (mouseY - outerY) * SPRING;
 
     const scale = isDown ? 0.8 : 1;
-    cursorOuter.style.transform = `translate(${outerX}px, ${outerY}px) scale(${scale})`;
+    cursorOuter.style.transform = `translate(calc(${outerX}px - 50%), calc(${outerY}px - 50%)) scale(${scale})`;
 
     requestAnimationFrame(tick);
   };
