@@ -8,7 +8,7 @@
   'use strict';
 
   const GITHUB_USERNAME = '06navdeep06';
-  const API_BASE = 'https://github-analyzer-api.onrender.com'; // update when deployed
+  const API_BASE = '/.netlify/functions/analyze';
 
   /* ── DOM refs ─────────────────────────────────────────────────────────── */
   const section       = document.getElementById('github-stats');
@@ -197,7 +197,7 @@
     show(loadingEl);
 
     try {
-      const res = await fetch(`${API_BASE}/analyze/${GITHUB_USERNAME}`, {
+      const res = await fetch(`${API_BASE}?username=${GITHUB_USERNAME}`, {
         signal: AbortSignal.timeout(20_000),
       });
       if (!res.ok) {
