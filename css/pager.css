@@ -45,12 +45,14 @@ html, body {
 
 /* Projects and contact have a lot of content — ensure they use all space */
 #page-wrapper > section#projects,
+#page-wrapper > section#github-stats,
 #page-wrapper > section#contact {
   display: flex;
   flex-direction: column;
 }
 
 #page-wrapper > section#projects .container,
+#page-wrapper > section#github-stats .container,
 #page-wrapper > section#contact .container {
   flex: 1;
   display: flex;
@@ -63,6 +65,12 @@ html, body {
   overflow-y: auto;
   min-height: 0;
   padding-right: 0.4rem;
+}
+
+#page-wrapper > section#github-stats .container > *:not(.section-header) {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 #page-wrapper > section#contact .contact-content {
