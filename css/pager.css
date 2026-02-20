@@ -44,6 +44,8 @@ html, body {
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
+  /* Create stacking context so morph SVG z-index:-1 stays inside section */
+  isolation: isolate;
 }
 
 /* Hero is full-bleed, centred */

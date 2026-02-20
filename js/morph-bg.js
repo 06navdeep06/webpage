@@ -54,7 +54,7 @@
     svg.setAttribute('aria-hidden', 'true');
     svg.style.cssText = [
       'position:absolute', 'inset:0', 'width:100%', 'height:100%',
-      'z-index:0', 'pointer-events:none', 'overflow:visible',
+      'z-index:-1', 'pointer-events:none', 'overflow:visible',
     ].join(';');
 
     /* Gradient */

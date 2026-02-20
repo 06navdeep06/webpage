@@ -7,7 +7,8 @@
   'use strict';
 
   /* ── Wrap all sections in #page-wrapper ─────────────────────────────── */
-  const sections = Array.from(document.querySelectorAll('body > section'));
+  const sections = Array.from(document.querySelectorAll('body > section'))
+    .filter(s => s.style.display !== 'none' && getComputedStyle(s).display !== 'none');
   if (!sections.length) return;
 
   const wrapper = document.createElement('div');
