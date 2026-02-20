@@ -540,26 +540,18 @@ section {
   transform: translateZ(5px) translateY(-1px);
 }
 
-/* ---------- THEME SWITCHER 3D ---------- */
-.theme-btn {
+/* ---------- COLOR PALETTE 3D ---------- */
+.palette-toggle {
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.3),
     0 4px 8px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.theme-btn:hover {
-  transform: scale(1.15) translateZ(8px) !important;
+.palette-panel {
   box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.35),
-    0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.theme-btn.active {
-  box-shadow:
-    0 4px 8px rgba(var(--color-accent-1-rgb), 0.3),
-    0 8px 16px rgba(var(--color-accent-1-rgb), 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 16px 48px rgba(0, 0, 0, 0.25);
 }
 
 /* ---------- DARK MODE TOGGLE 3D ---------- */

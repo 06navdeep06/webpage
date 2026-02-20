@@ -174,58 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  // Interactive form field effects
-  const addFormFieldEffects = () => {
-    const inputContainers = document.querySelectorAll('.input-container');
-    
-    inputContainers.forEach(container => {
-      // Create ripple effect on focus
-      container.addEventListener('click', (e) => {
-        const input = container.querySelector('input, textarea');
-        if (input) {
-          input.focus();
-          
-          // Create ripple element
-          const ripple = document.createElement('span');
-          ripple.className = 'input-ripple';
-          
-          // Position ripple at click position
-          const rect = container.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          
-          // Style ripple
-          ripple.style.position = 'absolute';
-          ripple.style.width = '10px';
-          ripple.style.height = '10px';
-          ripple.style.borderRadius = '50%';
-          ripple.style.backgroundColor = 'var(--color-accent-2)';
-          ripple.style.opacity = '0.5';
-          ripple.style.transform = 'scale(0)';
-          ripple.style.left = `${x}px`;
-          ripple.style.top = `${y}px`;
-          ripple.style.transition = 'transform 0.6s ease-out, opacity 0.6s ease-out';
-          
-          // Add ripple to container
-          container.appendChild(ripple);
-          
-          // Trigger animation
-          setTimeout(() => {
-            ripple.style.transform = 'scale(100)';
-            ripple.style.opacity = '0';
-          }, 10);
-          
-          // Remove ripple after animation
-          setTimeout(() => {
-            ripple.remove();
-          }, 600);
-        }
-      });
-    });
-  };
-  
-  // Initialize form field effects
-  addFormFieldEffects();
   
   // Social links hover effects
   const socialLinks = document.querySelectorAll('.social-link');

@@ -1275,6 +1275,7 @@
 .input-container {
   position: relative;
   width: 100%;
+  overflow: hidden;
 }
 
 .input-container input,

@@ -102,71 +102,96 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
   
-  // Add theme switcher to DOM if it doesn't exist
-  if (!document.querySelector('.theme-switcher')) {
-    const themeSwitcher = document.createElement('div');
-    themeSwitcher.className = 'theme-switcher';
-    
-    // Create theme buttons
+  // Color Palette button + panel
+  if (!document.querySelector('.palette-toggle')) {
     const themes = [
-      { name: 'default', label: 'Default Theme' },
-      { name: 'cosmic', label: 'Cosmic Theme' },
-      { name: 'cyberpunk', label: 'Cyberpunk Theme' },
-      { name: 'brutalist', label: 'Brutalist Theme' },
-      { name: 'synthwave', label: 'Synthwave Theme' },
-      { name: 'experimental', label: 'Experimental Theme' }
+      { name: 'default', label: 'Default' },
+      { name: 'cosmic', label: 'Cosmic' },
+      { name: 'cyberpunk', label: 'Cyberpunk' },
+      { name: 'brutalist', label: 'Brutalist' },
+      { name: 'synthwave', label: 'Synthwave' },
+      { name: 'experimental', label: 'Experimental' }
     ];
-    
+
+    // Toggle button
+    const toggle = document.createElement('button');
+    toggle.className = 'palette-toggle';
+    toggle.setAttribute('aria-label', 'Color Palette');
+    toggle.innerHTML = '<i class="fas fa-palette"></i>';
+    document.body.appendChild(toggle);
+
+    // Panel
+    const panel = document.createElement('div');
+    panel.className = 'palette-panel';
+    panel.innerHTML = '<span class="palette-title">Color Palette</span>';
+
+    const grid = document.createElement('div');
+    grid.className = 'palette-grid';
+
     themes.forEach(theme => {
-      const button = document.createElement('button');
-      button.className = `theme-btn theme-${theme.name}`;
-      button.setAttribute('data-theme', theme.name);
-      button.setAttribute('aria-label', theme.label);
-      button.title = theme.label;
-      
-      // Set default theme as active
-      if (theme.name === 'default') {
-        button.classList.add('active');
-      }
-      
-      themeSwitcher.appendChild(button);
+      const btn = document.createElement('button');
+      btn.className = `theme-btn theme-${theme.name}`;
+      btn.setAttribute('data-theme', theme.name);
+      btn.setAttribute('aria-label', theme.label);
+      btn.title = theme.label;
+
+      const label = document.createElement('span');
+      label.className = 'theme-label';
+      label.textContent = theme.label;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'palette-option';
+      wrapper.appendChild(btn);
+      wrapper.appendChild(label);
+      grid.appendChild(wrapper);
     });
-    
-    document.body.appendChild(themeSwitcher);
-    
-    // Theme switching functionality
-    const themeButtons = document.querySelectorAll('.theme-btn');
-    
+
+    panel.appendChild(grid);
+    document.body.appendChild(panel);
+
+    // Toggle panel open/close
+    let panelOpen = false;
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      panelOpen = !panelOpen;
+      panel.classList.toggle('open', panelOpen);
+      toggle.classList.toggle('active', panelOpen);
+    });
+
+    // Close panel when clicking outside
+    document.addEventListener('click', (e) => {
+      if (panelOpen && !panel.contains(e.target) && e.target !== toggle) {
+        panelOpen = false;
+        panel.classList.remove('open');
+        toggle.classList.remove('active');
+      }
+    });
+
+    // Theme switching
+    const themeButtons = panel.querySelectorAll('.theme-btn');
     themeButtons.forEach(button => {
       button.addEventListener('click', () => {
         const theme = button.getAttribute('data-theme');
-        
-        // Remove active class from all buttons
         themeButtons.forEach(btn => btn.classList.remove('active'));
-        
-        // Add active class to clicked button
         button.classList.add('active');
-        
-        // Set theme on body
         document.body.setAttribute('data-theme', theme);
-        
-        // Save theme preference to localStorage
         localStorage.setItem('theme', theme);
       });
     });
-    
-    // Load saved theme from localStorage
+
+    // Load saved theme
     const savedTheme = localStorage.getItem('theme');
-    
     if (savedTheme) {
       document.body.setAttribute('data-theme', savedTheme);
-      
-      // Set active class on the corresponding button
-      const activeButton = document.querySelector(`.theme-btn[data-theme="${savedTheme}"]`);
+      const activeButton = panel.querySelector(`.theme-btn[data-theme="${savedTheme}"]`);
       if (activeButton) {
         themeButtons.forEach(btn => btn.classList.remove('active'));
         activeButton.classList.add('active');
       }
+    } else {
+      // Mark default as active
+      const defaultBtn = panel.querySelector('.theme-btn[data-theme="default"]');
+      if (defaultBtn) defaultBtn.classList.add('active');
     }
   }
 });
