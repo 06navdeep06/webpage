@@ -151,26 +151,19 @@
     }
   });
 
-  /* ── Wheel navigation ───────────────────────────────────────────────── */
-  let wheelCooldown = false;
-  window.addEventListener('wheel', (e) => {
-    if (menuOverlay.classList.contains('open')) return;
-
-    /* Allow normal scroll inside overflowing sections */
-    const active = sections[current];
-    const atTop    = active.scrollTop === 0;
-    const atBottom = active.scrollTop + active.clientHeight >= active.scrollHeight - 2;
-
-    if (e.deltaY > 0 && !atBottom) return;
-    if (e.deltaY < 0 && !atTop)    return;
-
-    if (wheelCooldown) return;
-    wheelCooldown = true;
-    setTimeout(() => { wheelCooldown = false; }, 800);
-
-    if (e.deltaY > 0) goTo(current + 1, 'up');
-    else              goTo(current - 1, 'down');
-  }, { passive: true });
+  /* ── Edge-click zones (desktop prev/next) ─────────────────────────── */
+  if (!('ontouchstart' in window)) {
+    const edgePrev = document.createElement('div');
+    const edgeNext = document.createElement('div');
+    edgePrev.className = 'edge-zone edge-prev';
+    edgeNext.className = 'edge-zone edge-next';
+    edgePrev.innerHTML = '<i class="fas fa-chevron-up"></i>';
+    edgeNext.innerHTML = '<i class="fas fa-chevron-down"></i>';
+    document.body.appendChild(edgePrev);
+    document.body.appendChild(edgeNext);
+    edgePrev.addEventListener('click', () => goTo(current - 1, 'down'));
+    edgeNext.addEventListener('click', () => goTo(current + 1, 'up'));
+  }
 
   /* ── Touch swipe ────────────────────────────────────────────────────── */
   let touchStartY = 0;

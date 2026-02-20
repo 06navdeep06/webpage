@@ -310,6 +310,38 @@ html, body {
   letter-spacing: 0.1em;
 }
 
+/* ── Edge-click zones (desktop) ───────────────────────────────────────── */
+.edge-zone {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 290;
+  width: 12rem;
+  height: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  border-radius: 0.6rem;
+}
+
+.edge-zone:hover {
+  opacity: 1;
+  color: var(--color-text-primary);
+}
+
+.edge-prev {
+  top: 0;
+}
+
+.edge-next {
+  bottom: 0;
+}
+
 /* ── Mobile ────────────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .hud { padding: 1.6rem 2rem; }
