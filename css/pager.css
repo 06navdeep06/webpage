@@ -23,60 +23,79 @@ html, body {
   inset: 0;
   width: 100%;
   height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   opacity: 0;
   pointer-events: none;
   transform: translateY(4rem);
   transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
               transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
-  /* Space for HUD at top and arrows at bottom */
-  padding-top: 7rem;
-  padding-bottom: 6rem;
+  /* Compact padding: HUD top clearance + bottom bar clearance */
+  padding: 6.5rem 0 5.5rem !important;
   box-sizing: border-box;
-}
-
-/* Hero needs no top padding — it's full bleed */
-#page-wrapper > section#hero {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-/* Projects and contact have a lot of content — ensure they use all space */
-#page-wrapper > section#projects,
-#page-wrapper > section#github-stats,
-#page-wrapper > section#contact {
+  /* All non-hero sections are flex columns */
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
 }
 
-#page-wrapper > section#projects .container,
-#page-wrapper > section#github-stats .container,
-#page-wrapper > section#contact .container {
+/* Hero is full-bleed, centred */
+#page-wrapper > section#hero {
+  padding: 0 !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Container fills remaining height */
+#page-wrapper > section:not(#hero) > .container {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-height: 0;
+  overflow: hidden;
 }
 
+/* Section header: compact */
+#page-wrapper > section:not(#hero) .section-header {
+  margin-bottom: 1.2rem !important;
+  flex-shrink: 0;
+}
+
+/* Projects grid fills and scrolls if needed */
 #page-wrapper > section#projects .projects-grid {
   flex: 1;
   overflow-y: auto;
   min-height: 0;
-  padding-right: 0.4rem;
 }
 
-#page-wrapper > section#github-stats .container > *:not(.section-header) {
+/* GitHub stats: results area scrolls */
+#page-wrapper > section#github-stats .analyzer-loading,
+#page-wrapper > section#github-stats .analyzer-error,
+#page-wrapper > section#github-stats .analyzer-results {
   flex: 1;
   overflow-y: auto;
   min-height: 0;
 }
 
+/* Contact content fills and scrolls */
 #page-wrapper > section#contact .contact-content {
   flex: 1;
   overflow-y: auto;
   min-height: 0;
+}
+
+/* Signature content fills */
+#page-wrapper > section#signature .signature-content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* About + philosophy: centre content vertically */
+#page-wrapper > section#about,
+#page-wrapper > section#philosophy {
+  justify-content: center;
 }
 
 #page-wrapper > section.page-active {

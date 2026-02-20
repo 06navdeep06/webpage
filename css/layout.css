@@ -90,6 +90,11 @@ section {
   justify-content: center;
 }
 
+/* Compact mode for page-based layout — pager.css overrides padding via !important */
+#page-wrapper > section {
+  padding: 0;
+}
+
 section > .container {
   width: 100%;
   max-width: var(--content-xl);
@@ -98,7 +103,7 @@ section > .container {
 }
 
 .section-header {
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-md);
   position: relative;
   text-align: center;
   max-width: 80rem;
@@ -108,10 +113,10 @@ section > .container {
 
 .section-title {
   font-family: var(--font-secondary);
-  font-size: var(--text-2xl);
+  font-size: var(--text-xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-xs);
   position: relative;
   display: inline-block;
 }
@@ -249,7 +254,7 @@ section > .container {
 .about-section .about-content {
   display: grid;
   grid-template-columns: 3fr 2fr;
-  gap: var(--space-xl);
+  gap: var(--space-md);
   align-items: center;
   max-width: 120rem;
   margin: 0 auto;
@@ -272,8 +277,8 @@ section > .container {
 /* Projects section - masonry-inspired grid */
 .projects-section .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
-  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+  gap: var(--space-md);
   max-width: 140rem;
   margin: 0 auto;
 }
@@ -282,7 +287,7 @@ section > .container {
 .contact-section .contact-content {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
-  gap: var(--space-xl);
+  gap: var(--space-md);
   align-items: start;
   max-width: 120rem;
   margin: 0 auto;
