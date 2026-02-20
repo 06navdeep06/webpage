@@ -278,11 +278,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize styles
     initializeStyles();
     
-    // Initialize preloader
-    initPreloader();
-    
-    // Initialize page transitions
-    initPageTransitions();
+    // initPreloader();    // disabled: pager handles page display
+    // initPageTransitions(); // disabled: sets body opacity:0, fights pager
     
     // Initialize performance optimizations
     initPerformanceOptimizations();
