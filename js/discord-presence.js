@@ -75,11 +75,7 @@
   function render(data) {
     /* Avatar */
     if (elAvatar && data.discord_user) {
-      const u = data.discord_user;
-      const avatarUrl = u.avatar
-        ? `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.${u.avatar.startsWith('a_') ? 'gif' : 'webp'}?size=128`
-        : `https://cdn.discordapp.com/embed/avatars/${(BigInt(u.id) >> 22n) % 6n}.png`;
-      elAvatar.src = avatarUrl;
+      elAvatar.src = avatarUrl(data.discord_user);
     }
 
     /* Tag */
@@ -176,6 +172,25 @@
     if (elIdle) elIdle.style.display = hasActivity ? 'none' : '';
   }
 
+  /* ── Avatar URL helper (no BigInt) ── */
+  function avatarUrl(u) {
+    if (u.avatar) {
+      const ext = u.avatar.startsWith('a_') ? 'gif' : 'webp';
+      return `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.${ext}?size=128`;
+    }
+    /* default avatar index = (id >> 22) % 6  — done with string math to avoid BigInt issues */
+    const idx = parseInt(u.id.slice(-4), 10) % 6;
+    return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
+  }
+
+  /* ── REST fetch for immediate render ── */
+  function fetchREST() {
+    fetch(`https://api.lanyard.rest/v1/users/${USER_ID}`)
+      .then(r => r.json())
+      .then(j => { if (j.success) render(j.data); })
+      .catch(() => {});
+  }
+
   /* ── WebSocket ── */
   function connect() {
     const ws = new WebSocket(WS_URL);
@@ -221,6 +236,7 @@
     elCustomStatus     = document.getElementById('dc-custom-status');
     elIdle             = document.getElementById('dc-idle');
 
-    connect();
+    fetchREST(); /* immediate render from REST */
+    connect();   /* then keep live via WebSocket */
   });
 })();
