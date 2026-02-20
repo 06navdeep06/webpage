@@ -52,6 +52,15 @@
   pointer-events: none;
 }
 
+.scroll-top-btn i {
+  position: relative;
+  z-index: 1;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .scroll-top-btn .progress-ring__circle {
   fill: none;
   stroke: var(--color-accent-1);
