@@ -167,10 +167,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Theme switching
+    // Theme switching — clicking anywhere on the row works
     const themeButtons = panel.querySelectorAll('.theme-btn');
-    themeButtons.forEach(button => {
-      button.addEventListener('click', () => {
+    const paletteOptions = panel.querySelectorAll('.palette-option');
+    paletteOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const button = option.querySelector('.theme-btn');
         const theme = button.getAttribute('data-theme');
         themeButtons.forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');

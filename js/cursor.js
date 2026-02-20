@@ -17,11 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  let mouseX = 0;
-  let mouseY = 0;
-  let outerX = 0;
-  let outerY = 0;
+  let mouseX = -200;
+  let mouseY = -200;
+  let outerX = -200;
+  let outerY = -200;
   let isDown = false;
+  let started = false;
 
   // Inner dot follows mouse instantly — no smoothing
   document.addEventListener('mousemove', (e) => {
@@ -35,6 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.add('cursor-active');
       outerX = mouseX;
       outerY = mouseY;
+    }
+
+    // Start the outer ring loop only after first real mouse position
+    if (!started) {
+      started = true;
+      outerX = mouseX;
+      outerY = mouseY;
+      requestAnimationFrame(tick);
     }
   }, { passive: true });
 
@@ -50,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     requestAnimationFrame(tick);
   };
-  requestAnimationFrame(tick);
 
   // Click effect
   document.addEventListener('mousedown', () => { isDown = true; }, { passive: true });
