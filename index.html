@@ -125,42 +125,27 @@
         </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- Skills Section (merged with Tech Stack) -->
     <section id="skills" class="skills-section">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">$ apt list --installed</h2>
                 <div class="section-line"></div>
             </div>
-            <div class="skills-container">
-                <div class="skills-visualization">
-                    <canvas id="skills-canvas"></canvas>
-                </div>
-                <!-- Dynamic skills will be loaded here from GitHub repositories -->
+            <div class="skills-merged-layout">
+                <!-- Left: skill tags by category -->
                 <div id="skills-section" class="skills-categories">
                     <div class="skills-loading">
                         <div class="loader"></div>
                         <p>Scanning repos for tech stack...</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skill Chart Section -->
-    <section id="skillchart" class="skillchart-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Tech Stack</h2>
-                <div class="section-line"></div>
-            </div>
-            <div class="skill-stack-intro">
-               
-            </div>
-            <div class="skillchart-wrapper">
-                <canvas id="skill-pie-canvas"></canvas>
-                <div class="skillchart-legend">
-
+                <!-- Right: 3D pie chart -->
+                <div class="skillchart-panel">
+                    <div class="skillchart-label">Tech Stack</div>
+                    <div class="skillchart-wrapper">
+                        <canvas id="skill-pie-canvas"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
