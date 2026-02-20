@@ -31,6 +31,44 @@ html, body {
   transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
               transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
+  /* Space for HUD at top and arrows at bottom */
+  padding-top: 7rem;
+  padding-bottom: 6rem;
+  box-sizing: border-box;
+}
+
+/* Hero needs no top padding — it's full bleed */
+#page-wrapper > section#hero {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Projects and contact have a lot of content — ensure they use all space */
+#page-wrapper > section#projects,
+#page-wrapper > section#contact {
+  display: flex;
+  flex-direction: column;
+}
+
+#page-wrapper > section#projects .container,
+#page-wrapper > section#contact .container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#page-wrapper > section#projects .projects-grid {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 0.4rem;
+}
+
+#page-wrapper > section#contact .contact-content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 #page-wrapper > section.page-active {
