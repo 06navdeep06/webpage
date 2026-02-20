@@ -232,46 +232,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
   socialLinks.forEach(link => {
     link.addEventListener('mouseenter', () => {
-      // Add hover class
       link.classList.add('hover');
-      
-      // Play sound if enabled
-      document.dispatchEvent(new CustomEvent('play-hover-sound', {
-        detail: { frequency: 440 + Math.random() * 100 }
-      }));
     });
     
     link.addEventListener('mouseleave', () => {
       link.classList.remove('hover');
     });
-  });
-  
-  // Handle hover sound event
-  document.addEventListener('play-hover-sound', (e) => {
-    // Check if sound is enabled
-    const soundButton = document.getElementById('sound-button');
-    if (soundButton && soundButton.innerHTML.includes('volume-up')) {
-      // Create audio context if it doesn't exist
-      if (!window.audioContext) {
-        window.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      
-      // Play a subtle sound
-      const frequency = e.detail?.frequency || 440;
-      const oscillator = window.audioContext.createOscillator();
-      const gainNode = window.audioContext.createGain();
-      
-      oscillator.type = 'sine';
-      oscillator.frequency.value = frequency;
-      
-      gainNode.gain.value = 0.05;
-      gainNode.gain.exponentialRampToValueAtTime(0.001, window.audioContext.currentTime + 0.3);
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(window.audioContext.destination);
-      
-      oscillator.start();
-      oscillator.stop(window.audioContext.currentTime + 0.3);
-    }
   });
 });

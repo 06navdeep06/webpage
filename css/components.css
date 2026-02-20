@@ -367,13 +367,7 @@
   overflow: hidden;
   transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border: none;
-  /* Asymmetric shape */
-  clip-path: polygon(0 0, 100% 0, 93% 88%, 97% 100%, 7% 100%, 3% 85%);
-}
-
-/* Different clip paths for different buttons */
-.btn:nth-of-type(odd) {
-  clip-path: polygon(0 0, 97% 0, 100% 15%, 93% 100%, 0 100%);
+  border-radius: 0.4rem;
 }
 
 .btn::before {
@@ -545,8 +539,7 @@
   width: 3.5rem;
   height: 0.2rem;
   background-color: var(--color-accent-1);
-  /* Jagged line instead of straight */
-  clip-path: polygon(0 0, 15% 50%, 30% 0, 45% 50%, 60% 0, 75% 50%, 90% 0, 100% 50%, 100% 100%, 0 100%);
+  border-radius: 2px;
 }
 
 .skill-tags {
@@ -566,12 +559,6 @@
   cursor: default;
   border-left: 2px solid transparent;
 }
-
-/* Different clip paths for different categories */
-.skill-category:nth-child(1) .skill-tag { clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%); }
-.skill-category:nth-child(2) .skill-tag { clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%); }
-.skill-category:nth-child(3) .skill-tag { clip-path: polygon(0 0, 95% 0, 100% 100%, 5% 100%); }
-.skill-category:nth-child(4) .skill-tag { clip-path: polygon(5% 0, 100% 5%, 95% 100%, 0% 95%); }
 
 /* Stagger tags within each category */
 .skill-tag:nth-child(3n+1) { transform: translateY(0); }
@@ -661,17 +648,8 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Different clip paths for different cards */
-.project-card:nth-child(odd) {
-  clip-path: polygon(0 0, 100% 0, 98% 100%, 0% 98%);
-}
-
-.project-card:nth-child(even) {
-  clip-path: polygon(0 0, 100% 2%, 100% 100%, 2% 100%);
-}
-
-.project-card:nth-child(3n) {
-  clip-path: polygon(0 2%, 98% 0, 100% 100%, 0 100%);
+.project-card {
+  border-radius: 0.6rem;
 }
 
 .project-card:focus {
@@ -810,8 +788,6 @@
   font-size: var(--text-xs);
   line-height: 1.5;
   color: var(--color-text-secondary);
-  /* Asymmetric shape */
-  clip-path: polygon(0 0, 100% 0, 97% 97%, 3% 100%);
   border-left: 2px solid var(--color-accent-2);
   transition: all 0.3s ease;
 }
@@ -843,9 +819,9 @@
   position: relative;
 }
 
-.project-tag:nth-child(1) { clip-path: polygon(0 0, 100% 0, 92% 100%, 8% 100%); }
-.project-tag:nth-child(2) { clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%); }
-.project-tag:nth-child(3) { clip-path: polygon(0 15%, 100% 0, 100% 85%, 0% 100%); }
+.project-tag {
+  border-radius: 0.3rem;
+}
 
 .project-links {
   display: flex;
@@ -884,13 +860,13 @@
   background-color: transparent;
   color: var(--color-text-primary);
   border: 1px solid var(--color-text-tertiary);
-  clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+  border-radius: 0.3rem;
 }
 
 .project-link-demo {
   background-color: var(--color-accent-1);
   color: var(--color-text-primary);
-  clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+  border-radius: 0.3rem;
 }
 
 .project-link:hover {
@@ -1160,7 +1136,7 @@
 /* ---------- GIF EMBEDS ---------- */
 .gif-embed {
   border: 2px solid var(--color-border);
-  clip-path: polygon(0 0, 100% 0, 97% 97%, 3% 100%);
+  border-radius: 0.6rem;
   transition: all 0.4s ease;
 }
 
@@ -1190,7 +1166,7 @@
   width: 100%;
   max-width: 100%;
   opacity: 0.7;
-  clip-path: polygon(3% 0, 100% 3%, 97% 100%, 0 97%);
+  border-radius: 0.6rem;
 }
 
 .gif-philosophy {
@@ -1211,7 +1187,7 @@
   background-color: var(--color-bg-card);
   padding: var(--space-md);
   border-left: 3px solid var(--color-accent-1);
-  clip-path: polygon(0 0, 100% 2%, 97% 100%, 0 98%);
+  border-radius: 0.4rem;
 }
 
 .fun-quote p {
@@ -1393,8 +1369,7 @@
 .contact-info {
   padding: var(--space-lg);
   background-color: var(--color-bg-card);
-  /* Asymmetric shape */
-  clip-path: polygon(0 5%, 100% 0, 97% 97%, 3% 100%);
+  border-radius: 0.8rem;
   position: relative;
 }
 
@@ -1467,17 +1442,8 @@
   overflow: hidden;
 }
 
-/* Different shapes for different social links */
-.github-link {
-  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
-}
-
-.linkedin-link {
-  clip-path: polygon(10% 0, 100% 10%, 90% 100%, 0 90%);
-}
-
-.twitter-link {
-  clip-path: polygon(0 10%, 90% 0, 100% 90%, 10% 100%);
+.social-link {
+  border-radius: 0.6rem;
 }
 
 .social-link::before {

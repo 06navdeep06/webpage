@@ -5,55 +5,12 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const signatureCanvas = document.getElementById('signature-canvas');
-  const particlesContainer = document.getElementById('sig-particles');
-  const cursor = document.getElementById('sig-cursor');
   
   if (!signatureCanvas) return;
 
   // Rotating titles for the dynamic title effect
   const titles = ['Backend Engineer', 'API Architect', 'System Designer', 'Problem Solver', 'Code Craftsman'];
   let currentTitleIndex = 0;
-
-  // Particle system for background effects
-  class SignatureParticle {
-    constructor(container) {
-      this.container = container;
-      this.element = document.createElement('div');
-      this.element.className = 'sig-particle';
-      this.reset();
-      container.appendChild(this.element);
-    }
-
-    reset() {
-      const size = Math.random() * 3 + 1;
-      const duration = Math.random() * 15 + 10;
-      const delay = Math.random() * 5;
-      
-      this.element.style.cssText = `
-        position: absolute;
-        width: ${size}px;
-        height: ${size}px;
-        background: var(--color-accent-1);
-        border-radius: 50%;
-        left: ${Math.random() * 100}%;
-        top: ${Math.random() * 100}%;
-        opacity: ${Math.random() * 0.5 + 0.1};
-        pointer-events: none;
-        animation: particleFloat ${duration}s linear ${delay}s infinite;
-        box-shadow: 0 0 ${size * 2}px var(--color-accent-1);
-      `;
-      
-      setTimeout(() => this.reset(), (duration + delay) * 1000);
-    }
-  }
-
-  // Initialize particles
-  const particles = [];
-  for (let i = 0; i < 20; i++) {
-    setTimeout(() => {
-      particles.push(new SignatureParticle(particlesContainer));
-    }, i * 100);
-  }
 
   // Rotating title animation
   const rotateTitle = () => {
@@ -74,43 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Start title rotation
   setInterval(rotateTitle, 3000);
-
-  // Glitch effect for name
-  const createGlitch = (element) => {
-    if (!element) return;
-    
-    const originalText = element.textContent;
-    const glitchChars = ['!', '@', '#', '$', '%', '&', '*', '?'];
-    
-    let glitchDuration = 200;
-    let glitchInterval = 50;
-    let elapsed = 0;
-    
-    const glitchAnimation = setInterval(() => {
-      if (elapsed >= glitchDuration) {
-        element.textContent = originalText;
-        clearInterval(glitchAnimation);
-        return;
-      }
-      
-      if (Math.random() < 0.3) {
-        const glitchedText = originalText.split('').map(char => 
-          Math.random() < 0.1 ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
-        ).join('');
-        element.textContent = glitchedText;
-      }
-      
-      elapsed += glitchInterval;
-    }, glitchInterval);
-  };
-
-  // Random glitch effects
-  setInterval(() => {
-    const nameElement = document.querySelector('.name-glitch');
-    if (nameElement && Math.random() < 0.1) {
-      createGlitch(nameElement);
-    }
-  }, 4000);
 
   // Interactive connection items
   const connectionItems = document.querySelectorAll('.connection-item');
@@ -190,30 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   }
 
-  // Custom cursor that follows mouse
-  let mouseX = 0, mouseY = 0;
-  let cursorX = 0, cursorY = 0;
-
-  signatureCanvas.addEventListener('mousemove', (e) => {
-    const rect = signatureCanvas.getBoundingClientRect();
-    mouseX = e.clientX - rect.left;
-    mouseY = e.clientY - rect.top;
-  });
-
-  const animateCursor = () => {
-    cursorX += (mouseX - cursorX) * 0.1;
-    cursorY += (mouseY - cursorY) * 0.1;
-    
-    if (cursor) {
-      cursor.style.left = `${cursorX}px`;
-      cursor.style.top = `${cursorY}px`;
-      cursor.style.opacity = mouseX > 0 && mouseY > 0 ? '1' : '0';
-    }
-    
-    requestAnimationFrame(animateCursor);
-  };
-  animateCursor();
-
   // Intersection Observer for entrance animations
   const observerOptions = {
     threshold: 0.3,
@@ -239,23 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add CSS animations
   const style = document.createElement('style');
   style.textContent = `
-    @keyframes particleFloat {
-      0% {
-        transform: translateY(0) translateX(0) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100px) translateX(${Math.random() * 100 - 50}px) rotate(360deg);
-        opacity: 0;
-      }
-    }
-    
     @keyframes signatureEntrance {
       from {
         opacity: 0;
@@ -408,28 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
       background: var(--color-accent-1);
       border-radius: 50%;
       transition: all 0.3s ease;
-    }
-    
-    .signature-particles {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-    
-    .signature-cursor {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      color: var(--color-accent-1);
-      font-size: 12px;
-      pointer-events: none;
-      z-index: 10;
-      transition: opacity 0.3s ease;
-      transform: translate(-50%, -50%);
     }
   `;
   document.head.appendChild(style);

@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const navToggle = document.querySelector('.nav-toggle');
   const navLinks = document.querySelector('.nav-links');
   const navItems = document.querySelectorAll('.nav-links li');
-  const soundButton = document.getElementById('sound-button');
   
   // Set index for staggered animation
   navItems.forEach((item, index) => {
@@ -102,26 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  // Sound toggle functionality
-  if (soundButton) {
-    // Audio context and sounds would be initialized in main.js
-    // This just handles the button toggle
-    let soundEnabled = false;
-    
-    soundButton.addEventListener('click', () => {
-      soundEnabled = !soundEnabled;
-      
-      // Toggle icon
-      if (soundEnabled) {
-        soundButton.innerHTML = '<i class="fas fa-volume-up"></i>';
-        // Event for other scripts to listen to
-        document.dispatchEvent(new CustomEvent('sound-enabled'));
-      } else {
-        soundButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
-        document.dispatchEvent(new CustomEvent('sound-disabled'));
-      }
-    });
-  }
   
   // Add theme switcher to DOM if it doesn't exist
   if (!document.querySelector('.theme-switcher')) {

@@ -68,88 +68,6 @@ const initHoverEffects = () => {
   });
 };
   
-// Initialize scroll-triggered sound effects (if enabled)
-const initScrollSounds = () => {
-  let audioContext = null;
-  let soundEnabled = false;
-  
-  // Create audio context when sound is enabled
-  document.addEventListener('sound-enabled', () => {
-    soundEnabled = true;
-    
-    // Initialize Web Audio API
-    if (!audioContext) {
-      audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    }
-  });
-  
-  // Disable sounds
-  document.addEventListener('sound-disabled', () => {
-    soundEnabled = false;
-  });
-  
-  // Play a subtle sound when scrolling to a new section
-  const sections = document.querySelectorAll('section[id]');
-  let currentSection = null;
-  
-  // Function to play a simple tone
-  const playTone = (frequency, duration, volume) => {
-    if (!soundEnabled || !audioContext) return;
-    
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.type = 'sine';
-    oscillator.frequency.value = frequency;
-    
-    gainNode.gain.value = volume;
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + duration);
-  };
-  
-  // Check current section on scroll
-  window.addEventListener('scroll', () => {
-    const scrollPosition = window.scrollY + window.innerHeight / 3;
-    
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute('id');
-      
-      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-        if (currentSection !== sectionId) {
-          currentSection = sectionId;
-          
-          // Play different tones for different sections
-          switch(sectionId) {
-            case 'hero':
-              playTone(440, 0.3, 0.05); // A4
-              break;
-            case 'about':
-              playTone(494, 0.3, 0.05); // B4
-              break;
-            case 'skills':
-              playTone(523, 0.3, 0.05); // C5
-              break;
-            case 'projects':
-              playTone(587, 0.3, 0.05); // D5
-              break;
-            case 'contact':
-              playTone(659, 0.3, 0.05); // E5
-              break;
-            default:
-              playTone(440, 0.3, 0.05); // A4
-          }
-        }
-      }
-    });
-  });
-};
   
 // Initialize text splitting for creative text effects
 const initTextEffects = () => {
@@ -264,7 +182,6 @@ const initAllAnimations = () => {
   initScrollAnimations();
   initParallaxEffects();
   initHoverEffects();
-  initScrollSounds();
   initTextEffects();
   initScrollProgress();
   initSectionTransitions();
