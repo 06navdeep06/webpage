@@ -157,58 +157,51 @@ document.addEventListener('DOMContentLoaded', () => {
     return intentMap[repo.name.toLowerCase()] || '';
   };
 
+  // Language colour map
+  const LANG_COLORS = {
+    JavaScript: '#f1e05a', TypeScript: '#2b7489', Python: '#3572A5',
+    'C++': '#f34b7d', C: '#555555', Java: '#b07219', Go: '#00ADD8',
+    Rust: '#dea584', Ruby: '#701516', PHP: '#4F5D95', Swift: '#ffac45',
+    Kotlin: '#F18E33', Shell: '#89e051', HTML: '#e34c26', CSS: '#563d7c',
+    Lua: '#000080', Scala: '#c22d40',
+  };
+
   // Create HTML for a project card
   const createProjectCard = (repo) => {
-    const category = detectProjectCategory(repo);
     const technologies = detectTechnologies(repo);
-    const projectIntent = getProjectIntent(repo);
-    
-    // Use GitHub's OpenGraph image for the repo (works for all public repos)
-    const repoOwner = githubConfig.username || '06navdeep06';
-    const imageUrl = `https://opengraph.githubassets.com/1/${repoOwner}/${repo.name}`;
-    
-    // Create tags HTML - limit to 3 most important technologies
-    const tagsHtml = technologies.slice(0, 3).map(tech => 
-      `<span class="project-tag">${tech}</span>`
-    ).join('');
-    
-    // Create demo link if homepage is available
-    const demoLink = repo.homepage 
-      ? `<a href="${repo.homepage}" target="_blank" rel="noopener noreferrer" class="project-link project-link-demo">Experience</a>` 
+    const displayName = repo.name.replace(/-/g, ' ').replace(/_/g, ' ');
+    const description = repo.description && repo.description.trim()
+      ? repo.description
+      : 'A project on GitHub — click to explore.';
+
+    const langColor = LANG_COLORS[repo.language] || '#6E00FF';
+    const langDot = repo.language
+      ? `<span class="pc-lang-dot" style="background:${langColor}"></span><span class="pc-lang-name">${repo.language}</span>`
       : '';
-    
-    // Add intent section if available
-    const intentHtml = projectIntent 
-      ? `<p class="project-intent"><span class="intent-label">Why:</span> ${projectIntent}</p>` 
+
+    const stars = repo.stargazers_count > 0
+      ? `<span class="pc-stars"><i class="fas fa-star"></i> ${repo.stargazers_count}</span>`
       : '';
-    
-    // Add source code section if available
-    const sourceCodeHtml = repo.sourceCode 
-      ? `<div class="project-source-code">
-           <h4>Source Code Snippet</h4>
-           <pre><code>${repo.sourceCode}</code></pre>
-         </div>` 
+
+    const tagsHtml = technologies.slice(0, 3)
+      .map(t => `<span class="pc-tag">${t}</span>`).join('');
+
+    const demoBtn = repo.homepage
+      ? `<a href="${repo.homepage}" target="_blank" rel="noopener noreferrer" class="pc-btn pc-btn-demo"><i class="fas fa-external-link-alt"></i> Live</a>`
       : '';
-    
+
     return `
-      <div class="project-card" data-category="${category}" tabindex="0" role="article" aria-labelledby="project-${repo.name.replace(/\s+/g, '-').toLowerCase()}">
-        <div class="project-image">
-          <img src="${imageUrl}" alt="${repo.name}" loading="lazy">
-          <div class="project-overlay">
-            <div class="project-tags" aria-label="Project technologies">
-              ${tagsHtml}
-            </div>
-          </div>
+      <div class="project-card pc-card" tabindex="0" role="article">
+        <div class="pc-header">
+          <div class="pc-icon"><i class="fas fa-code-branch"></i></div>
+          <div class="pc-meta">${langDot}${stars}</div>
         </div>
-        <div class="project-content">
-          <h3 class="project-title" id="project-${repo.name.replace(/\s+/g, '-').toLowerCase()}">${repo.name}</h3>
-          <p class="project-description">${repo.description || 'No description available'}</p>
-          ${intentHtml}
-          ${sourceCodeHtml}
-          <div class="project-links">
-            <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="project-link project-link-code" aria-label="View ${repo.name} source code on GitHub">Explore Code</a>
-            ${demoLink ? demoLink.replace('Experience', `Experience ${repo.name}`).replace('class="project-link', 'aria-label="View live demo of ${repo.name}" class="project-link') : ''}
-          </div>
+        <h3 class="pc-title">${displayName}</h3>
+        <p class="pc-desc">${description}</p>
+        ${tagsHtml ? `<div class="pc-tags">${tagsHtml}</div>` : ''}
+        <div class="pc-footer">
+          <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="pc-btn pc-btn-code"><i class="fab fa-github"></i> Code</a>
+          ${demoBtn}
         </div>
       </div>
     `;
@@ -536,9 +529,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       } else if (!hasToken && Array.isArray(responseData)) {
         // Process REST API response (for GitHub Pages without token)
-        // Filter out forks and sort by stars
+        // Filter out forks, archived, and low-quality repos
         const filteredRepos = responseData
-          .filter(repo => !repo.fork && !repo.archived)
+          .filter(repo =>
+            !repo.fork &&
+            !repo.archived &&
+            repo.name.length > 2 &&
+            !/^(ss|test|temp|untitled|repo\d*)$/i.test(repo.name)
+          )
           .sort((a, b) => b.stargazers_count - a.stargazers_count)
           .slice(0, githubConfig.repoCount);
           
