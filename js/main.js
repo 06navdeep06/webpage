@@ -230,10 +230,10 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Style dark mode toggle
       darkModeToggle.style.position = 'fixed';
-      darkModeToggle.style.bottom = '7rem';
+      darkModeToggle.style.bottom = '5.5rem';
       darkModeToggle.style.right = '2rem';
-      darkModeToggle.style.width = '3rem';
-      darkModeToggle.style.height = '3rem';
+      darkModeToggle.style.width = '2.6rem';
+      darkModeToggle.style.height = '2.6rem';
       darkModeToggle.style.borderRadius = '50%';
       darkModeToggle.style.backgroundColor = 'var(--color-bg-card)';
       darkModeToggle.style.border = '2px solid var(--color-border)';

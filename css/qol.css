@@ -9,7 +9,7 @@
 .scroll-top-btn {
   position: fixed;
   bottom: 2rem;
-  right: 6rem;
+  right: 5.5rem;
   width: 3.6rem;
   height: 3.6rem;
   border-radius: 50%;
@@ -62,7 +62,7 @@
 /* ---------- SECTION NAV DOTS ---------- */
 .section-dots {
   position: fixed;
-  right: 6.5rem;
+  left: 2rem;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -94,7 +94,7 @@
 .section-dot::before {
   content: attr(data-label);
   position: absolute;
-  right: 2rem;
+  left: 2rem;
   top: 50%;
   transform: translateY(-50%);
   background: var(--color-bg-card);
@@ -105,12 +105,12 @@
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease, right 0.25s ease;
+  transition: opacity 0.25s ease, left 0.25s ease;
 }
 
 .section-dot:hover::before {
   opacity: 1;
-  right: 2.4rem;
+  left: 2.4rem;
 }
 
 .section-dot.active {
@@ -264,7 +264,7 @@ img.lazy-img:not(.loaded) {
 
   .scroll-top-btn {
     bottom: 1.2rem;
-    right: 5rem;
+    right: 4.5rem;
     width: 3.2rem;
     height: 3.2rem;
   }

@@ -163,19 +163,20 @@
   .theme-switcher {
     bottom: 1rem;
     right: 1rem;
+    max-height: 2.4rem;
   }
   
   .theme-btn {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
   }
   
   /* Dark mode toggle */
   .dark-mode-toggle {
-    bottom: 6rem;
-    right: 1rem;
-    width: 2.5rem;
-    height: 2.5rem;
+    bottom: 4.5rem !important;
+    right: 1rem !important;
+    width: 2.2rem !important;
+    height: 2.2rem !important;
   }
 }
 
