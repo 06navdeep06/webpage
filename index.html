@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/qol.css">
     <link rel="stylesheet" href="css/3d.css">
+    <link rel="stylesheet" href="css/python-repl.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,6 +49,7 @@
                 <li><a href="#philosophy" data-text="Philosophy">Philosophy</a></li>
                 <li><a href="#skills" data-text="Skills">Skills</a></li>
                 <li><a href="#projects" data-text="Projects">Projects</a></li>
+                <li><a href="#python-repl" data-text="Python">Python</a></li>
                 <li><a href="#contact" data-text="Contact">Contact</a></li>
             </ul>
         </div>
@@ -162,6 +164,57 @@
                 <!-- Projects will be dynamically loaded here -->
                 <div class="projects-loading">
                     <div class="loader"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Python REPL Section -->
+    <section id="python-repl" class="python-repl-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">// python3 -i</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="repl-intro">
+                <p>Live Python interpreter — running entirely in your browser via WebAssembly. No server. No tricks. Just Python.</p>
+            </div>
+            <div class="repl-layout">
+                <div class="repl-terminal" id="repl-terminal">
+                    <div class="repl-header">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="repl-title">Python 3.x — Pyodide (WASM)</span>
+                        <div class="repl-header-actions">
+                            <button class="repl-btn" id="repl-clear-btn" title="Clear output">clear</button>
+                            <button class="repl-btn" id="repl-reset-btn" title="Reset interpreter">reset</button>
+                        </div>
+                    </div>
+                    <div class="repl-output" id="repl-output">
+                        <div class="repl-boot-msg" id="repl-boot-msg">
+                            <span class="repl-accent">Initializing Python runtime</span><span class="repl-dots">...</span>
+                        </div>
+                    </div>
+                    <div class="repl-input-row" id="repl-input-row">
+                        <span class="repl-prompt">&gt;&gt;&gt;</span>
+                        <input type="text" id="repl-input" class="repl-input" placeholder="Type Python code and press Enter" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled>
+                    </div>
+                </div>
+                <div class="repl-snippets">
+                    <div class="snippets-label">Try these snippets</div>
+                    <div class="snippet-list" id="snippet-list">
+                        <button class="snippet-btn" data-code="import sys; print(f'Python {sys.version}')">sys.version</button>
+                        <button class="snippet-btn" data-code="import math; print([math.factorial(n) for n in range(10)])">factorials</button>
+                        <button class="snippet-btn" data-code="fib = lambda n: n if n <= 1 else fib(n-1)+fib(n-2); print([fib(i) for i in range(12)])">fibonacci λ</button>
+                        <button class="snippet-btn" data-code="primes = [x for x in range(2,50) if all(x%i for i in range(2,x))]; print(primes)">primes</button>
+                        <button class="snippet-btn" data-code="from collections import Counter; words = 'the quick brown fox jumps over the lazy dog'.split(); print(Counter(words).most_common(3))">Counter</button>
+                        <button class="snippet-btn" data-code="import json; data = {'name': 'Navdeep', 'role': 'Backend Dev', 'stack': ['Python','Node.js','Docker']}; print(json.dumps(data, indent=2))">JSON dump</button>
+                        <button class="snippet-btn" data-code="matrix = [[i*j for j in range(1,6)] for i in range(1,6)]; [print(' '.join(f'{v:3}' for v in row)) for row in matrix]">matrix</button>
+                        <button class="snippet-btn" data-code="from functools import reduce; print(reduce(lambda a,b: a*b, range(1,11)))">reduce</button>
+                        <button class="snippet-btn" data-code="class Stack:\n    def __init__(self): self.data=[]\n    def push(self,x): self.data.append(x)\n    def pop(self): return self.data.pop()\ns=Stack(); [s.push(i) for i in range(5)]; print([s.pop() for _ in range(5)])">Stack class</button>
+                        <button class="snippet-btn" data-code="import itertools; pairs = list(itertools.combinations('ABCD', 2)); print(pairs)">itertools</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -363,6 +416,8 @@
     <script src="js/signature.js"></script>
     <script src="js/3d-engine.js"></script>
     <script src="js/qol.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js"></script>
+    <script src="js/python-repl.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
