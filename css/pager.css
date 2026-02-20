@@ -9,12 +9,18 @@ html, body {
   height: 100%;
 }
 
+/* Techy bg canvas sits behind everything */
+#bg-canvas {
+  z-index: 0;
+}
+
 /* Wrapper that holds all pages */
 #page-wrapper {
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
 
 /* Every section becomes a full-viewport page */
@@ -47,13 +53,15 @@ html, body {
   justify-content: center;
 }
 
-/* Container fills remaining height */
+/* Container fills remaining height and sits above morph SVG */
 #page-wrapper > section:not(#hero) > .container {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 /* Section header: compact */
