@@ -41,7 +41,6 @@
             <a class="hud-nav-link" data-page="3" href="#">Projects</a>
             <a class="hud-nav-link" data-page="4" href="#">Stats</a>
             <a class="hud-nav-link" data-page="5" href="#">Contact</a>
-            <a class="hud-nav-link" data-page="6" href="#">Signature</a>
         </nav>
     </div>
 
@@ -66,14 +65,15 @@
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- About Section (merged with Signature) -->
     <section id="about" class="about-section">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">// About Me</h2>
                 <div class="section-line"></div>
             </div>
-            <div class="about-content">
+            <div class="about-merged-content">
+                <!-- Left: bio -->
                 <div class="about-text">
                     <div class="terminal-block">
                         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span> <span class="terminal-title">navdeep@dev:~</span></div>
@@ -84,8 +84,66 @@
                     <p class="about-paragraph">Backend engineer focused on APIs, databases, and infrastructure. Working primarily with Node.js, Python, and modern web technologies.</p>
                     <p class="about-paragraph">Passionate about clean code, efficient systems, and contributing to open source projects.</p>
                 </div>
-                <div class="about-image">
-                    <img src="https://media.giphy.com/media/ZVik7pBtu9dNS/giphy.gif" alt="typing code" class="gif-embed gif-about">
+                <!-- Right: identity card -->
+                <div class="about-sig-card">
+                    <div class="sig-avatar-inline">
+                        <div class="avatar-glitch">
+                            <span class="avatar-text">ND</span>
+                        </div>
+                    </div>
+                    <div class="sig-identity">
+                        <h2 class="sig-name">
+                            <span class="name-glitch" data-text="Navdeep">Navdeep</span>
+                        </h2>
+                        <div class="sig-title">
+                            <span class="title-rotating">Backend Engineer</span>
+                            <span class="title-separator">//</span>
+                            <span class="title-static">Creative Developer</span>
+                        </div>
+                    </div>
+                    <div class="sig-connections">
+                        <div class="connection-item" data-type="email">
+                            <div class="conn-icon">📧</div>
+                            <div class="conn-data">
+                                <span class="conn-label">Mail</span>
+                                <span class="conn-value">nepal00909@gmail.com</span>
+                            </div>
+                        </div>
+                        <div class="connection-item" data-type="github">
+                            <div class="conn-icon">🐙</div>
+                            <div class="conn-data">
+                                <span class="conn-label">Code</span>
+                                <span class="conn-value">github.com/06navdeep06</span>
+                            </div>
+                        </div>
+                        <div class="connection-item" data-type="instagram">
+                            <div class="conn-icon">📷</div>
+                            <div class="conn-data">
+                                <span class="conn-label">Lens</span>
+                                <span class="conn-value">instagram.com/06navdeep06</span>
+                            </div>
+                        </div>
+                        <div class="connection-item" data-type="orcid">
+                            <div class="conn-icon">🔬</div>
+                            <div class="conn-data">
+                                <span class="conn-label">Research</span>
+                                <span class="conn-value">orcid.org/0009-0001-9855-1710</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sig-meta">
+                        <div class="meta-item status">
+                            <div class="status-dot"></div>
+                            <span class="status-text">Available for collaborations</span>
+                        </div>
+                        <div class="meta-item timezone">
+                            <div class="meta-icon">🕐</div>
+                            <div class="meta-text">
+                                <span class="timezone-static">UTC +05:45</span>
+                                <span class="timezone-dynamic">Kathmandu</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -266,8 +324,8 @@
         </div>
     </section>
 
-    <!-- Digital Signature Section -->
-    <section id="signature" class="signature-section">
+    <!-- Digital Signature Section (removed - merged into About) -->
+    <section id="signature" class="signature-section" style="display:none">
         <div class="container">
             <div class="signature-content">
                 <div class="signature-canvas" id="signature-canvas">
