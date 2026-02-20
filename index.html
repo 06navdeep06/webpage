@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/qol.css">
     <link rel="stylesheet" href="css/3d.css">
+    <link rel="stylesheet" href="css/github-analyzer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,6 +49,7 @@
                 <li><a href="#philosophy" data-text="Philosophy">Philosophy</a></li>
                 <li><a href="#skills" data-text="Skills">Skills</a></li>
                 <li><a href="#projects" data-text="Projects">Projects</a></li>
+                <li><a href="#github-stats" data-text="Stats">Stats</a></li>
                 <li><a href="#contact" data-text="Contact">Contact</a></li>
             </ul>
         </div>
@@ -167,6 +169,79 @@
         </div>
     </section>
 
+    <!-- GitHub Analyzer Section -->
+    <section id="github-stats" class="github-stats-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">// python analyze.py</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="analyzer-intro">
+                <p>Live metrics pulled from my GitHub via a Python FastAPI backend — computed in real time.</p>
+            </div>
+
+            <!-- Loading state -->
+            <div class="analyzer-loading" id="analyzer-loading">
+                <div class="loader"></div>
+                <p>Running analysis<span class="analyzer-dots">...</span></p>
+            </div>
+
+            <!-- Error state -->
+            <div class="analyzer-error" id="analyzer-error" style="display:none">
+                <p id="analyzer-error-msg">Could not reach the analyzer API.</p>
+                <button class="btn btn-secondary" id="analyzer-retry-btn">Retry</button>
+            </div>
+
+            <!-- Results -->
+            <div class="analyzer-results" id="analyzer-results" style="display:none">
+
+                <!-- Summary metric cards -->
+                <div class="analyzer-cards" id="analyzer-cards">
+                    <div class="analyzer-card" id="card-repos">
+                        <div class="card-icon"><i class="fas fa-code-branch"></i></div>
+                        <div class="card-value" id="val-repos">—</div>
+                        <div class="card-label">Public Repos</div>
+                    </div>
+                    <div class="analyzer-card" id="card-loc">
+                        <div class="card-icon"><i class="fas fa-file-code"></i></div>
+                        <div class="card-value" id="val-loc">—</div>
+                        <div class="card-label">Est. Lines of Code</div>
+                    </div>
+                    <div class="analyzer-card" id="card-stars">
+                        <div class="card-icon"><i class="fas fa-star"></i></div>
+                        <div class="card-value" id="val-stars">—</div>
+                        <div class="card-label">Total Stars</div>
+                    </div>
+                    <div class="analyzer-card" id="card-quality">
+                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="card-value" id="val-quality">—</div>
+                        <div class="card-label">Avg Quality Score</div>
+                    </div>
+                </div>
+
+                <!-- Language bar + complexity breakdown -->
+                <div class="analyzer-lower">
+                    <div class="analyzer-languages">
+                        <h3 class="analyzer-sub-title"><i class="fas fa-layer-group"></i> &nbsp;Language Breakdown</h3>
+                        <div class="lang-bars" id="lang-bars"></div>
+                    </div>
+                    <div class="analyzer-complexity">
+                        <h3 class="analyzer-sub-title"><i class="fas fa-brain"></i> &nbsp;Complexity Distribution</h3>
+                        <div class="complexity-rings" id="complexity-rings"></div>
+                    </div>
+                    <div class="analyzer-top-repos">
+                        <h3 class="analyzer-sub-title"><i class="fas fa-trophy"></i> &nbsp;Top Repos by Quality</h3>
+                        <div class="top-repo-list" id="top-repo-list"></div>
+                    </div>
+                </div>
+
+                <div class="analyzer-footer">
+                    <span class="analyzer-badge"><i class="fab fa-python"></i> &nbsp;Powered by FastAPI + Python</span>
+                    <span class="analyzer-cached" id="analyzer-cached"></span>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Contact Section -->
     <section id="contact" class="contact-section">
@@ -364,6 +439,7 @@
     <script src="js/signature.js"></script>
     <script src="js/3d-engine.js"></script>
     <script src="js/qol.js"></script>
+    <script src="js/github-analyzer.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
