@@ -10,11 +10,24 @@
 
   const HALF = 20; // half of crosshair element size (matches CSS width/height)
 
+  let lastX = -999, lastY = -999, scrollTimer = null;
+
   document.addEventListener('mousemove', (e) => {
-    ch.style.left = (e.clientX - HALF) + 'px';
-    ch.style.top  = (e.clientY - HALF) + 'px';
+    lastX = e.clientX;
+    lastY = e.clientY;
+    ch.style.left = (lastX - HALF) + 'px';
+    ch.style.top  = (lastY - HALF) + 'px';
     ch.classList.add('ch-visible');
   });
+
+  /* Hide while scrolling — crosshair can't follow scroll without a mousemove */
+  window.addEventListener('scroll', () => {
+    ch.classList.remove('ch-visible');
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      if (lastX > -999) ch.classList.add('ch-visible');
+    }, 150);
+  }, { passive: true });
 
   document.addEventListener('mouseleave', () => ch.classList.remove('ch-visible'));
   document.addEventListener('mouseenter', () => ch.classList.add('ch-visible'));
