@@ -21,10 +21,8 @@
   let transitioning = false;
 
   /* ── DOM refs ───────────────────────────────────────────────────────── */
-  const menuBtn      = document.getElementById('menu-btn');
-  const menuOverlay  = document.getElementById('menu-overlay');
-  const menuItems    = Array.from(document.querySelectorAll('.menu-nav-item'));
-  const indicatorEl  = document.getElementById('page-indicator');
+  const navLinks    = Array.from(document.querySelectorAll('.hud-nav-link'));
+  const indicatorEl = document.getElementById('page-indicator');
 
   /* ── Build side dots ────────────────────────────────────────────────── */
   const dots = sections.map((_, i) => {
@@ -93,7 +91,7 @@
 
   function updateUI() {
     dots.forEach((d, i) => d.classList.toggle('active', i === current));
-    menuItems.forEach((m, i) => m.classList.toggle('active', i === current));
+    navLinks.forEach((l, i) => l.classList.toggle('active', i === current));
     prevBtn.disabled = current === 0;
     nextBtn.disabled = current === sections.length - 1;
     counterEl.textContent = `0${current + 1} / 0${sections.length}`;
@@ -107,39 +105,16 @@
   sections[0].classList.add('page-active');
   updateUI();
 
-  /* ── Menu toggle ────────────────────────────────────────────────────── */
-  function openMenu() {
-    menuOverlay.classList.add('open');
-    menuBtn.classList.add('open');
-    menuBtn.setAttribute('aria-label', 'Close menu');
-  }
-
-  function closeMenu() {
-    menuOverlay.classList.remove('open');
-    menuBtn.classList.remove('open');
-    menuBtn.setAttribute('aria-label', 'Open menu');
-  }
-
-  menuBtn.addEventListener('click', () => {
-    menuOverlay.classList.contains('open') ? closeMenu() : openMenu();
-  });
-
-  menuItems.forEach((item, i) => {
-    item.addEventListener('click', (e) => {
+  /* ── Nav link clicks ────────────────────────────────────────────────── */
+  navLinks.forEach((link, i) => {
+    link.addEventListener('click', (e) => {
       e.preventDefault();
-      closeMenu();
       goTo(i);
     });
   });
 
-  /* Close menu on Escape */
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && menuOverlay.classList.contains('open')) closeMenu();
-  });
-
   /* ── Keyboard navigation ────────────────────────────────────────────── */
   document.addEventListener('keydown', (e) => {
-    if (menuOverlay.classList.contains('open')) return;
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
     if (e.key === 'ArrowDown' || e.key === 'PageDown') {
@@ -172,7 +147,6 @@
   }, { passive: true });
 
   window.addEventListener('touchend', (e) => {
-    if (menuOverlay.classList.contains('open')) return;
     const delta = touchStartY - e.changedTouches[0].clientY;
     if (Math.abs(delta) < 50) return;
     if (delta > 0) goTo(current + 1, 'up');
@@ -188,7 +162,6 @@
     const idx = PAGE_NAMES.indexOf(targetId);
     if (idx === -1) return;
     e.preventDefault();
-    closeMenu();
     goTo(idx);
   });
 
