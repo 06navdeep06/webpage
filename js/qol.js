@@ -11,51 +11,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ========== 1. SCROLL-TO-TOP BUTTON WITH PROGRESS RING ========== */
-  const initScrollToTop = () => {
-    const btn = document.createElement('button');
-    btn.className = 'scroll-top-btn';
-    btn.setAttribute('aria-label', 'Scroll to top');
-
-    // Progress ring SVG
-    const radius = 18;
-    const circumference = 2 * Math.PI * radius;
-    btn.innerHTML = `
-      <svg class="progress-ring" viewBox="0 0 42 42">
-        <circle class="progress-ring__circle"
-                cx="21" cy="21" r="${radius}"
-                stroke-dasharray="${circumference}"
-                stroke-dashoffset="${circumference}" />
-      </svg>
-      <i class="fas fa-chevron-up"></i>
-    `;
-
-    document.body.appendChild(btn);
-
-    const circle = btn.querySelector('.progress-ring__circle');
-
-    const updateProgress = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
-      const offset = circumference - (progress * circumference);
-      circle.style.strokeDashoffset = offset;
-
-      if (scrollTop > 400) {
-        btn.classList.add('visible');
-      } else {
-        btn.classList.remove('visible');
-      }
-    };
-
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    updateProgress();
-
-    btn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  };
-
   /* ========== 2. SECTION NAVIGATION DOTS ========== */
   const initSectionDots = () => {
     const sections = document.querySelectorAll('section[id]');
@@ -241,33 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  /* ========== 6. AUTO THEME DETECTION ========== */
-  const initAutoTheme = () => {
-    // Only apply if user hasn't manually chosen a theme
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) return;
-
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      document.body.setAttribute('data-theme', 'light');
-      const toggle = document.querySelector('.dark-mode-toggle');
-      if (toggle) toggle.innerHTML = '<i class="fas fa-moon"></i>';
-    }
-
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
-      // Only auto-switch if user hasn't manually set a preference
-      if (localStorage.getItem('theme')) return;
-      const newTheme = e.matches ? 'light' : 'default';
-      document.body.setAttribute('data-theme', newTheme);
-      const toggle = document.querySelector('.dark-mode-toggle');
-      if (toggle) {
-        toggle.innerHTML = newTheme === 'light'
-          ? '<i class="fas fa-moon"></i>'
-          : '<i class="fas fa-sun"></i>';
-      }
-    });
-  };
-
   /* ========== 7. ENHANCED CONTACT FORM WITH TOASTS ========== */
   const enhanceContactForm = () => {
     const form = document.getElementById('contact-form');
@@ -304,12 +232,10 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /* ========== INIT ALL ========== */
-  initScrollToTop();
   initSectionDots();
   initToastSystem();
   initLazyImages();
   initCopyToClipboard();
-  initAutoTheme();
   enhanceContactForm();
   initKeyboardShortcuts();
 });

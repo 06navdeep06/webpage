@@ -218,68 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
   
-  // Initialize dark/light mode toggle
-  const initDarkModeToggle = () => {
-    // Check if dark mode toggle already exists
-    if (!document.querySelector('.dark-mode-toggle')) {
-      // Create dark mode toggle button
-      const darkModeToggle = document.createElement('button');
-      darkModeToggle.className = 'dark-mode-toggle';
-      darkModeToggle.setAttribute('aria-label', 'Toggle dark/light mode');
-      darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-      
-      // Style dark mode toggle
-      darkModeToggle.style.position = 'fixed';
-      darkModeToggle.style.bottom = '5.5rem';
-      darkModeToggle.style.right = '2rem';
-      darkModeToggle.style.width = '2.6rem';
-      darkModeToggle.style.height = '2.6rem';
-      darkModeToggle.style.borderRadius = '50%';
-      darkModeToggle.style.backgroundColor = 'var(--color-bg-card)';
-      darkModeToggle.style.border = '2px solid var(--color-border)';
-      darkModeToggle.style.color = 'var(--color-text-primary)';
-      darkModeToggle.style.display = 'flex';
-      darkModeToggle.style.justifyContent = 'center';
-      darkModeToggle.style.alignItems = 'center';
-      darkModeToggle.style.cursor = 'pointer';
-      darkModeToggle.style.zIndex = '1000';
-      darkModeToggle.style.transition = 'all 0.3s ease';
-      
-      // Add dark mode toggle to body
-      document.body.appendChild(darkModeToggle);
-      
-      // Toggle dark/light mode
-      darkModeToggle.addEventListener('click', () => {
-        // Toggle between default (dark) and light theme
-        const currentTheme = document.body.getAttribute('data-theme') || 'default';
-        const newTheme = currentTheme === 'light' ? 'default' : 'light';
-        
-        // Update theme
-        document.body.setAttribute('data-theme', newTheme);
-        
-        // Update icon
-        darkModeToggle.innerHTML = newTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-        
-        // Save preference
-        localStorage.setItem('theme', newTheme);
-        
-        // Update active theme button
-        document.querySelectorAll('.theme-btn').forEach(btn => {
-          btn.classList.remove('active');
-          if (btn.getAttribute('data-theme') === newTheme) {
-            btn.classList.add('active');
-          }
-        });
-      });
-      
-      // Set initial state based on saved preference
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'light') {
-        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-      }
-    }
-  };
-  
   // Initialize analytics (placeholder)
   const initAnalytics = () => {
     // This would be where you initialize analytics in a real project
@@ -351,9 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize accessibility features
     initAccessibility();
-    
-    // Initialize dark mode toggle
-    initDarkModeToggle();
     
     // Initialize analytics
     initAnalytics();
