@@ -245,7 +245,7 @@ body[data-theme="experimental"] .section-line {
   flex-direction: column-reverse;
   align-items: center;
   gap: 0;
-  max-height: 3.2rem;
+  max-height: 2.4rem;
   overflow: hidden;
   transition: max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
               gap 0.3s ease;
