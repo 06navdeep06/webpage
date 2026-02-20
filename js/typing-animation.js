@@ -10,19 +10,22 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!typingElement || !cursorElement) return;
   
   const roles = [
-    'Back-end developer',
-    'Software engineer',
-    'Data analyst',
-    'DevOPS'
+    'Back-end Developer',
+    'Software Engineer',
+    'Data Analyst',
+    'DevOps Engineer',
+    'API Architect',
+    'Open Source Contributor',
+    'Problem Solver',
   ];
   
   let currentRoleIndex = 0;
   let currentCharIndex = 0;
   let isDeleting = false;
-  let typingSpeed = 100; // Speed of typing
-  let deletingSpeed = 50; // Speed of backspacing
-  let pauseDuration = 2000; // Pause before deleting
-  let pauseBetweenRoles = 500; // Pause between roles
+  let typingSpeed = 80;
+  let deletingSpeed = 40;
+  let pauseDuration = 2200;
+  let pauseBetweenRoles = 400;
   
   function typeText() {
     const currentRole = roles[currentRoleIndex];
