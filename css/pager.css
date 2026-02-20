@@ -36,83 +36,40 @@ html, body {
   transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
               transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
-  /* Compact padding: HUD top clearance + bottom bar clearance */
-  padding: 6.5rem 0 5.5rem !important;
-  box-sizing: border-box;
-  /* All non-hero sections are flex columns */
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
-  /* Create stacking context so morph SVG z-index:-1 stays inside section */
-  isolation: isolate;
 }
 
-/* Hero is full-bleed, centred */
+/* Hero is full-bleed */
 #page-wrapper > section#hero {
-  padding: 0 !important;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Container fills remaining height, sits above morph SVG */
+/* Every non-hero section: container fills the safe area between HUD and bottom bar */
 #page-wrapper > section:not(#hero) > .container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow-y: auto;   /* allow scroll inside container if content overflows */
+  position: absolute;
+  top: 6.5rem;      /* below HUD */
+  bottom: 5.5rem;   /* above bottom arrows */
+  left: 0;
+  right: 0;
+  overflow-y: auto;
   overflow-x: hidden;
-  position: relative;
+  padding: 0 var(--space-md);
+  box-sizing: border-box;
   z-index: 1;
 }
 
-/* Section header: compact, never shrinks */
+/* Section header: compact */
 #page-wrapper > section:not(#hero) .section-header {
-  margin-bottom: 1.2rem !important;
-  flex-shrink: 0;
+  margin-bottom: 1.6rem !important;
 }
 
-/* ── Sections that should centre their content vertically ── */
+/* ── Centred sections (about, neofetch) ── */
 #page-wrapper > section#about > .container,
 #page-wrapper > section#philosophy > .container {
-  justify-content: center;
-  overflow-y: auto;
-}
-
-/* ── Neofetch: layout fills and centres ── */
-#page-wrapper > section#philosophy .neofetch-layout {
-  flex: 1;
-  min-height: 0;
-}
-
-/* ── Projects: grid scrolls inside container ── */
-#page-wrapper > section#projects .projects-grid {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 0;
-}
-
-/* ── GitHub stats: each state fills and scrolls ── */
-#page-wrapper > section#github-stats .analyzer-loading,
-#page-wrapper > section#github-stats .analyzer-error,
-#page-wrapper > section#github-stats .analyzer-results {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 0;
-}
-
-/* analyzer-results is a flex column itself */
-#page-wrapper > section#github-stats .analyzer-results {
   display: flex;
   flex-direction: column;
-}
-
-/* ── Contact: content fills and scrolls ── */
-#page-wrapper > section#contact .contact-content {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 0;
+  justify-content: center;
 }
 
 #page-wrapper > section.page-active {
