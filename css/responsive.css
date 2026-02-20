@@ -455,3 +455,203 @@
     padding: var(--space-xl) var(--space-md);
   }
 }
+
+/* ================================================================
+   FINAL POLISH & MISSING RESPONSIVE RULES
+   ================================================================ */
+
+/* ── Typing container ── */
+.typing-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  font-family: 'Fira Code', monospace;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--color-accent-1);
+  min-height: 3rem;
+  margin-bottom: var(--space-md);
+}
+
+.typing-cursor {
+  display: inline-block;
+  color: var(--color-accent-1);
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* ── About merged layout ── */
+.about-merged-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .about-merged-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  .about-sig-card {
+    width: 100%;
+  }
+}
+
+/* ── Contact section ── */
+.contact-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  .gif-contact {
+    max-width: 16rem;
+  }
+}
+
+@media (max-width: 580px) {
+  .contact-content {
+    gap: var(--space-md);
+  }
+  .contact-info h3 {
+    font-size: var(--text-lg);
+  }
+  .contact-link {
+    padding: 0.5rem 0.8rem;
+    font-size: var(--text-sm);
+  }
+  .social-link {
+    width: 3.6rem;
+    height: 3.6rem;
+    font-size: var(--text-base);
+  }
+}
+
+/* ── Section titles ── */
+@media (max-width: 580px) {
+  .section-title {
+    font-size: var(--text-lg);
+  }
+  .section-header {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* ── Hero polish ── */
+@media (max-width: 580px) {
+  .terminal-tag {
+    font-size: var(--text-sm);
+  }
+  .hero-content h1 {
+    font-size: clamp(3.6rem, 10vw, 5rem);
+  }
+}
+
+/* ── Contribution graph ── */
+@media (max-width: 580px) {
+  .contrib-graph-wrap {
+    padding: 1.2rem 1rem;
+    margin-top: 1.2rem;
+  }
+  .contrib-graph-header {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .contrib-graph-img {
+    border-radius: 0.4rem;
+  }
+}
+
+/* ── Projects grid ── */
+@media (max-width: 580px) {
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-md);
+  }
+  .project-card {
+    transform: none !important;
+  }
+}
+
+/* ── Analyzer cards ── */
+@media (max-width: 400px) {
+  .analyzer-cards {
+    grid-template-columns: 1fr !important;
+  }
+  .card-value {
+    font-size: var(--text-lg);
+  }
+}
+
+/* ── Smooth scrollbar for section containers ── */
+#page-wrapper > section:not(#hero) > .container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+#page-wrapper > section:not(#hero) > .container::-webkit-scrollbar {
+  width: 4px;
+}
+#page-wrapper > section:not(#hero) > .container::-webkit-scrollbar-track {
+  background: transparent;
+}
+#page-wrapper > section:not(#hero) > .container::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+}
+#page-wrapper > section:not(#hero) > .container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* ── Button polish ── */
+.btn {
+  white-space: nowrap;
+}
+
+@media (max-width: 400px) {
+  .hero-cta .btn {
+    font-size: var(--text-sm);
+    padding: 0.9rem 1.6rem;
+  }
+}
+
+/* ── Form inputs mobile ── */
+@media (max-width: 580px) {
+  .input-container input,
+  .input-container textarea {
+    font-size: 1.4rem;
+  }
+  .submit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ── Sig card mobile ── */
+@media (max-width: 580px) {
+  .sig-connections {
+    grid-template-columns: 1fr !important;
+  }
+  .connection-item {
+    padding: 0.8rem 1rem !important;
+  }
+  .sig-meta {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+}
+
+/* ── Tablet (768-1024) container padding ── */
+@media (min-width: 641px) and (max-width: 1024px) {
+  #page-wrapper > section:not(#hero) > .container {
+    padding: 0 2rem !important;
+  }
+}

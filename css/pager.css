@@ -277,9 +277,34 @@ html, body {
 
 /* ── Mobile ────────────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .hud { padding: 1.6rem 2rem; }
+  .hud {
+    padding: 1.2rem 1.6rem;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  .hud-nav {
+    gap: 0;
+    padding: 0.3rem 0.4rem;
+  }
+  .hud-nav-link {
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+  }
   .menu-overlay-inner { padding: 1.6rem; }
   .menu-label { font-size: clamp(2.4rem, 8vw, 4rem); }
-  .page-indicator { right: 1.2rem; }
-  .page-counter { left: 2rem; }
+  .page-indicator { right: 0.8rem; }
+  .page-counter { left: 1.6rem; font-size: 1rem; }
+  .page-arrows { bottom: 1.6rem; gap: 0.8rem; }
+  .page-arrow-btn { width: 3rem; height: 3rem; font-size: 1.2rem; }
+  /* Container padding tighter on mobile */
+  #page-wrapper > section:not(#hero) > .container {
+    padding: 0 1.6rem !important;
+    top: 7.5rem !important;
+    bottom: 5rem !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .hud-nav-link { padding: 0.3rem 0.6rem; font-size: 0.9rem; }
+  .page-indicator { display: none; }
 }

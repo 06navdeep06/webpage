@@ -1790,8 +1790,50 @@
   margin: 0 auto;
 }
 
+@media (max-width: 900px) {
+  .discord-layout { gap: 2rem; }
+  .dc-panels { max-width: 100%; }
+}
+
 @media (max-width: 768px) {
-  .discord-layout { flex-direction: column; gap: 2rem; }
+  .discord-layout {
+    flex-direction: column;
+    gap: 1.6rem;
+    align-items: stretch;
+    padding: 1rem 0;
+  }
+  .dc-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 1.6rem;
+    padding: 2rem 2rem;
+    min-width: unset;
+    text-align: left;
+  }
+  .dc-identity { align-items: flex-start; text-align: left; }
+  .dc-custom-status { text-align: left; }
+  .dc-panels { max-width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .dc-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.6rem 1.4rem;
+    gap: 1rem;
+  }
+  .dc-identity { align-items: center; text-align: center; }
+  .dc-id-val { font-size: 0.85rem; letter-spacing: 0.01em; }
+  .dc-id-badge { padding: 0.4rem 0.8rem; }
+  .dc-tag { font-size: 1.3rem; }
+  .dc-panel { padding: 1.4rem 1.2rem; }
+  .dc-spotify-body { gap: 1rem; }
+  .dc-spotify-art { width: 5.5rem; height: 5.5rem; }
+  .dc-spotify-title { font-size: 1.2rem; }
+  .dc-spotify-artist { font-size: 1.05rem; }
+  .dc-avatar-wrap { width: 7rem; height: 7rem; }
+  .dc-avatar { width: 7rem; height: 7rem; }
 }
 
 /* ── Identity card ── */
