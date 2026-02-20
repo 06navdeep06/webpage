@@ -183,11 +183,22 @@
                         <div class="dc-panel-header">
                             <i class="fab fa-spotify"></i>
                             <span>Listening to Spotify</span>
+                            <!-- Animated equalizer bars -->
+                            <div id="dc-spotify-eq" class="dc-eq" style="display:none">
+                                <span class="eq-bar"></span>
+                                <span class="eq-bar"></span>
+                                <span class="eq-bar"></span>
+                                <span class="eq-bar"></span>
+                            </div>
                         </div>
                         <div class="dc-spotify-body">
-                            <img id="dc-spotify-art" class="dc-spotify-art" src="" alt="Album art" />
+                            <a class="dc-spotify-art-link" href="#" target="_blank" rel="noopener">
+                                <img id="dc-spotify-art" class="dc-spotify-art" src="" alt="Album art" />
+                            </a>
                             <div class="dc-spotify-info">
-                                <div id="dc-spotify-title" class="dc-spotify-title"></div>
+                                <a id="dc-spotify-link" class="dc-spotify-title-link" href="#" target="_blank" rel="noopener">
+                                    <span id="dc-spotify-title" class="dc-spotify-title"></span>
+                                </a>
                                 <div id="dc-spotify-artist" class="dc-spotify-artist"></div>
                                 <div class="dc-spotify-progress-wrap">
                                     <div class="dc-spotify-track">
@@ -213,6 +224,7 @@
                                 <div id="dc-activity-name" class="dc-activity-name"></div>
                                 <div id="dc-activity-detail" class="dc-activity-detail"></div>
                                 <div id="dc-activity-state" class="dc-activity-state"></div>
+                                <div id="dc-activity-elapsed" class="dc-activity-elapsed" style="display:none"></div>
                             </div>
                         </div>
                     </div>
@@ -301,6 +313,19 @@
                 <div class="analyzer-footer">
                     <span class="analyzer-badge"><i class="fab fa-python"></i> &nbsp;Powered by FastAPI + Python</span>
                     <span class="analyzer-cached" id="analyzer-cached"></span>
+                </div>
+                <!-- GitHub Contribution Graph -->
+                <div class="contrib-graph-wrap">
+                    <div class="contrib-graph-header">
+                        <i class="fas fa-fire"></i>
+                        <span>Contribution Activity</span>
+                    </div>
+                    <img
+                        class="contrib-graph-img"
+                        src="https://ghchart.rshah.org/FF3D00/06navdeep06"
+                        alt="GitHub contribution graph"
+                        loading="lazy"
+                    />
                 </div>
             </div>
         </div>

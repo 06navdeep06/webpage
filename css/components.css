@@ -2108,6 +2108,98 @@
   font-style: italic;
 }
 
+/* ── Equalizer bars ── */
+.dc-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 1.4rem;
+  margin-left: auto;
+}
+
+.eq-bar {
+  display: block;
+  width: 3px;
+  background: #1DB954;
+  border-radius: 2px;
+  animation: eq-bounce 0.8s ease-in-out infinite alternate;
+}
+.eq-bar:nth-child(1) { animation-duration: 0.7s; animation-delay: 0s;    height: 60%; }
+.eq-bar:nth-child(2) { animation-duration: 0.9s; animation-delay: 0.15s; height: 100%; }
+.eq-bar:nth-child(3) { animation-duration: 0.6s; animation-delay: 0.05s; height: 80%; }
+.eq-bar:nth-child(4) { animation-duration: 1.0s; animation-delay: 0.2s;  height: 50%; }
+
+@keyframes eq-bounce {
+  from { transform: scaleY(0.3); opacity: 0.7; }
+  to   { transform: scaleY(1);   opacity: 1; }
+}
+
+/* ── Spotify title link ── */
+.dc-spotify-title-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.dc-spotify-title-link:hover .dc-spotify-title {
+  color: #1DB954;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Spotify art link ── */
+.dc-spotify-art-link {
+  display: block;
+  flex-shrink: 0;
+}
+.dc-spotify-art-link:hover .dc-spotify-art {
+  opacity: 0.8;
+  transform: scale(1.04);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+/* ── Activity elapsed time ── */
+.dc-activity-elapsed {
+  font-family: 'Fira Code', monospace;
+  font-size: 1.05rem;
+  color: var(--color-text-tertiary);
+  margin-top: 0.4rem;
+  letter-spacing: 0.02em;
+}
+
+/* ── GitHub contribution graph ── */
+.contrib-graph-wrap {
+  margin-top: 2rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 1.2rem;
+  padding: 1.6rem 2rem;
+}
+
+.contrib-graph-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 1.1rem;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.4rem;
+}
+
+.contrib-graph-header i {
+  color: var(--color-accent-1);
+  font-size: 1.2rem;
+}
+
+.contrib-graph-img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.6rem;
+  filter: invert(1) hue-rotate(180deg) brightness(0.85);
+  opacity: 0.9;
+}
+
 /* ---------- DESIGN PHILOSOPHY SECTION (legacy, kept for safety) ---------- */
 .philosophy-section {
   padding: var(--space-xl) 0;
