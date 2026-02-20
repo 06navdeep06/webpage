@@ -1266,8 +1266,8 @@
 
 .gif-contact {
   width: 100%;
-  max-width: 24rem;
-  margin: var(--space-md) 0;
+  max-width: 14rem;
+  margin: var(--space-xs) 0;
   opacity: 0.8;
 }
 
@@ -1507,19 +1507,20 @@
 }
 
 .form-group {
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-sm);
 }
 
 .input-container {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow: visible; /* must be visible so floating label isn't clipped */
+  padding-top: 1.8rem; /* space for the floated label */
 }
 
 .input-container input,
 .input-container textarea {
   width: 100%;
-  padding: 1.2rem 0;
+  padding: 0.8rem 0;
   background-color: transparent;
   border: none;
   color: var(--color-text-primary);
@@ -1529,18 +1530,20 @@
 
 .input-container label {
   position: absolute;
-  top: 1.2rem;
+  top: 2.6rem; /* aligns with input inside padding-top */
   left: 0;
   color: var(--color-text-tertiary);
-  transition: all 0.3s ease;
+  font-size: var(--text-base);
+  transition: top 0.25s ease, font-size 0.25s ease, color 0.25s ease;
   pointer-events: none;
+  line-height: 1;
 }
 
 .input-container input:focus ~ label,
 .input-container input:valid ~ label,
 .input-container textarea:focus ~ label,
 .input-container textarea:valid ~ label {
-  top: -1rem;
+  top: 0.2rem;
   font-size: var(--text-xs);
   color: var(--color-accent-2);
 }
@@ -1574,17 +1577,17 @@
 }
 
 .textarea-container {
-  min-height: 15rem;
+  min-height: 10rem;
 }
 
 .textarea-container textarea {
-  min-height: 12rem;
+  min-height: 8rem;
   resize: vertical;
 }
 
 /* ---------- CONTACT INFO ---------- */
 .contact-info {
-  padding: var(--space-lg);
+  padding: var(--space-md);
   background-color: var(--color-bg-card);
   border-radius: 0.8rem;
   position: relative;
@@ -1604,16 +1607,17 @@
 
 .contact-info h3 {
   font-family: var(--font-secondary);
-  font-size: var(--text-lg);
+  font-size: var(--text-md);
   font-weight: var(--weight-bold);
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-xs);
   transform: rotate(-1deg);
   display: inline-block;
 }
 
 .contact-info p {
   color: var(--color-text-secondary);
-  margin-bottom: var(--space-lg);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-sm);
   max-width: 90%;
   border-left: 2px solid var(--color-accent-3);
   padding-left: var(--space-sm);
@@ -1622,7 +1626,7 @@
 .contact-links {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: 0.4rem;
 }
 
 .contact-link {
@@ -1645,8 +1649,8 @@
 
 .social-links {
   display: flex;
-  gap: var(--space-md);
-  margin-top: var(--space-md);
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
 }
 
 .social-link {
