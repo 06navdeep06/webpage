@@ -1,0 +1,288 @@
+/*
+ * qol.css
+ * Quality-of-life UI enhancements
+ * Scroll-to-top, section dots, toast notifications, focus outlines,
+ * lazy-load fade-in, copy tooltip
+ */
+
+/* ---------- SCROLL-TO-TOP BUTTON ---------- */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 6rem;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  background: var(--color-bg-card);
+  border: 2px solid var(--color-border);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 900;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(1rem);
+  transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.35s ease,
+              background-color 0.25s ease, border-color 0.25s ease;
+  font-size: 1.6rem;
+}
+
+.scroll-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+  background: var(--color-accent-1);
+  border-color: var(--color-accent-1);
+  transform: translateY(-3px);
+}
+
+/* SVG progress ring around the button */
+.scroll-top-btn svg.progress-ring {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.scroll-top-btn .progress-ring__circle {
+  fill: none;
+  stroke: var(--color-accent-1);
+  stroke-width: 2.5;
+  transition: stroke-dashoffset 0.15s ease;
+}
+
+/* ---------- SECTION NAV DOTS ---------- */
+.section-dots {
+  position: fixed;
+  right: 6.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  z-index: 800;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.section-dots.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.section-dot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: var(--color-text-tertiary);
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  padding: 0;
+}
+
+.section-dot::before {
+  content: attr(data-label);
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  font-size: 1.2rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.3rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, right 0.25s ease;
+}
+
+.section-dot:hover::before {
+  opacity: 1;
+  right: 2.4rem;
+}
+
+.section-dot.active {
+  background: var(--color-accent-1);
+  transform: scale(1.4);
+  box-shadow: 0 0 8px rgba(var(--color-accent-1-rgb), 0.5);
+}
+
+/* ---------- TOAST NOTIFICATIONS ---------- */
+.toast-container {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9000;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.8rem;
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  padding: 1rem 2rem;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(1rem);
+  animation: toastIn 0.35s ease forwards;
+  max-width: 40rem;
+}
+
+.toast.toast-out {
+  animation: toastOut 0.3s ease forwards;
+}
+
+.toast--success { border-left: 3px solid var(--color-success); }
+.toast--error   { border-left: 3px solid var(--color-error); }
+.toast--info    { border-left: 3px solid var(--color-info); }
+
+.toast i {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.toast--success i { color: var(--color-success); }
+.toast--error i   { color: var(--color-error); }
+.toast--info i    { color: var(--color-info); }
+
+@keyframes toastIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(1rem); }
+}
+
+/* ---------- FOCUS-VISIBLE OUTLINES ---------- */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-accent-1);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Specific overrides for buttons and links */
+.btn:focus-visible,
+.social-link:focus-visible,
+.project-card:focus-visible,
+.nav-links a:focus-visible {
+  outline: 2px solid var(--color-accent-1);
+  outline-offset: 4px;
+}
+
+/* ---------- LAZY-LOAD FADE-IN ---------- */
+img.lazy-img {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+img.lazy-img.loaded {
+  opacity: 1;
+}
+
+/* Placeholder shimmer while loading */
+img.lazy-img:not(.loaded) {
+  background: linear-gradient(
+    110deg,
+    var(--color-bg-tertiary) 30%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-tertiary) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ---------- COPY TOOLTIP ---------- */
+.copy-tooltip {
+  position: relative;
+}
+
+.copy-tooltip::after {
+  content: 'Click to copy';
+  position: absolute;
+  bottom: calc(100% + 0.6rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(0.4rem);
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  font-size: 1.1rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.3rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 100;
+}
+
+.copy-tooltip:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.copy-tooltip.copied::after {
+  content: 'Copied!';
+  color: var(--color-success);
+}
+
+/* ---------- RESPONSIVE ADJUSTMENTS ---------- */
+@media (max-width: 767px) {
+  .section-dots {
+    display: none;
+  }
+
+  .scroll-top-btn {
+    bottom: 1.2rem;
+    right: 5rem;
+    width: 3.2rem;
+    height: 3.2rem;
+  }
+
+  .toast {
+    max-width: calc(100vw - 3rem);
+    font-size: 1.3rem;
+    padding: 0.8rem 1.4rem;
+  }
+}
+
+/* ---------- REDUCED MOTION ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-top-btn,
+  .section-dot,
+  .toast,
+  img.lazy-img {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
