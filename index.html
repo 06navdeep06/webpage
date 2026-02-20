@@ -261,22 +261,85 @@
     <section id="signature" class="signature-section">
         <div class="container">
             <div class="signature-content">
-                <div class="terminal-signature">
-                    <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span> <span class="terminal-title">navdeep@dev:~$ whoami</span></div>
-                    <div class="terminal-body">
-                        <pre class="signature-output">╔══════════════════════════════════════════════════════════════╗
-║  <span class="highlight">Navdeep</span> - Backend Engineer & Creative Developer          ║
-║                                                              ║
-║  📱 +977 9749703637                                      ║
-║  📧 nepal00909@gmail.com                                   ║
-║  🐙 github.com/06navdeep06                                ║
-║  📷 instagram.com/06navdeep06                            ║
-║  🔬 orcid.org/0009-0001-9855-1710                       ║
-║                                                              ║
-║  <span class="time-zone">🕐 Timezone: UTC +05:45 (Kathmandu)</span>              ║
-╚══════════════════════════════════════════════════════════════╝</pre>
-                        <div class="cursor-blink">_</div>
+                <div class="signature-canvas" id="signature-canvas">
+                    <div class="signature-grid">
+                        <div class="sig-main">
+                            <div class="sig-avatar">
+                                <div class="avatar-glitch">
+                                    <span class="avatar-text">ND</span>
+                                </div>
+                            </div>
+                            <div class="sig-identity">
+                                <h2 class="sig-name">
+                                    <span class="name-glitch" data-text="Navdeep">Navdeep</span>
+                                </h2>
+                                <div class="sig-title">
+                                    <span class="title-rotating">Backend Engineer</span>
+                                    <span class="title-separator">//</span>
+                                    <span class="title-static">Creative Developer</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sig-connections">
+                            <div class="connection-item" data-type="phone">
+                                <div class="conn-icon">📱</div>
+                                <div class="conn-data">
+                                    <span class="conn-label">Signal</span>
+                                    <span class="conn-value">+977 9749703637</span>
+                                </div>
+                            </div>
+                            
+                            <div class="connection-item" data-type="email">
+                                <div class="conn-icon">📧</div>
+                                <div class="conn-data">
+                                    <span class="conn-label">Mail</span>
+                                    <span class="conn-value">nepal00909@gmail.com</span>
+                                </div>
+                            </div>
+                            
+                            <div class="connection-item" data-type="github">
+                                <div class="conn-icon">🐙</div>
+                                <div class="conn-data">
+                                    <span class="conn-label">Code</span>
+                                    <span class="conn-value">github.com/06navdeep06</span>
+                                </div>
+                            </div>
+                            
+                            <div class="connection-item" data-type="instagram">
+                                <div class="conn-icon">📷</div>
+                                <div class="conn-data">
+                                    <span class="conn-label">Lens</span>
+                                    <span class="conn-value">instagram.com/06navdeep06</span>
+                                </div>
+                            </div>
+                            
+                            <div class="connection-item" data-type="orcid">
+                                <div class="conn-icon">🔬</div>
+                                <div class="conn-data">
+                                    <span class="conn-label">Research</span>
+                                    <span class="conn-value">orcid.org/0009-0001-9855-1710</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sig-meta">
+                            <div class="meta-item timezone">
+                                <div class="meta-icon">🕐</div>
+                                <div class="meta-text">
+                                    <span class="timezone-static">UTC +05:45</span>
+                                    <span class="timezone-dynamic">Kathmandu</span>
+                                </div>
+                            </div>
+                            <div class="meta-item status">
+                                <div class="status-dot"></div>
+                                <span class="status-text">Available for collaborations</span>
+                            </div>
+                        </div>
                     </div>
+                    
+                    <div class="signature-particles" id="sig-particles"></div>
+                    <div class="signature-cursor" id="sig-cursor">■</div>
                 </div>
             </div>
         </div>
