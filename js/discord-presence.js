@@ -75,7 +75,19 @@
   function render(data) {
     /* Avatar */
     if (elAvatar && data.discord_user) {
-      elAvatar.src = avatarUrl(data.discord_user);
+      const u = data.discord_user;
+      const url = avatarUrl(u);
+      elAvatar.onerror = () => {
+        elAvatar.style.display = 'none';
+        const wrap = elAvatar.parentElement;
+        if (!wrap.querySelector('.dc-avatar-fallback')) {
+          const fb = document.createElement('div');
+          fb.className = 'dc-avatar dc-avatar-fallback';
+          fb.textContent = (u.global_name || u.username || 'N').charAt(0).toUpperCase();
+          wrap.insertBefore(fb, elAvatar);
+        }
+      };
+      elAvatar.src = url;
     }
 
     /* Tag */
@@ -172,14 +184,12 @@
     if (elIdle) elIdle.style.display = hasActivity ? 'none' : '';
   }
 
-  /* ── Avatar URL helper (no BigInt) ── */
+  /* ── Avatar URL helper ── */
   function avatarUrl(u) {
     if (u.avatar) {
-      const ext = u.avatar.startsWith('a_') ? 'gif' : 'webp';
-      return `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.${ext}?size=128`;
+      return `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=128`;
     }
-    /* default avatar index = (id >> 22) % 6  — done with string math to avoid BigInt issues */
-    const idx = parseInt(u.id.slice(-4), 10) % 6;
+    const idx = Number(BigInt(u.id) % 5n);
     return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
   }
 
