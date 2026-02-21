@@ -38,9 +38,9 @@
         <nav class="hud-nav" id="hud-nav">
             <a class="hud-nav-link" data-page="0" href="#">Home</a>
             <a class="hud-nav-link" data-page="1" href="#">About</a>
-            <a class="hud-nav-link" data-page="2" href="#">Contact</a>
-            <a class="hud-nav-link" data-page="3" href="#">Projects</a>
-            <a class="hud-nav-link" data-page="4" href="#">Stats</a>
+            <a class="hud-nav-link" data-page="2" href="#">Projects</a>
+            <a class="hud-nav-link" data-page="3" href="#">Stats</a>
+            <a class="hud-nav-link" data-page="4" href="#">Contact</a>
         </nav>
     </div>
 
@@ -65,6 +65,10 @@
         </div>
     </section>
 
+
+
+
+
     <!-- About Section (merged with Signature) -->
     <section id="about" class="about-section">
         <div class="container">
@@ -78,7 +82,7 @@
                     <div class="terminal-block">
                         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span> <span class="terminal-title">navdeep@dev:~</span></div>
                         <div class="terminal-body">
-                            <p><span class="terminal-prompt">$</span> cat about.txt</p>
+                            <p><span class="terminal-prompt">$</span> Quazar</p>
                         </div>
                     </div>
                     <p class="about-paragraph">Backend engineer focused on APIs, databases, and infrastructure. Working primarily with Node.js, Python, and modern web technologies.</p>
@@ -144,142 +148,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Discord Presence Section -->
-    <section id="philosophy" class="discord-section">
-        <div class="container">
-            <div class="discord-layout">
-
-                <!-- Left: identity card -->
-                <div class="dc-card" id="dc-status">
-                    <div class="dc-avatar-wrap">
-                        <img id="dc-avatar" class="dc-avatar" alt="" />
-                        <span class="dc-status-badge">
-                            <span id="dc-status-dot" class="dc-dot"></span>
-                        </span>
-                    </div>
-                    <div class="dc-identity">
-                        <div id="dc-tag" class="dc-tag">@quazar_elsy</div>
-                        <div class="dc-status-row">
-                            <span id="dc-status-text" class="dc-status-label">offline</span>
-                        </div>
-                        <div id="dc-custom-status" class="dc-custom-status"></div>
-                    </div>
-                    <div class="dc-id-badge">
-                        <span class="dc-id-label">ID</span>
-                        <span class="dc-id-val">657553032678080514</span>
-                    </div>
-                </div>
-
-                <!-- Right: activity panels & contact hub -->
-                <div class="dc-panels">
-
-                    <!-- Spotify -->
-                    <div id="dc-spotify" class="dc-panel dc-spotify-panel" style="display:none">
-                        <div class="dc-panel-header">
-                            <i class="fab fa-spotify"></i>
-                            <span>Listening to Spotify</span>
-                            <!-- Animated equalizer bars -->
-                            <div id="dc-spotify-eq" class="dc-eq" style="display:none">
-                                <span class="eq-bar"></span>
-                                <span class="eq-bar"></span>
-                                <span class="eq-bar"></span>
-                                <span class="eq-bar"></span>
-                            </div>
-                        </div>
-                        <div class="dc-spotify-body">
-                            <a class="dc-spotify-art-link" href="#" target="_blank" rel="noopener">
-                                <img id="dc-spotify-art" class="dc-spotify-art" src="" alt="Album art" />
-                            </a>
-                            <div class="dc-spotify-info">
-                                <a id="dc-spotify-link" class="dc-spotify-title-link" href="#" target="_blank" rel="noopener">
-                                    <span id="dc-spotify-title" class="dc-spotify-title"></span>
-                                </a>
-                                <div id="dc-spotify-artist" class="dc-spotify-artist"></div>
-                                <div class="dc-spotify-progress-wrap">
-                                    <div class="dc-spotify-track">
-                                        <div id="dc-spotify-bar" class="dc-spotify-bar"></div>
-                                    </div>
-                                    <span id="dc-spotify-progress" class="dc-spotify-time">0:00 / 0:00</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Other activity -->
-                    <div id="dc-activity" class="dc-panel" style="display:none">
-                        <div class="dc-panel-header">
-                            <i class="fas fa-gamepad"></i>
-                            <span>Activity</span>
-                        </div>
-                        <div class="dc-activity-body">
-                            <div id="dc-activity-img-wrap" class="dc-activity-img-wrap" style="display:none">
-                                <img id="dc-activity-img" class="dc-activity-img" alt="" />
-                            </div>
-                            <div class="dc-activity-info">
-                                <div id="dc-activity-name" class="dc-activity-name"></div>
-                                <div id="dc-activity-detail" class="dc-activity-detail"></div>
-                                <div id="dc-activity-state" class="dc-activity-state"></div>
-                                <div id="dc-activity-elapsed" class="dc-activity-elapsed" style="display:none"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Idle state -->
-                    <div class="dc-panel dc-idle-panel" id="dc-idle">
-                        <div class="dc-idle-text">No activity right now</div>
-                    </div>
-
-                    <!-- Contact Hub -->
-                    <div class="dc-panel contact-hub">
-                        <div class="dc-panel-header">
-                            <i class="fas fa-satellite-dish"></i>
-                            <span>Reach out</span>
-                        </div>
-                        <div class="contact-hub-grid">
-                            <div class="contact-hub-card">
-                                <div class="contact-hub-label">Direct line</div>
-                                <a href="tel:+9779749703637" class="contact-link phone-link">
-                                    <i class="fas fa-phone"></i>
-                                    <span>+977 9749703637</span>
-                                </a>
-                            </div>
-                            <div class="contact-hub-card">
-                                <div class="contact-hub-label">Mail</div>
-                                <a href="mailto:nepal00909@gmail.com" class="contact-link email-link">
-                                    <i class="fas fa-envelope"></i>
-                                    <span>nepal00909@gmail.com</span>
-                                </a>
-                            </div>
-                            <div class="contact-hub-card">
-                                <div class="contact-hub-label">Social</div>
-                                <div class="social-links">
-                                    <a href="https://github.com/06navdeep06" target="_blank" rel="noopener noreferrer" class="social-link github-link" aria-label="GitHub Profile">
-                                        <i class="fab fa-github" aria-hidden="true"></i>
-                                    </a>
-                                    <a href="https://instagram.com/06navdeep06" target="_blank" rel="noopener noreferrer" class="social-link instagram-link" aria-label="Instagram Profile">
-                                        <i class="fab fa-instagram" aria-hidden="true"></i>
-                                    </a>
-                                    <a href="https://orcid.org/0009-0001-9855-1710" target="_blank" rel="noopener noreferrer" class="social-link orcid-link" aria-label="ORCID Profile">
-                                        <i class="fab fa-orcid" aria-hidden="true"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="contact-hub-card">
-                                <div class="contact-hub-label">Discord DM</div>
-                                <button class="btn btn-secondary contact-hub-copy"
-                                        data-copy="@quazar_elsy">
-                                    <i class="fab fa-discord"></i>
-                                    Copy handle
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -376,6 +244,123 @@
             </div>
         </div>
     </section>
+
+    <!-- Contact Section (Discord Presence) -->
+    <section id="philosophy" class="discord-section">
+        <div class="container">
+            <div class="discord-layout">
+
+                <!-- Left: identity card -->
+                <div class="dc-card" id="dc-status">
+                    <div class="dc-avatar-wrap">
+                        <img id="dc-avatar" class="dc-avatar" alt="" />
+                        <span class="dc-status-badge">
+                            <span id="dc-status-dot" class="dc-dot"></span>
+                        </span>
+                    </div>
+                    <div class="dc-identity">
+                        <div id="dc-tag" class="dc-tag">@quazar_elsy</div>
+                        <div class="dc-status-row">
+                            <span id="dc-status-text" class="dc-status-label">offline</span>
+                        </div>
+                        <div id="dc-custom-status" class="dc-custom-status"></div>
+                    </div>
+                    <div class="dc-id-badge">
+                        <span class="dc-id-label">ID</span>
+                        <span class="dc-id-val">657553032678080514</span>
+                    </div>
+                </div>
+
+                <!-- Right: activity panels & contact hub -->
+                <div class="dc-panels">
+
+                    <!-- Spotify -->
+                    <div id="dc-spotify" class="dc-panel dc-spotify-panel" style="display:none">
+                        <div class="dc-panel-header">
+                            <i class="fab fa-spotify"></i>
+                            <span>Listening to Spotify</span>
+                            <div id="dc-spotify-eq" class="dc-eq" style="display:none">
+                                <span class="eq-bar"></span>
+                                <span class="eq-bar"></span>
+                                <span class="eq-bar"></span>
+                                <span class="eq-bar"></span>
+                            </div>
+                        </div>
+                        <div class="dc-spotify-body">
+                            <a class="dc-spotify-art-link" href="#" target="_blank" rel="noopener">
+                                <img id="dc-spotify-art" class="dc-spotify-art" src="" alt="Album art" />
+                            </a>
+                            <div class="dc-spotify-info">
+                                <a id="dc-spotify-link" class="dc-spotify-title-link" href="#" target="_blank" rel="noopener">
+                                    <span id="dc-spotify-title" class="dc-spotify-title"></span>
+                                </a>
+                                <div id="dc-spotify-artist" class="dc-spotify-artist"></div>
+                                <div class="dc-spotify-progress-wrap">
+                                    <div class="dc-spotify-track">
+                                        <div id="dc-spotify-bar" class="dc-spotify-bar"></div>
+                                    </div>
+                                    <span id="dc-spotify-progress" class="dc-spotify-time">0:00 / 0:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other activity -->
+                    <div id="dc-activity" class="dc-panel" style="display:none">
+                        <div class="dc-panel-header">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Activity</span>
+                        </div>
+                        <div class="dc-activity-body">
+                            <div id="dc-activity-img-wrap" class="dc-activity-img-wrap" style="display:none">
+                                <img id="dc-activity-img" class="dc-activity-img" alt="" />
+                            </div>
+                            <div class="dc-activity-info">
+                                <div id="dc-activity-name" class="dc-activity-name"></div>
+                                <div id="dc-activity-detail" class="dc-activity-detail"></div>
+                                <div id="dc-activity-state" class="dc-activity-state"></div>
+                                <div id="dc-activity-elapsed" class="dc-activity-elapsed" style="display:none"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Idle state -->
+                    <div class="dc-panel dc-idle-panel" id="dc-idle">
+                        <div class="dc-idle-text">No activity right now</div>
+                    </div>
+
+                    <!-- Contact Hub -->
+                    <div class="dc-panel contact-hub">
+                        <div class="dc-panel-header">
+                            <i class="fas fa-satellite-dish"></i>
+                            <span>Reach out</span>
+                        </div>
+                        <div class="contact-hub-grid">
+                            <div class="contact-hub-card">
+                                <div class="contact-hub-label">Direct line</div>
+                                <a href="tel:+9779749703637" class="contact-link phone-link">
+                                    <i class="fas fa-phone"></i>
+                                    <span>+977 9749703637</span>
+                                </a>
+                            </div>
+                            <div class="contact-hub-card">
+                                <div class="contact-hub-label">Mail</div>
+                                <a href="mailto:nepal00909@gmail.com" class="contact-link email-link">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>nepal00909@gmail.com</span>
+                                </a>
+                            </div>
+                            <div class="contact-hub-card">
+                                <div class="contact-hub-label">Social</div>
+                                <div class="social-links">
+                                    <a href="https://github.com/06navdeep06" target="_blank" rel="noopener noreferrer" class="social-link github-link" aria-label="GitHub Profile">
+                                        <i class="fab fa-github" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="https://instagram.com/06navdeep06" target="_blank" rel="noopener noreferrer" class="social-link instagram-link" aria-label="Instagram Profile">
+                                        <i class="fab fa-instagram" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="https://orcid.org/0009-0001-9855-1710" target="_blank" rel="noopener noreferrer" class="social-link orcid-link" aria-label="ORCID Profile">
+                                        <i class="յուր"
 
     <!-- Crosshair cursor -->
     <div class="crosshair" id="crosshair">
