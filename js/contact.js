@@ -127,12 +127,17 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span class="btn-text">Sending...</span><span class="btn-icon"><i class="fas fa-spinner fa-spin"></i></span>';
       
-      // Send via EmailJS
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        name:    formDataObj.name,
-        email:   formDataObj.email,
-        message: formDataObj.message,
-      })
+      // Send via EmailJS (send both legacy + new var names to match template)
+      const emailPayload = {
+        from_name:  formDataObj.name,
+        from_email: formDataObj.email,
+        reply_to:   formDataObj.email,
+        name:       formDataObj.name,
+        email:      formDataObj.email,
+        message:    formDataObj.message,
+      };
+
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, emailPayload)
       .then(() => {
         // Success
         contactForm.innerHTML = `
@@ -166,7 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
           errDiv.style.cssText = 'color:var(--color-error);font-size:var(--text-sm);margin-top:1rem;text-align:center;';
           contactForm.appendChild(errDiv);
         }
-        errDiv.textContent = 'Failed to send — please try emailing nepal00909@gmail.com directly.';
+        const errMsg = err?.text || err?.message || 'Unknown error';
+        errDiv.textContent = `Failed to send (${errMsg}) — please try emailing nepal00909@gmail.com directly.`;
       });
     });
   }
