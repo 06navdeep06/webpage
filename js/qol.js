@@ -23,12 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const labelMap = {
       hero: 'Home',
       about: 'About',
-      philosophy: 'Philosophy',
+      philosophy: 'Contact',
       skills: 'Skills',
       skillchart: 'Tech Stack',
-      projects: 'Projects',
-      contact: 'Contact',
-      signature: 'Signature'
+      projects: 'Projects'
     };
 
     sections.forEach(section => {
@@ -122,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ========== 4. IMAGE LAZY-LOAD WITH FADE-IN ========== */
   const initLazyImages = () => {
-    const images = document.querySelectorAll('img.gif-embed, img.gif-hero, img.gif-about, img.gif-about-secondary, img.gif-philosophy, img.gif-contact');
+    const images = document.querySelectorAll('img.gif-embed, img.gif-hero, img.gif-about, img.gif-about-secondary, img.gif-philosophy');
 
     if (!('IntersectionObserver' in window)) {
       // Fallback: just mark all loaded
@@ -156,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const initCopyToClipboard = () => {
     const emailLink = document.querySelector('.email-link');
     const phoneLink = document.querySelector('.phone-link');
+    const discordCopyBtn = document.querySelector('.contact-hub-copy');
 
     const attachCopy = (el, textFn) => {
       if (!el) return;
@@ -194,22 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const span = phoneLink.querySelector('span');
       return span ? span.textContent.trim() : phoneLink.textContent.trim();
     });
-  };
 
-  /* ========== 7. ENHANCED CONTACT FORM WITH TOASTS ========== */
-  const enhanceContactForm = () => {
-    const form = document.getElementById('contact-form');
-    if (!form) return;
-
-    // Patch the existing submit handler to also fire a toast
-    const originalSubmit = form.onsubmit;
-    form.addEventListener('submit', () => {
-      // The existing contact.js already handles the form.
-      // We just add a toast after a delay matching the simulated send.
-      setTimeout(() => {
-        window.showToast?.('Message sent successfully!', 'success', 4000);
-      }, 2200);
-    });
+    attachCopy(discordCopyBtn, () => discordCopyBtn?.dataset.copy || '@quazar_elsy');
   };
 
   /* ========== 8. KEYBOARD SHORTCUT HINTS ========== */
@@ -236,6 +221,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initToastSystem();
   initLazyImages();
   initCopyToClipboard();
-  enhanceContactForm();
   initKeyboardShortcuts();
 });
