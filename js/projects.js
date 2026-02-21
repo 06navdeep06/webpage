@@ -10,9 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Read credentials from runtime env config (js/env.js)
   // Never hardcode tokens — env.js is git-ignored and injected at deploy time.
   const env = (typeof window.__ENV === 'object' && window.__ENV) || {};
+  const DEFAULT_GITHUB_USERNAME = '06navdeep06';
 
   const githubConfig = {
-    username: env.GITHUB_USERNAME || '',
+    username: env.GITHUB_USERNAME || DEFAULT_GITHUB_USERNAME,
     token: env.GITHUB_PAT || '',
     repoCount: 6, // Show up to 6 pinned repos
     excludeRepos: ['private-repo', 'notes', 'dotfiles', 'archive', 'learning', 'template'],
@@ -174,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ? repo.description
       : 'A project on GitHub — click to explore.';
 
-    const langColor = LANG_COLORS[repo.language] || '#6E00FF';
+    const langColor = repo.languageColor || LANG_COLORS[repo.language] || '#6E00FF';
     const langDot = repo.language
       ? `<span class="pc-lang-dot" style="background:${langColor}"></span><span class="pc-lang-name">${repo.language}</span>`
       : '';
@@ -411,9 +412,180 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  const extractFirstCodeSnippet = (content = '') => {
+    if (!content) return '';
+    const codeBlockRegex = /```([\s\S]*?)```/g;
+    const codeBlocks = [...content.matchAll(codeBlockRegex)];
+    return codeBlocks.length > 0 ? codeBlocks[0][1].trim() : '';
+  };
+
+  const fetchPinnedReposGraphQL = async () => {
+    const apiUrl = `https://api.github.com/graphql`;
+    const graphqlQuery = {
+      query: `{
+        user(login: "${githubConfig.username}") {
+          pinnedItems(first: 6, types: REPOSITORY) {
+            nodes {
+              ... on Repository {
+                name
+                description
+                url
+                homepageUrl
+                stargazerCount
+                languages(first: 5) {
+                  nodes {
+                    name
+                  }
+                }
+                repositoryTopics(first: 10) {
+                  nodes {
+                    topic {
+                      name
+                    }
+                  }
+                }
+                object(expression: "HEAD:README.md") {
+                  ... on Blob {
+                    text
+                  }
+                }
+              }
+            }
+          }
+        }
+      }`
+    };
+
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${githubConfig.token}`
+      },
+      body: JSON.stringify(graphqlQuery)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`GitHub GraphQL error: ${response.status} - ${errorText}`);
+    }
+
+    const responseData = await response.json();
+    const pinnedItems = responseData?.data?.user?.pinnedItems?.nodes || [];
+
+    if (!pinnedItems.length) {
+      throw new Error('No pinned repositories returned from GraphQL');
+    }
+
+    return pinnedItems.map(node => {
+      const languages = node.languages ? node.languages.nodes.map(lang => lang.name) : [];
+      const topics = node.repositoryTopics ? node.repositoryTopics.nodes.map(topic => topic.topic.name) : [];
+      const sourceCodeSnippet = extractFirstCodeSnippet(node.object?.text || '');
+
+      return {
+        name: node.name,
+        description: node.description,
+        html_url: node.url,
+        homepage: node.homepageUrl,
+        language: languages[0] || '',
+        topics,
+        sourceCode: sourceCodeSnippet,
+        stargazers_count: node.stargazerCount || 0
+      };
+    });
+  };
+
+  const fetchPinnedReposPublic = async () => {
+    const pinnedApiUrl = `https://gh-pinned-repos-5l2i19um3.vercel.app/?username=${githubConfig.username}`;
+    const response = await fetch(pinnedApiUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache'
+      }
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Pinned repos proxy error: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+
+    if (!Array.isArray(data) || !data.length) {
+      throw new Error('Pinned repos proxy returned no data');
+    }
+
+    return data.map(repo => ({
+      name: repo.repo,
+      description: repo.description || 'No description available',
+      html_url: repo.link,
+      homepage: repo.website || '',
+      language: repo.language || '',
+      languageColor: repo.languageColor || '',
+      stargazers_count: Number(repo.stars) || 0,
+      topics: []
+    }));
+  };
+
+  const fetchReposViaRest = async () => {
+    const restApiUrl = `https://api.github.com/users/${githubConfig.username}/repos?sort=updated&per_page=10`;
+    const response = await fetch(restApiUrl);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`GitHub REST error: ${response.status} - ${errorText}`);
+    }
+
+    const responseData = await response.json();
+
+    if (!Array.isArray(responseData)) {
+      throw new Error('Unexpected REST response while fetching repositories');
+    }
+
+    const filteredRepos = responseData
+      .filter(repo =>
+        !repo.fork &&
+        !repo.archived &&
+        repo.name.length > 2 &&
+        !/^(ss|test|temp|untitled|repo\d*)$/i.test(repo.name)
+      )
+      .sort((a, b) => b.stargazers_count - a.stargazers_count)
+      .slice(0, githubConfig.repoCount);
+
+    return Promise.all(filteredRepos.map(async (repo) => {
+      let sourceCodeSnippet = '';
+      try {
+        const readmeUrl = `https://raw.githubusercontent.com/${githubConfig.username}/${repo.name}/main/README.md`;
+        const readmeResponse = await fetch(readmeUrl);
+
+        if (readmeResponse.ok) {
+          const readmeText = await readmeResponse.text();
+          sourceCodeSnippet = extractFirstCodeSnippet(readmeText);
+        }
+      } catch (error) {
+        console.log(`Error fetching README for ${repo.name}:`, error);
+      }
+
+      return {
+        name: repo.name,
+        description: repo.description || 'No description available',
+        html_url: repo.html_url,
+        homepage: repo.homepage || '',
+        language: repo.language || '',
+        topics: repo.topics || [],
+        sourceCode: sourceCodeSnippet,
+        stargazers_count: repo.stargazers_count || 0
+      };
+    }));
+  };
+
   // Fetch repositories from GitHub API
   const fetchRepositories = async () => {
     try {
+      if (!githubConfig.username) {
+        throw new Error('GitHub username is missing');
+      }
+
       // Show loading state
       projectsGrid.innerHTML = `
         <div class="projects-loading">
@@ -421,163 +593,36 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
       
-      // GitHub API URL for pinned repositories
-      const apiUrl = `https://api.github.com/graphql`;
-      
       console.log(`Fetching repos for user: ${githubConfig.username}`);
       
-      // Check if we have a token for authentication
       const hasToken = !!githubConfig.token;
-      let response;
-      
-      if (hasToken) {
-        // Using GraphQL API to fetch pinned repositories with authentication
-        const graphqlQuery = {
-          query: `{
-            user(login: "${githubConfig.username}") {
-              pinnedItems(first: 6, types: REPOSITORY) {
-                nodes {
-                  ... on Repository {
-                    name
-                    description
-                    url
-                    homepageUrl
-                    languages(first: 5) {
-                      nodes {
-                        name
-                      }
-                    }
-                    repositoryTopics(first: 10) {
-                      nodes {
-                        topic {
-                          name
-                        }
-                      }
-                    }
-                    object(expression: "HEAD:README.md") {
-                      ... on Blob {
-                        text
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }`
-        };
-        
-        response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${githubConfig.token}`
-          },
-          body: JSON.stringify(graphqlQuery)
-        });
-      } else {
-        // For GitHub Pages: Fetch repositories using REST API (no auth required for public repos)
-        console.log('No GitHub token found. Using REST API for public repositories.');
-        const restApiUrl = `https://api.github.com/users/${githubConfig.username}/repos?sort=updated&per_page=10`;
-        response = await fetch(restApiUrl);
-      }
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(`GitHub API error: ${response.status}`, errorText);
-        throw new Error(`GitHub API error: ${response.status} - ${errorText}`);
-      }
-      
-      // Parse response
-      const responseData = await response.json();
-      
-      // Extract repositories
       let repos = [];
-      
-      if (hasToken && responseData.data && responseData.data.user && responseData.data.user.pinnedItems) {
-        // Process GraphQL response (pinned repos)
-        repos = responseData.data.user.pinnedItems.nodes.map(node => {
-          // Extract languages
-          const languages = node.languages ? 
-            node.languages.nodes.map(lang => lang.name) : [];
-          
-          // Extract topics
-          const topics = node.repositoryTopics ? 
-            node.repositoryTopics.nodes.map(topic => topic.topic.name) : [];
-          
-          // Extract source code snippet from README
-          let sourceCodeSnippet = '';
-          if (node.object && node.object.text) {
-            // Look for code blocks in README
-            const codeBlockRegex = /```([\s\S]*?)```/g;
-            const codeBlocks = [...node.object.text.matchAll(codeBlockRegex)];
-            
-            if (codeBlocks.length > 0) {
-              // Use the first code block found
-              sourceCodeSnippet = codeBlocks[0][1].trim();
-            }
-          }
-          
-          return {
-            name: node.name,
-            description: node.description,
-            html_url: node.url,
-            homepage: node.homepageUrl,
-            language: languages[0] || '',
-            topics: topics,
-            sourceCode: sourceCodeSnippet
-          };
-        });
-      } else if (!hasToken && Array.isArray(responseData)) {
-        // Process REST API response (for GitHub Pages without token)
-        // Filter out forks, archived, and low-quality repos
-        const filteredRepos = responseData
-          .filter(repo =>
-            !repo.fork &&
-            !repo.archived &&
-            repo.name.length > 2 &&
-            !/^(ss|test|temp|untitled|repo\d*)$/i.test(repo.name)
-          )
-          .sort((a, b) => b.stargazers_count - a.stargazers_count)
-          .slice(0, githubConfig.repoCount);
-          
-        // Process each repository
-        repos = await Promise.all(filteredRepos.map(async (repo) => {
-          // Fetch README to extract code snippets
-          let sourceCodeSnippet = '';
-          try {
-            const readmeUrl = `https://raw.githubusercontent.com/${githubConfig.username}/${repo.name}/main/README.md`;
-            const readmeResponse = await fetch(readmeUrl);
-            
-            if (readmeResponse.ok) {
-              const readmeText = await readmeResponse.text();
-              const codeBlockRegex = /```([\s\S]*?)```/g;
-              const codeBlocks = [...readmeText.matchAll(codeBlockRegex)];
-              
-              if (codeBlocks.length > 0) {
-                sourceCodeSnippet = codeBlocks[0][1].trim();
-              }
-            }
-          } catch (error) {
-            console.log(`Error fetching README for ${repo.name}:`, error);
-          }
-          
-          return {
-            name: repo.name,
-            description: repo.description || 'No description available',
-            html_url: repo.html_url,
-            homepage: repo.homepage || '',
-            language: repo.language || '',
-            topics: repo.topics || [],
-            sourceCode: sourceCodeSnippet
-          };
-        }));
+
+      const fetchPublicFallback = async () => {
+        try {
+          return await fetchPinnedReposPublic();
+        } catch (proxyError) {
+          console.warn('Pinned repos proxy failed, falling back to REST API.', proxyError);
+          return await fetchReposViaRest();
+        }
+      };
+
+      if (hasToken) {
+        try {
+          repos = await fetchPinnedReposGraphQL();
+        } catch (graphqlError) {
+          console.warn('GraphQL pinned fetch failed, attempting public fallback.', graphqlError);
+          repos = await fetchPublicFallback();
+        }
+      } else {
+        repos = await fetchPublicFallback();
+      }
+
+      if (!repos.length) {
+        throw new Error('No repositories were returned from any source');
       }
       
-      // No need for additional sorting or fetching since we're using pinned repos
-      const reposWithDetails = repos;
-      
-      // Generate HTML for all projects
-      const projectsHtml = reposWithDetails.map(createProjectCard).join('');
+      const projectsHtml = repos.map(createProjectCard).join('');
       
       // Update projects grid
       projectsGrid.innerHTML = projectsHtml;
@@ -697,26 +742,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 5000);
 
-  // Fetch GitHub repos and skills if credentials exist
-  if (githubConfig.token && githubConfig.username) {
-    // First fetch skills from all repositories
-    fetchUserSkills().then(() => {
-      clearTimeout(skillsTimeout);
-      // Then fetch pinned repositories
-      fetchRepositories();
-    }).catch(error => {
-      clearTimeout(skillsTimeout);
-      console.error('Error fetching skills:', error);
-      displayFallbackSkills();
-      // Still try to fetch repositories even if skills fetch fails
-      fetchRepositories();
-    });
+  // Fetch GitHub repos and skills if a username is available
+  if (githubConfig.username) {
+    fetchUserSkills()
+      .then(() => {
+        clearTimeout(skillsTimeout);
+        fetchRepositories();
+      })
+      .catch(error => {
+        clearTimeout(skillsTimeout);
+        console.error('Error fetching skills:', error);
+        displayFallbackSkills();
+        fetchRepositories();
+      });
   } else {
     clearTimeout(skillsTimeout);
-    // Show fallback skills and projects if credentials are missing
     displayFallbackSkills();
     displayFallbackProjects();
-    
-    console.warn('GitHub credentials are missing. Using fallback data.');
+    console.warn('GitHub username is missing. Using fallback data.');
   }
 });
