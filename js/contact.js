@@ -11,9 +11,9 @@
  *  4. Copy your Public Key from Account → API Keys
  *  5. Fill in the three constants below
  */
-const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. 'abc123XYZ'
-const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // e.g. 'service_xxxxxx'
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // e.g. 'template_xxxxxx'
+const EMAILJS_PUBLIC_KEY  = '4wmw1RRDCRDddoc6-';   // e.g. 'abc123XYZ'
+const EMAILJS_SERVICE_ID  = 'service_k8hvb5f';   // e.g. 'service_xxxxxx'
+const EMAILJS_TEMPLATE_ID = 'template_axux0ms';  // e.g. 'template_xxxxxx'
 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialise EmailJS
@@ -129,10 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Send via EmailJS
       emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        from_name:  formDataObj.name,
-        from_email: formDataObj.email,
-        message:    formDataObj.message,
-        to_email:   'nepal00909@gmail.com',
+        name:    formDataObj.name,
+        email:   formDataObj.email,
+        message: formDataObj.message,
       })
       .then(() => {
         // Success
