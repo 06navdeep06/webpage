@@ -1,9 +1,26 @@
 /**
  * Contact form functionality
  * Handles form validation, submission, and interactive effects
+ * Uses EmailJS to send messages to nepal00909@gmail.com
+ *
+ * Setup (one-time):
+ *  1. Go to https://www.emailjs.com and sign up (free)
+ *  2. Add a Gmail service → copy the Service ID
+ *  3. Create an email template with variables: {{from_name}}, {{from_email}}, {{message}}
+ *     Set "To Email" in the template to nepal00909@gmail.com
+ *  4. Copy your Public Key from Account → API Keys
+ *  5. Fill in the three constants below
  */
+const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. 'abc123XYZ'
+const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // e.g. 'service_xxxxxx'
+const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // e.g. 'template_xxxxxx'
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialise EmailJS
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }
+
   const contactForm = document.getElementById('contact-form');
   const formInputs = document.querySelectorAll('.input-container input, .input-container textarea');
   
@@ -110,36 +127,48 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span class="btn-text">Sending...</span><span class="btn-icon"><i class="fas fa-spinner fa-spin"></i></span>';
       
-      // In a real implementation, you would send the form data to a server
-      // For this demo, we'll simulate a successful submission after a delay
-      setTimeout(() => {
-        // Show success message
+      // Send via EmailJS
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        from_name:  formDataObj.name,
+        from_email: formDataObj.email,
+        message:    formDataObj.message,
+        to_email:   'nepal00909@gmail.com',
+      })
+      .then(() => {
+        // Success
         contactForm.innerHTML = `
           <div class="form-success">
             <div class="success-icon">
               <i class="fas fa-check-circle"></i>
             </div>
             <h3>Message Sent!</h3>
-            <p>Thank you for reaching out. I'll get back to you soon.</p>
+            <p>Thanks for reaching out — I'll get back to you soon.</p>
           </div>
         `;
-        
-        // Style success message
         const successDiv = contactForm.querySelector('.form-success');
         successDiv.style.textAlign = 'center';
         successDiv.style.padding = '2rem';
-        
         const successIcon = successDiv.querySelector('.success-icon');
         successIcon.style.fontSize = '4rem';
         successIcon.style.color = 'var(--color-success)';
         successIcon.style.marginBottom = '1rem';
-        
-        // Add animation
         successDiv.classList.add('fadeInUp', 'animated');
-        
-        // Log form data to console (for demo purposes)
-        console.log('Form submitted with data:', formDataObj);
-      }, 2000);
+      })
+      .catch((err) => {
+        // Restore button and show error
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+        console.error('EmailJS error:', err);
+
+        let errDiv = contactForm.querySelector('.form-send-error');
+        if (!errDiv) {
+          errDiv = document.createElement('div');
+          errDiv.className = 'form-send-error';
+          errDiv.style.cssText = 'color:var(--color-error);font-size:var(--text-sm);margin-top:1rem;text-align:center;';
+          contactForm.appendChild(errDiv);
+        }
+        errDiv.textContent = 'Failed to send — please try emailing nepal00909@gmail.com directly.';
+      });
     });
   }
   
